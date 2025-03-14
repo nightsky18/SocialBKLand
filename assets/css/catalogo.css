@@ -1,0 +1,156 @@
+/* styles.css */
+
+/* Estilo global */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #FFFFFF; /* Fondo general blanco */
+    color: #191919; 
+}
+
+/* Contenedor del catálogo */
+.catalog {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #F5F5F5; /* Gris claro para contraste */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Secciones de libros */
+section {
+    margin-bottom: 30px;
+}
+
+/* Títulos de secciones */
+section h2 {
+    font-size: 24px;
+    color: #1E90FF;
+    border-bottom: 2px solid #3CB371;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Listado de libros */
+.book-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Contenedor de cada libro */
+.book {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border: 1px solid #808080;
+    border-radius: 8px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(25, 25, 25, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.book:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(25, 25, 25, 0.2);
+}
+
+/* Imagen del libro */
+.book img {
+    width: 200px;
+    height: 250px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Título del libro */
+.book h3 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333333;
+}
+
+/* Precio del libro */
+.price {
+    font-size: 16px;
+    color: #B22222;
+}
+
+.price .original-price {
+    text-decoration: line-through;
+    color: #666666;
+    margin-right: 10px;
+}
+
+/* Filtros */
+.filters {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+.filters select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #999999;
+    font-size: 16px;
+}
+
+/* Botones de añadir al carrito */
+.add-to-cart {
+    background-color: #32CD32;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart:hover {
+    background-color: #3CB371;
+}
+
+.cart-container {
+    background: #FFFFFF;
+    padding: 20px;
+    border: 1px solid #808080;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.cart-items {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+}
+
+.cart-items li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cart-summary {
+    font-size: 18px;
+    text-align: right;
+}
+
+#checkout-button {
+    background-color: #32CD32;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#checkout-button:hover {
+    background-color: #3CB371;
+}

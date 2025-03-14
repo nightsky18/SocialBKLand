@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialBKLand - Catálogo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/catalogo.css">
+    <link rel="stylesheet" href="/assets/css/header-footer.css">
+    <link rel="stylesheet" href="/assets/css/carrito.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="/catalogo.html">Biblioteca</a></li>
+                <li><a href="#comunidades">Comunidades</a></li>
+                <li><a href="#mis-libros">Mis libros</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar...">
+            <button type="button">🔍</button>
+        </div>
+        <div class="user-actions">
+            <button class="notification-btn">🔔</button>
+            <button class="cart-btn">🛒</button>
+            <button class="user-btn">👤</button>
+        </div>
+    </header>
+
+
+
+    <main>
+        <h1>Carrito de Compras</h1>
+        <div id="cart-container">
+            <!-- Libros del carrito se mostrarán aquí -->
+        </div>
+
+        <div class="cart-total">
+            <h3>Total: $<span id="cart-total">0.00</span></h3>
+        </div>
+        
+        <div class="cart-actions">
+            <button id="clear-cart">Vaciar Carrito</button>
+            <button id="checkout">Proceder a Comprar</button>
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+            </div>
+            <div class="footer-social">
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://t.me" target="_blank" aria-label="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:support@socialbkland.com" aria-label="Gmail">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+<script src="carrito.js"></script>
+</html>
