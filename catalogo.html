@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialBKLand - Catálogo</title>
-    <link rel="stylesheet" href="/assets/css/catalogo.css">
     <link rel="stylesheet" href="/assets/css/header-footer.css">
+    <link rel="stylesheet" href="/assets/css/catalogo.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
+
 <body>
     <header class="header">
         <div class="logo">
-        
+
         </div>
         <nav class="navigation">
             <ul>
@@ -28,7 +31,39 @@
         <div class="user-actions">
             <button class="notification-btn">🔔</button>
             <button class="cart-btn">🛒</button>
-            <button class="user-btn">👤</button>
+            <button class="user-btn" onclick="openModal()">👤</button>
+
+            <div id="authModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <div class="tab-container">
+                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                    </div>
+                    <div id="login-tab" class="tab-content active">
+                        <h2>Iniciar Sesión</h2>
+                        <form id="login-form">
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <button type="submit" class="submit-btn">Ingresar</button>
+                        </form>
+                    </div>
+                    <div id="register-tab" class="tab-content">
+                        <h2>Registrarse</h2>
+                        <form id="register-form">
+                            <input type="text" placeholder="Nombre completo" required>
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <input type="password" placeholder="Confirmar contraseña" required>
+                            <button type="submit" class="submit-btn">Registrarse</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
         </div>
     </header>
 
@@ -44,21 +79,21 @@
                 <option value="ciencia">Ciencia</option>
             </select>
         </div>
-    
+
         <!-- Sección de libros en descuento -->
         <section class="discounts">
             <h2>Libros en Descuento</h2>
             <div class="book-list"></div>
         </section>
-    
+
         <!-- Sección de libros generales -->
         <section class="general-books">
             <h2>Libros Generales</h2>
             <div class="book-list"></div>
         </section>
     </div>
-    
-    
+
+
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
@@ -79,9 +114,11 @@
             </div>
         </div>
     </footer>
-    
-    
-    
+
+
+
 </body>
 <script src="./assets/js/catalogo.js"></script>
+<script src="./assets/js/modal.js"></script>
+
 </html>

@@ -497,6 +497,5 @@ function handleAddToCart() {
 }
 
 
-
 // Renderizar los libros al cargar la página
 renderBooks();

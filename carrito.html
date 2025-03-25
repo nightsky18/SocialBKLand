@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/assets/css/catalogo.css">
     <link rel="stylesheet" href="/assets/css/header-footer.css">
     <link rel="stylesheet" href="/assets/css/carrito.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
 </head>
 <body>
     <header class="header">
@@ -27,7 +28,36 @@
         <div class="user-actions">
             <button class="notification-btn">🔔</button>
             <button class="cart-btn">🛒</button>
-            <button class="user-btn">👤</button>
+            <button class="user-btn" onclick="openModal()">👤</button>
+
+            <div id="authModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <div class="tab-container">
+                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                    </div>
+                    <div id="login-tab" class="tab-content active">
+                        <h2>Iniciar Sesión</h2>
+                        <form id="login-form">
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <button type="submit" class="submit-btn">Ingresar</button>
+                        </form>
+                    </div>
+                    <div id="register-tab" class="tab-content">
+                        <h2>Registrarse</h2>
+                        <form id="register-form">
+                            <input type="text" placeholder="Nombre completo" required>
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <input type="password" placeholder="Confirmar contraseña" required>
+                            <button type="submit" class="submit-btn">Registrarse</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </header>
 
@@ -73,4 +103,5 @@
     
 </body>
 <script src="./assets/js/carrito.js"></script>
+<script src="./assets/js/modal.js"></script>
 </html>
