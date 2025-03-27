@@ -1,0 +1,6 @@
+[
+    {
+      "usuario": "admin@example.com",
+      "permisos": ["editar", "eliminar", "gestionarUsuarios"]
+    }
+  ]

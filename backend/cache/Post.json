@@ -1,0 +1,52 @@
+[
+    {
+      "usuario": "alice@example.com",
+      "contenido": "¡Acabo de terminar de leer 'El viaje del héroe' y me encantó! ¿Alguien más lo ha leído?",
+      "calificacion": 5,
+      "fecha": "2025-03-27T10:00:00.000Z"
+    },
+    {
+      "usuario": "carlos@example.com",
+      "contenido": "Recomendación de la semana: 'Cuentos de la noche'. Ideal para relajarse antes de dormir.",
+      "calificacion": 4,
+      "fecha": "2025-03-26T18:30:00.000Z"
+    },
+    {
+      "usuario": "laura@example.com",
+      "contenido": "¿Alguien sabe dónde puedo encontrar más libros de realismo mágico como 'Cien años de soledad'?",
+      "fecha": "2025-03-25T21:15:00.000Z"
+    },
+    {
+      "usuario": "juan@example.com",
+      "contenido": "¡Empezando un nuevo proyecto de desarrollo frontend con React! ¿Algún consejo para principiantes?",
+      "calificacion": 5,
+      "fecha": "2025-03-27T09:45:00.000Z"
+    },
+    {
+      "usuario": "admin@example.com",
+      "contenido": "Recordatorio para todos los miembros: mantengamos un ambiente respetuoso en la comunidad.",
+      "fecha": "2025-03-27T08:00:00.000Z"
+    },
+    {
+      "usuario": "andrea@example.com",
+      "contenido": "Nueva receta probada: pastel de zanahoria. ¡Quedó delicioso!",
+      "calificacion": 5,
+      "fecha": "2025-03-26T14:00:00.000Z"
+    },
+    {
+      "usuario": "isabel@example.com",
+      "contenido": "Compartiendo una foto de mi último viaje a las montañas. ¡Qué paisajes tan increíbles!",
+      "fecha": "2025-03-25T10:30:00.000Z"
+    },
+    {
+      "usuario": "carlos@example.com",
+      "contenido": "Pregunta para la comunidad científica: ¿Cuál creen que será el próximo gran avance en la física?",
+      "fecha": "2025-03-24T19:00:00.000Z"
+    },
+    {
+      "usuario": "sofia@example.com",
+      "contenido": "Simplemente amé 'El príncipe perdido'. La historia me atrapó desde la primera página.",
+      "calificacion": 5,
+      "fecha": "2025-03-27T09:00:00.000Z"
+    }
+  ]

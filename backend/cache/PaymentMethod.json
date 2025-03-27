@@ -1,0 +1,41 @@
+[
+    {
+      "usuario": "alice@example.com",
+      "tipo": "tarjeta",
+      "numeroCuenta": "4567890123456789",
+      "CVV": "123"
+    },
+    {
+      "usuario": "carlos@example.com",
+      "tipo": "transferencia",
+      "numeroCuenta": "00012345678901234567"
+    },
+    {
+      "usuario": "laura@example.com",
+      "tipo": "tarjeta",
+      "numeroCuenta": "9876543210987654",
+      "CVV": "456"
+    },
+    {
+      "usuario": "pedro@example.com",
+      "tipo": "transferencia",
+      "numeroCuenta": "11122233344455566677"
+    },
+    {
+      "usuario": "sofia@example.com",
+      "tipo": "tarjeta",
+      "numeroCuenta": "5555666677778888",
+      "CVV": "789"
+    },
+    {
+      "usuario": "jose@example.com",
+      "tipo": "transferencia",
+      "numeroCuenta": "99988877766655544433"
+    },
+    {
+      "usuario": "admin@example.com",
+      "tipo": "tarjeta",
+      "numeroCuenta": "1234567890123456",
+      "CVV": "000"
+    }
+  ]
