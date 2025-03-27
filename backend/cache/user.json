@@ -1,0 +1,158 @@
+[
+    {
+      "nombre": "Alice",
+      "email": "alice@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Carlos",
+      "email": "carlos@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Laura",
+      "email": "laura@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Pedro",
+      "email": "pedro@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Sofía",
+      "email": "sofia@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "José",
+      "email": "jose@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Ana",
+      "email": "ana@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Jorge",
+      "email": "jorge@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Clara",
+      "email": "clara@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Gabriel",
+      "email": "gabriel@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Isabel",
+      "email": "isabel@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Tomás",
+      "email": "tomas@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Marta",
+      "email": "marta@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Elena",
+      "email": "elena@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Luis",
+      "email": "luis@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Natalia",
+      "email": "natalia@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Juan",
+      "email": "juan@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Andrea",
+      "email": "andrea@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Diana",
+      "email": "diana@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "Miguel",
+      "email": "miguel@example.com",
+      "password": "password123",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "cliente"
+    },
+    {
+      "nombre": "AdminUser",
+      "email": "admin@example.com",
+      "password": "adminPassword",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "administrador",
+      "direccion": "Calle Falsa 123"
+    },
+    {
+      "nombre": "ModeradorEjemplo",
+      "email": "moderador@example.com",
+      "password": "modPassword",
+      "fechaRegistro": "2025-03-26T15:27:50.000Z",
+      "rol": "moderador",
+      "direccion": "Avenida Siempre Viva 742"
+    }
+  ]

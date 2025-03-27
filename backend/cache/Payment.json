@@ -1,0 +1,50 @@
+[
+    {
+      "usuario": "alice@example.com",
+      "metodoDePago": "tarjeta",
+      "total": 25.99,
+      "estadoPago": "completado",
+      "detallesTransaccion": "Pago por compra de 'El Señor de los Anillos'",
+      "fechaPago": "2025-03-27T10:05:00.000Z"
+    },
+    {
+      "usuario": "carlos@example.com",
+      "metodoDePago": "transferencia",
+      "total": 19.95,
+      "estadoPago": "completado",
+      "detallesTransaccion": "Pago por compra de 'Cien años de soledad'",
+      "fechaPago": "2025-03-26T16:45:00.000Z"
+    },
+    {
+      "usuario": "laura@example.com",
+      "metodoDePago": "tarjeta",
+      "total": 15.50,
+      "estadoPago": "pendiente",
+      "detallesTransaccion": "Intento de pago por 'El Código Da Vinci'",
+      "fechaPago": "2025-03-27T09:30:00.000Z"
+    },
+    {
+      "usuario": "juan@example.com",
+      "metodoDePago": "tarjeta",
+      "total": 30.00,
+      "estadoPago": "completado",
+      "detallesTransaccion": "Pago por suscripción mensual",
+      "fechaPago": "2025-03-27T10:00:00.000Z"
+    },
+    {
+      "usuario": "admin@example.com",
+      "metodoDePago": "transferencia",
+      "total": 12.75,
+      "estadoPago": "completado",
+      "detallesTransaccion": "Pago por compra de 'Orgullo y prejuicio'",
+      "fechaPago": "2025-03-25T14:20:00.000Z"
+    },
+    {
+      "usuario": "sofia@example.com",
+      "metodoDePago": "tarjeta",
+      "total": 22.00,
+      "estadoPago": "completado",
+      "detallesTransaccion": "Pago por compra de 'Harry Potter y la piedra filosofal'",
+      "fechaPago": "2025-03-27T08:55:00.000Z"
+    }
+  ]
