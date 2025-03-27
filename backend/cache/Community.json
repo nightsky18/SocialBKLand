@@ -1,0 +1,56 @@
+[
+    {
+      "nombre": "Amantes de la Lectura",
+      "tema": "Libros de ficción y no ficción",
+      "tipo": "publica",
+      "miembros": [
+        "alice@example.com",
+        "carlos@example.com",
+        "laura@example.com",
+        "pedro@example.com"
+      ],
+      "publicaciones": []
+    },
+    {
+      "nombre": "Desarrolladores Frontend",
+      "tema": "React, Angular, Vue.js y desarrollo web",
+      "tipo": "publica",
+      "miembros": [
+        "juan@example.com",
+        "admin@example.com"
+      ],
+      "publicaciones": []
+    },
+    {
+      "nombre": "Cocina para Principiantes",
+      "tema": "Recetas fáciles y trucos de cocina",
+      "tipo": "publica",
+      "miembros": [
+        "andrea@example.com",
+        "jose@example.com",
+        "maria@example.com"
+      ],
+      "publicaciones": []
+    },
+    {
+      "nombre": "Viajeros del Mundo",
+      "tema": "Consejos, destinos y experiencias de viaje",
+      "tipo": "publica",
+      "miembros": [
+        "isabel@example.com",
+        "miguel@example.com"
+      ],
+      "publicaciones": []
+    },
+    {
+      "nombre": "Grupo Secreto de Ciencia",
+      "tema": "Discusión avanzada sobre física y astronomía",
+      "tipo": "privada",
+      "miembros": [
+        "carlos@example.com",
+        "luis@example.com",
+        "moderador@example.com"
+      ],
+      "publicaciones": []
+    }
+  ]
