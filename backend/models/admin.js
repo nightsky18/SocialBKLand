@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const User = require('./User'); // Importamos el modelo base
 
-const AdminSchema = new mongoose.Schema({
-    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    permisos: [{ type: String, enum: ['editar', 'eliminar', 'gestionarUsuarios'] }]
-});
+if (!User.discriminators || !User.discriminators['administrador']) {
+    var Admin = User.discriminator('administrador', new mongoose.Schema({
+        permisos: [{ type: String, required: true }]
+    })); // ✅ Eliminamos `{ collection: 'admins' }`
+}
 
-module.exports = mongoose.model('Admin', AdminSchema);
+module.exports = Admin;

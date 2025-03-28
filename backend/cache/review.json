@@ -1,128 +1,32 @@
 [
-    {
-      "usuario": "alice@example.com",
-      "libro": "ISBN-001",
-      "calificacion": 5,
-      "comentario": "Increíble narrativa, me hizo reflexionar mucho."
-    },
-    {
-      "usuario": "carlos@example.com",
-      "libro": "ISBN-001",
-      "calificacion": 5,
-      "comentario": "Recomendado para quienes buscan inspiración."
-    },
-    {
-      "usuario": "laura@example.com",
-      "libro": "ISBN-002",
-      "calificacion": 5,
-      "comentario": "Perfecto para los amantes de los cuentos cortos."
-    },
-    {
-      "usuario": "pedro@example.com",
-      "libro": "ISBN-003",
-      "calificacion": 5,
-      "comentario": "La ambientación es maravillosa, te transporta."
-    },
-    {
-      "usuario": "sofia@example.com",
-      "libro": "ISBN-004",
-      "calificacion": 5,
-      "comentario": "Simplemente perfecto. Una joya literaria."
-    },
-    {
-      "usuario": "jose@example.com",
-      "libro": "ISBN-005",
-      "calificacion": 4,
-      "comentario": "Muy práctico y aplicable al día a día."
-    },
-    {
-      "usuario": "ana@example.com",
-      "libro": "ISBN-006",
-      "calificacion": 4,
-      "comentario": "Fascinante, muy bien explicado."
-    },
-    {
-      "usuario": "jorge@example.com",
-      "libro": "ISBN-007",
-      "calificacion": 5,
-      "comentario": "Inspirador, cambió mi perspectiva de vida."
-    },
-    {
-      "usuario": "clara@example.com",
-      "libro": "ISBN-008",
-      "calificacion": 4,
-      "comentario": "Algunas historias son realmente impactantes."
-    },
-    {
-      "usuario": "gabriel@example.com",
-      "libro": "ISBN-009",
-      "calificacion": 5,
-      "comentario": "Una aventura clásica que no decepciona."
-    },
-    {
-      "usuario": "isabel@example.com",
-      "libro": "ISBN-010",
-      "calificacion": 4,
-      "comentario": "Una lectura apasionante y educativa."
-    },
-    {
-      "usuario": "tomas@example.com",
-      "libro": "ISBN-011",
-      "calificacion": 5,
-      "comentario": "Increíble historia llena de misterio y valor."
-    },
-    {
-      "usuario": "marta@example.com",
-      "libro": "ISBN-012",
-      "calificacion": 4,
-      "comentario": "Recomiendo este libro, es muy entretenido."
-    },
-    {
-      "usuario": "carlos@example.com",
-      "libro": "ISBN-013",
-      "calificacion": 5,
-      "comentario": "Maravilloso, me inspiró a estudiar astronomía."
-    },
-    {
-      "usuario": "elena@example.com",
-      "libro": "ISBN-014",
-      "calificacion": 4,
-      "comentario": "Muy claro y perfecto para principiantes."
-    },
-    {
-      "usuario": "luis@example.com",
-      "libro": "ISBN-015",
-      "calificacion": 5,
-      "comentario": "Cautivador, perfecto para estudiantes de biología."
-    },
-    {
-      "usuario": "natalia@example.com",
-      "libro": "ISBN-016",
-      "calificacion": 4,
-      "comentario": "Informativo y relevante para los tiempos actuales."
-    },
-    {
-      "usuario": "juan@example.com",
-      "libro": "ISBN-017",
-      "calificacion": 5,
-      "comentario": "Muy útil, lo recomiendo a nuevos desarrolladores."
-    },
-    {
-      "usuario": "andrea@example.com",
-      "libro": "ISBN-018",
-      "calificacion": 5,
-      "comentario": "¡Delicioso! Muy práctico."
-    },
-    {
-      "usuario": "diana@example.com",
-      "libro": "ISBN-019",
-      "calificacion": 4,
-      "comentario": "A mis hijos les encanta este libro."
-    },
-    {
-      "usuario": "miguel@example.com",
-      "libro": "ISBN-020",
-      "calificacion": 5,
-      "comentario": "Perfecto para los exploradores curiosos."
-    }
-  ]
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6789",
+    "libro": "660a1f2b5f1a2c3d4e5f6799",
+    "calificacion": 5,
+    "comentario": "Un libro increíble, me encantó de principio a fin."
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6790",
+    "libro": "660a1f2b5f1a2c3d4e5f6800",
+    "calificacion": 3,
+    "comentario": "Interesante, pero esperaba más profundidad en la historia."
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6791",
+    "libro": "660a1f2b5f1a2c3d4e5f6801",
+    "calificacion": 4,
+    "comentario": "Bien escrito, aunque el final fue un poco predecible."
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6792",
+    "libro": "660a1f2b5f1a2c3d4e5f6802",
+    "calificacion": 2,
+    "comentario": "No me atrapó, la narrativa es muy lenta."
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6793",
+    "libro": "660a1f2b5f1a2c3d4e5f6803",
+    "calificacion": 5,
+    "comentario": "Un clásico que todos deberían leer al menos una vez."
+  }
+]

@@ -15,7 +15,7 @@ const paymentMethodRoutes = require("./routes/paymentMethodRoutes");
 const postRoutes = require("./routes/postRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const userRoutes = require("./routes/userRoutes");
-
+const moderatorRoutes = require("./routes/moderatorRoutes");
 // Configuración
 dotenv.config();
 connectDB();
@@ -26,9 +26,8 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'catalogo.html'));
+    res.sendFile(path.join(__dirname, '../catalogo.html'));
 });
-
 // Rutas
 app.use("/api/admins", adminRoutes);
 app.use("/api/books", bookRoutes);
@@ -40,6 +39,7 @@ app.use("/api/payment-methods", paymentMethodRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/moderators", moderatorRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Servidor corriendo en el puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));

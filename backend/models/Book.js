@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const options = { discriminatorKey: 'type', collection: 'books' };
+
 const BookSchema = new mongoose.Schema({
-    isbn: { type: String, required: true, unique: true},
+    isbn: { type: String, required: true, unique: true },
     title: { type: String, required: true },
     price: { type: Number, required: true },
     originalPrice: { type: Number },
@@ -17,6 +19,16 @@ const BookSchema = new mongoose.Schema({
             text: { type: String }
         }
     ]
-});
+}, options);
 
-module.exports = mongoose.model('Book', BookSchema);
+const Book = mongoose.model('Book', BookSchema);
+
+const DigitalBookSchema = new mongoose.Schema({
+    formato: { type: String, enum: ['PDF', 'EPUB', 'MOBI'], required: true },
+    tamañoArchivoMB: { type: Number, required: true },
+    enlaceDescarga: { type: String, required: true }
+}, { collection: 'digital_books' });
+
+const DigitalBook = Book.discriminator('DigitalBook', DigitalBookSchema);
+
+module.exports = { Book, DigitalBook };

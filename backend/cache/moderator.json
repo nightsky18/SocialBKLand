@@ -1,0 +1,6 @@
+{
+    "_id": "660c3b2f5d8f3e001f8a9e57",
+    "usuario": "660c3b2f5d8f3e001f8a9e30",
+    "permisos": ["eliminar_post", "aprobar_review", "bloquear_usuario"],
+    "fecha_asignacion": "2024-03-29T10:00:00Z"
+}
