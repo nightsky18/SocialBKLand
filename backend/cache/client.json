@@ -1,82 +1,10 @@
 [
-    {
-      "usuario": "alice@example.com",
-      "metodosPago": ["tarjeta: ****-****-****-6789"],
-      "historialCompras": ["Pago por compra de 'El Señor de los Anillos'"]
-    },
-    {
-      "usuario": "carlos@example.com",
-      "metodosPago": ["transferencia: *******567"],
-      "historialCompras": ["Pago por compra de 'Cien años de soledad'"]
-    },
-    {
-      "usuario": "laura@example.com",
-      "metodosPago": ["tarjeta: ****-****-****-7654"],
-      "historialCompras": ["Intento de pago por 'El Código Da Vinci'"]
-    },
-    {
-      "usuario": "pedro@example.com",
-      "metodosPago": ["transferencia: *******6677"],
-      "historialCompras": []
-    },
-    {
-      "usuario": "sofia@example.com",
-      "metodosPago": ["tarjeta: ****-****-****-8888"],
-      "historialCompras": ["Pago por compra de 'Harry Potter y la piedra filosofal'"]
-    },
-    {
-      "usuario": "jose@example.com",
-      "metodosPago": ["transferencia: *******4433"],
-      "historialCompras": []
-    },
-    {
-      "usuario": "juan@example.com",
-      "metodosPago": [],
-      "historialCompras": ["Pago por suscripción mensual"]
-    },
-    {
-      "usuario": "andrea@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "isabel@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "tomas@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "marta@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "elena@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "luis@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "natalia@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "diana@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    },
-    {
-      "usuario": "miguel@example.com",
-      "metodosPago": [],
-      "historialCompras": []
-    }
-  ]
+  {
+    "nombre": "Juan Pérez",
+    "email": "cliente@example.com",
+    "password": "123456",
+    "rol": "cliente",
+    "metodosPago": ["Visa", "PayPal"],
+    "historialCompras": []
+  }
+]

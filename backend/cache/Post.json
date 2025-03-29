@@ -1,52 +1,32 @@
 [
-    {
-      "usuario": "alice@example.com",
-      "contenido": "¡Acabo de terminar de leer 'El viaje del héroe' y me encantó! ¿Alguien más lo ha leído?",
-      "calificacion": 5,
-      "fecha": "2025-03-27T10:00:00.000Z"
-    },
-    {
-      "usuario": "carlos@example.com",
-      "contenido": "Recomendación de la semana: 'Cuentos de la noche'. Ideal para relajarse antes de dormir.",
-      "calificacion": 4,
-      "fecha": "2025-03-26T18:30:00.000Z"
-    },
-    {
-      "usuario": "laura@example.com",
-      "contenido": "¿Alguien sabe dónde puedo encontrar más libros de realismo mágico como 'Cien años de soledad'?",
-      "fecha": "2025-03-25T21:15:00.000Z"
-    },
-    {
-      "usuario": "juan@example.com",
-      "contenido": "¡Empezando un nuevo proyecto de desarrollo frontend con React! ¿Algún consejo para principiantes?",
-      "calificacion": 5,
-      "fecha": "2025-03-27T09:45:00.000Z"
-    },
-    {
-      "usuario": "admin@example.com",
-      "contenido": "Recordatorio para todos los miembros: mantengamos un ambiente respetuoso en la comunidad.",
-      "fecha": "2025-03-27T08:00:00.000Z"
-    },
-    {
-      "usuario": "andrea@example.com",
-      "contenido": "Nueva receta probada: pastel de zanahoria. ¡Quedó delicioso!",
-      "calificacion": 5,
-      "fecha": "2025-03-26T14:00:00.000Z"
-    },
-    {
-      "usuario": "isabel@example.com",
-      "contenido": "Compartiendo una foto de mi último viaje a las montañas. ¡Qué paisajes tan increíbles!",
-      "fecha": "2025-03-25T10:30:00.000Z"
-    },
-    {
-      "usuario": "carlos@example.com",
-      "contenido": "Pregunta para la comunidad científica: ¿Cuál creen que será el próximo gran avance en la física?",
-      "fecha": "2025-03-24T19:00:00.000Z"
-    },
-    {
-      "usuario": "sofia@example.com",
-      "contenido": "Simplemente amé 'El príncipe perdido'. La historia me atrapó desde la primera página.",
-      "calificacion": 5,
-      "fecha": "2025-03-27T09:00:00.000Z"
-    }
-  ]
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6789",
+    "contenido": "Excelente servicio y muy rápido.",
+    "calificacion": 5,
+    "fecha": "2024-03-28T10:30:00.000Z"
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6790",
+    "contenido": "El producto llegó en buen estado, pero tardó más de lo esperado.",
+    "calificacion": 3,
+    "fecha": "2024-03-27T15:45:00.000Z"
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6791",
+    "contenido": "Muy recomendable, excelente calidad.",
+    "calificacion": 5,
+    "fecha": "2024-03-26T08:20:00.000Z"
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6792",
+    "contenido": "No cumplió con mis expectativas.",
+    "calificacion": 2,
+    "fecha": "2024-03-25T18:10:00.000Z"
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6793",
+    "contenido": "Buena atención al cliente, resolverán cualquier problema.",
+    "calificacion": 4,
+    "fecha": "2024-03-24T12:00:00.000Z"
+  }
+]
