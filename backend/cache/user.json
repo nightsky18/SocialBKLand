@@ -6,6 +6,27 @@
       "fechaRegistro": "2025-03-26T15:27:50.000Z",
       "rol": "cliente"
     },
+      {
+        "nombre": "Admin User",
+        "email": "admin@example.com",
+        "password": "admin123",
+        "rol": "administrador",
+        "direccion": "Calle 123, Ciudad XYZ"
+      },
+      {
+        "nombre": "Juan Pérez",
+        "email": "juanperez@example.com",
+        "password": "password123",
+        "rol": "cliente",
+        "direccion": "Avenida Siempre Viva 742"
+      },
+      {
+        "nombre": "Maria López",
+        "email": "marialopez@example.com",
+        "password": "mariapass",
+        "rol": "moderador",
+        "direccion": "Carrera 45, Bogotá"
+      },  
     {
       "nombre": "Carlos",
       "email": "carlos@example.com",

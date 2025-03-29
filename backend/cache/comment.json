@@ -1,0 +1,20 @@
+[
+    {
+        "usuario": "660b3c5e6f1a5a001f5a2a10",
+        "publicacion": "661b4c7e2a3b9b002e6b3c21",
+        "contenido": "¡Me encantó esta publicación!",
+        "fecha": "2024-03-28T12:00:00Z"
+    },
+    {
+        "usuario": "660b3c5e6f1a5a001f5a2a11",
+        "publicacion": "661b4c7e2a3b9b002e6b3c22",
+        "contenido": "Interesante punto de vista, gracias por compartir.",
+        "fecha": "2024-03-27T15:30:00Z"
+    },
+    {
+        "usuario": "660b3c5e6f1a5a001f5a2a12",
+        "publicacion": "661b4c7e2a3b9b002e6b3c23",
+        "contenido": "No estoy de acuerdo, pero respeto tu opinión.",
+        "fecha": "2024-03-26T10:15:00Z"
+    }
+]
