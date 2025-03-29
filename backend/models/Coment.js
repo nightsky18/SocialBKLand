@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
+const PostSchema = require('./Post').schema;
 
 const CommentSchema = new mongoose.Schema({
-    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    publicacion: { type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true },
-    contenido: { type: String, required: true },
-    fecha: { type: Date, default: Date.now }
+    ...PostSchema.obj,  // Hereda los campos de Post
+    publicacion: { type: mongoose.Schema.Types.ObjectId, ref: 'Post', required: true }
 });
 
-module.exports = mongoose.model('Comment', CommentSchema);
+module.exports = mongoose.model('Coment', CommentSchema);

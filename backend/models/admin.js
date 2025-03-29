@@ -1,10 +1,15 @@
-const mongoose = require('mongoose');
-const User = require('./User'); // Importamos el modelo base
+const mongoose = require("mongoose");
+const User = require("./User"); // Modelo base
 
-if (!User.discriminators || !User.discriminators['administrador']) {
-    var Admin = User.discriminator('administrador', new mongoose.Schema({
-        permisos: [{ type: String, required: true }]
-    })); // ✅ Eliminamos `{ collection: 'admins' }`
-}
+// Definir el esquema específico de Admin
+const AdminSchema = new mongoose.Schema({
+    permisos: {
+        type: [String],
+        default: [] // No obligatorio en la importación
+    }
+});
+
+// Evitar registrar el discriminador más de una vez
+const Admin = User.discriminator("Admin", AdminSchema);
 
 module.exports = Admin;

@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const Post = require('./Post');
 
 const ReviewSchema = new mongoose.Schema({
-    usuario: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     libro: { type: mongoose.Schema.Types.ObjectId, ref: 'Book', required: true },
-    calificacion: { type: Number, min: 1, max: 5, required: true },
-    comentario: { type: String }
-});
+    rating: { type: Number, required: true, min: 1, max: 5 }
+}, { timestamps: true });
 
-module.exports = mongoose.model('Review', ReviewSchema);
+const Review = Post.discriminator('Review', ReviewSchema);
+
+module.exports = Review;
+
