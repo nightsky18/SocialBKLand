@@ -1,0 +1,32 @@
+[
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6789",
+    "tipo": "tarjeta",
+    "numeroCuenta": "4111111111111111",
+    "CVV": "123"
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6790",
+    "tipo": "transferencia",
+    "numeroCuenta": "ES9121000418450200051332",
+    "CVV": null
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6791",
+    "tipo": "tarjeta",
+    "numeroCuenta": "5500005555555559",
+    "CVV": "456"
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6792",
+    "tipo": "transferencia",
+    "numeroCuenta": "US12345678901234567890",
+    "CVV": null
+  },
+  {
+    "usuario": "660a1f2b5f1a2c3d4e5f6793",
+    "tipo": "tarjeta",
+    "numeroCuenta": "340000000000009",
+    "CVV": "789"
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "nombre": "Juan Pérez",
+    "email": "cliente@example.com",
+    "password": "123456",
+    "rol": "cliente",
+    "metodosPago": ["Visa", "PayPal"],
+    "historialCompras": []
+  }
+]

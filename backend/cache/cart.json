@@ -1,0 +1,48 @@
+[
+    {
+      "usuario": "alice@example.com",
+      "libros": [
+        { "libro": "ISBN-001", "cantidad": 1 },
+        { "libro": "ISBN-003", "cantidad": 2 }
+      ],
+      "total": 70.00
+    },
+    {
+      "usuario": "carlos@example.com",
+      "libros": [
+        { "libro": "ISBN-005", "cantidad": 1 }
+      ],
+      "total": 20.00
+    },
+    {
+      "usuario": "laura@example.com",
+      "libros": [
+        { "libro": "ISBN-002", "cantidad": 1 },
+        { "libro": "ISBN-006", "cantidad": 1 }
+      ],
+      "total": 32.00
+    },
+    {
+      "usuario": "pedro@example.com",
+      "libros": [
+        { "libro": "ISBN-009", "cantidad": 3 }
+      ],
+      "total": 30.00
+    },
+    {
+      "usuario": "sofia@example.com",
+      "libros": [
+        { "libro": "ISBN-004", "cantidad": 1 },
+        { "libro": "ISBN-019", "cantidad": 1 }
+      ],
+      "total": 23.00
+    },
+    {
+      "usuario": "admin@example.com",
+      "libros": [
+        { "libro": "ISBN-013", "cantidad": 1 },
+        { "libro": "ISBN-017", "cantidad": 1 }
+      ],
+      "total": 58.00
+    }
+  ]
