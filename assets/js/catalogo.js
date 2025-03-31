@@ -13,14 +13,16 @@ document.getElementById('category-filter').addEventListener('change', function (
     });
 });
 
+console.log("¡catalogo.js se está ejecutando!");
+
 //Para parsar de pagina
 document.querySelector('.cart-btn').addEventListener('click', function() {
     window.location.href = "./carrito.html";
 });
 
 document.getElementById('imageButton').addEventListener('click', function () {
-    window.location.href = "/home.html";
-  });
+    window.location.href = "./home.html";
+});
 
 
 
