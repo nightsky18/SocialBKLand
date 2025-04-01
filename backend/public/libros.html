@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialBKLand - Catálogo</title>
+    <link rel="stylesheet" href="/assets/css/libros.css">
+    <link rel="stylesheet" href="/assets/css/header-footer.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<header class="header">
+    <div class="logo">
+    </div>
+    <nav class="navigation">
+        <ul>
+            <li><a href="/catalogo.html">Biblioteca</a></li>
+            <li><a href="/comunidades.html">Comunidades</a></li>
+            <li><a href="/mis-libros.html">Mis libros</a></li>
+        </ul>
+    </nav>
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar...">
+        <button type="button">🔍</button>
+    </div>
+    <div class="user-actions">
+        <button class="notification-btn">🔔</button>
+        <button class="cart-btn">🛒</button>
+        <button class="user-btn" onclick="openModal()">👤</button>
+
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <div class="tab-container">
+                    <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                    <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                </div>
+                <div id="login-tab" class="tab-content active">
+                    <h2>Iniciar Sesión</h2>
+                    <form id="login-form">
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <button type="submit" class="submit-btn">Ingresar</button>
+                    </form>
+                </div>
+                <div id="register-tab" class="tab-content">
+                    <h2>Registrarse</h2>
+                    <form id="register-form">
+                        <input type="text" placeholder="Nombre completo" required>
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <input type="password" placeholder="Confirmar contraseña" required>
+                        <button type="submit" class="submit-btn">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<main>
+    <div id="book-details">
+        <!-- Información del libro cargada dinámicamente -->
+    </div>
+</main>
+
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">
+        </div>
+        <div class="footer-social">
+            <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://t.me" target="_blank" aria-label="Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="mailto:support@socialbkland.com" aria-label="Gmail">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script src="./assets/js/libros.js"></script>
+<script src="./assets/js/modal.js"></script>
+</html>
