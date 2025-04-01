@@ -22,6 +22,11 @@ app.use(express.json());
 //     .catch(err => console.log(" Error importando datos:", err));
 
 // Rutas
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "catalogo.html"));
+});
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/api/admins", require("./routes/adminRoutes"));
 app.use("/api/books", require("./routes/bookRoutes"));
 app.use("/api/cart", require("./routes/cartRoutes"));
