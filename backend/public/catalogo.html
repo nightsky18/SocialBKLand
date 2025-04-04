@@ -69,8 +69,12 @@
         </div>
     </header>
 
+
     <div class="catalog">
-        <!-- Filtros -->
+
+<section class="catalogo-header">
+            <h2>Catálogo de Libros</h2>
+            <!-- Filtros -->
         <div class="filters">
             <label for="category-filter">Categorías:</label>
             <select id="category-filter">
@@ -80,6 +84,54 @@
                 <option value="aventura">Aventura</option>
                 <option value="ciencia">Ciencia</option>
             </select>
+            <div class="search-and-filter">
+                <input type="text" id="search-input" placeholder="Buscar libros por título o autor...">
+                <button id="toggle-advanced-search-btn" class="filter-btn">
+                    <i class="fas fa-filter"></i> Búsqueda Avanzada
+                </button>
+            </div>
+        </section>
+
+        <aside id="advanced-search-panel" class="advanced-search-panel">
+            <h3>Filtros Avanzados</h3>
+            <div class="filter-group">
+                <label for="filter-rating">Rating Mínimo:</label>
+                <select id="filter-rating">
+                    <option value="">Cualquiera</option>
+                    <option value="1">★☆☆☆☆ (1+)</option>
+                    <option value="2">★★☆☆☆ (2+)</option>
+                    <option value="3">★★★☆☆ (3+)</option>
+                    <option value="4">★★★★☆ (4+)</option>
+                    <option value="5">★★★★★ (5)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Rango de Precio:</label>
+                <div class="price-range">
+                    <input type="number" id="filter-min-price" placeholder="Min" min="0">
+                    <span>-</span>
+                    <input type="number" id="filter-max-price" placeholder="Max" min="0">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label>Categorías:</label>
+                <div id="category-filters-container">
+                    <p>Cargando categorías...</p>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label>
+                    <input type="checkbox" id="filter-discount">
+                    Solo en descuento
+                </label>
+            </div>
+            <div class="filter-actions">
+                <button id="apply-filters-btn" class="apply-btn">Aplicar Filtros</button>
+                <button id="clear-filters-btn" class="clear-btn">Limpiar Filtros</button>
+            </div>
+        </aside>
+
+            
         </div>
 
         <!-- Sección de libros en descuento -->

@@ -505,3 +505,74 @@ function handleAddToCart() {
 
 // Renderizar los libros al cargar la página
 renderBooks();
+
+// Catálogo Cambios (Mongoose)
+const express = require('express');
+const { Book } = require('../models');
+const router = express.Router();
+
+// GET /api/books - Obtener libros con filtros opcionales
+router.get('/', async (req, res) => {
+    try {
+        const { search, category, minRating, minPrice, maxPrice, categories, discount } = req.query;
+
+        let filter = {};
+
+        if (search) {
+            filter.$or = [
+                { title: new RegExp(search, 'i') },
+                { author: new RegExp(search, 'i') }
+            ];
+        }
+
+        if (category && !categories) {
+            filter.category = category;
+        }
+
+        if (minRating) {
+            const rating = parseInt(minRating, 10);
+            if (!isNaN(rating)) {
+                filter.rating = { $gte: rating };
+            }
+        }
+
+        const priceFilter = {};
+        if (minPrice) {
+            const min = parseFloat(minPrice);
+            if (!isNaN(min)) {
+                priceFilter.$gte = min;
+            }
+        }
+        if (maxPrice) {
+            const max = parseFloat(maxPrice);
+            if (!isNaN(max)) {
+                priceFilter.$lte = max;
+            }
+        }
+        if (Object.keys(priceFilter).length > 0) {
+            if (discount === 'true') {
+                filter.discountPrice = { ...priceFilter, $ne: null, $gt: 0 };
+            } else {
+                filter.price = priceFilter;
+            }
+        }
+
+        if (categories) {
+            const categoryArray = categories.split(',').map(cat => cat.trim()).filter(Boolean);
+            if (categoryArray.length > 0) {
+                filter.category = { $in: categoryArray };
+            }
+        }
+
+        if (discount === 'true') {
+            filter.discountPrice = { $ne: null, $lt: { $col: 'price' } };
+        }
+
+        const books = await Book.find(filter).sort({ title: 1 });
+        res.json(books);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los libros del servidor', error: error.message });
+    }
+});
+
+module.exports = router;
