@@ -15,7 +15,7 @@ const books = [
                 user: 'Alice',
                 text: 'Increíble narrativa, me hizo reflexionar mucho.'
             },
-            {
+            {   
                 user: 'Carlos',
                 text: 'Recomendado para quienes buscan inspiración.'
             }
