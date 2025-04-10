@@ -11,6 +11,23 @@ const handleError = (res, error) => {
     });
 };
 
+router.post('/', async (req, res) => {
+    try {
+      
+      const newBook = new Book(req.body);
+      await newBook.save();
+      
+      res.status(201).json({
+        success: true,
+        data: newBook
+      });
+    } catch (error) {
+      res.status(400).json({
+        success: false,
+        message: error.message
+      });
+    }
+  });
 // Obtener todos los libros (ambos tipos)
 router.get("/", async (req, res) => {
     try {
@@ -139,4 +156,4 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = router; 

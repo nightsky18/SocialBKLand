@@ -23,6 +23,8 @@ function initBookManagement() {
   setupEventListeners();
 }
 
+
+
 // Función para cargar libros
 async function loadBooks() {
   try {
@@ -43,57 +45,100 @@ async function loadBooks() {
 function createBookModal() {
   if (document.getElementById("bookModal")) return;
 
-  const modalHTML = `
-    <div id="bookModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.4);z-index:1000;">
-      <div style="background-color:#fff;margin:10% auto;padding:20px;border-radius:10px;width:90%;max-width:600px;position:relative;">
-        <h2>Agregar nuevo libro</h2>
-        <button id="closeBookModal" style="position:absolute;right:15px;top:15px;">&times;</button>
-        <form id="bookForm">
-          <!-- Campos del formulario -->
-          <label>Categoría*
-            <select name="category" id="categorySelect" required>
-              <option value="">Selecciona categoría</option>
-              <option value="Ficción">Ficción</option>
-              <option value="Educativo">Educativo</option>
-              <option value="Técnico">Técnico</option>
-              <option value="Infantil">Infantil</option>
-              <option value="nueva">Nueva categoría...</option>
-            </select>
-          </label>
-          <div id="newCategoryContainer" style="display:none;">
-            <label>Nueva categoría
-              <input type="text" name="newCategory" id="newCategoryInput">
-            </label>
-          </div>
-          
-          <label>ISBN* <input type="text" name="isbn" required></label><br>
-          <label>Título* <input type="text" name="title" required></label><br>
-          <label>Precio* <input type="number" name="price" step="0.01" required></label><br>
-          <label>Precio original <input type="number" name="originalPrice" step="0.01"></label><br>
-          <label>Imagen <input type="file" name="imageFile" accept="image/*"></label><br>
-          <small>Máximo 5MB</small>
+const modalHTML = `
+  <div id="bookModal" class="book-modal-overlay">
+    <div class="book-modal">
+      <div class="modal-drag-handle" id="modalDragHandle">
+        <h2 class="modal-title">Agregar nuevo libro</h2>
+       <button id="closeBookModal" class="close-btn">&times;</button>
 
-          <label>Descripción* <textarea name="description" required></textarea></label><br>
-          <label><input type="checkbox" name="hasDiscount"> ¿Tiene descuento?</label><br>
-          
-          <label>Tipo:
-            <select name="bookType" id="bookType" required>
-              <option value="physical">Físico</option>
-              <option value="digital">Digital</option>
-            </select>
-          </label>
-          
-          <div id="digitalFields" style="display:none;">
-            <label>Formato* <input type="text" name="format" placeholder="PDF, EPUB, MOBI"></label><br>
-            <label>Tamaño (MB)* <input type="number" name="fileSize" step="0.1"></label><br>
-            <label>Enlace* <input type="url" name="downloadLink" placeholder="https://..."></label><br>
-          </div>
-          
-          <button type="submit" class="btn">Guardar</button>
-        </form>
       </div>
+
+      <form id="bookForm" class="book-form">
+
+        <div class="form-group">
+          <label for="categorySelect">Categoría*</label>
+          <select name="category" id="categorySelect" required>
+            <option value="">Selecciona categoría</option>
+            <option value="Ficción">Ficción</option>
+            <option value="Educativo">Educativo</option>
+            <option value="Técnico">Técnico</option>
+            <option value="Infantil">Infantil</option>
+            <option value="nueva">Nueva categoría...</option>
+          </select>
+        </div>
+
+        <div id="newCategoryContainer" class="form-group" style="display:none;">
+          <label for="newCategoryInput">Nueva categoría</label>
+          <input type="text" name="newCategory" id="newCategoryInput">
+        </div>
+
+        <div class="form-group">
+          <label for="isbn">ISBN*</label>
+          <input type="text" name="isbn" id="isbn" required>
+        </div>
+
+        <div class="form-group">
+          <label for="title">Título*</label>
+          <input type="text" name="title" id="title" required>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Precio*</label>
+          <input type="number" name="price" id="price" step="0.01" required>
+        </div>
+
+        <div class="form-group">
+          <label for="originalPrice">Precio original</label>
+          <input type="number" name="originalPrice" id="originalPrice" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="imageFile">Imagen</label>
+          <input type="file" name="imageFile" id="imageFile" accept="image/*">
+          <small>Máximo 5MB</small>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción*</label>
+          <textarea name="description" id="description" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label><input type="checkbox" name="hasDiscount"> ¿Tiene descuento?</label>
+        </div>
+
+        <div class="form-group">
+          <label for="bookType">Tipo:</label>
+          <select name="bookType" id="bookType" required>
+            <option value="physical">Físico</option>
+            <option value="digital">Digital</option>
+          </select>
+        </div>
+
+        <div id="digitalFields" style="display:none;">
+          <div class="form-group">
+            <label for="format">Formato*</label>
+            <input type="text" name="format" id="format" placeholder="PDF, EPUB, MOBI">
+          </div>
+
+          <div class="form-group">
+            <label for="fileSize">Tamaño (MB)*</label>
+            <input type="number" name="fileSize" id="fileSize" step="0.1">
+          </div>
+
+          <div class="form-group">
+            <label for="downloadLink">Enlace*</label>
+            <input type="url" name="downloadLink" id="downloadLink" placeholder="https://...">
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Guardar</button>
+
+      </form>
     </div>
-  `;
+  </div>
+`;
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
 }
@@ -144,6 +189,8 @@ async function submitBookForm(form) {
     alert(`Errores:\n${errors.join("\n")}`);
     return;
   }
+  console.log("formData.has('hasDiscount')", formData.has('hasDiscount'));
+console.log("formData.get('hasDiscount')", formData.get('hasDiscount'));
 
   // 2. Preparar datos
   const bookData = await prepareBookData(formData);
@@ -204,41 +251,63 @@ function validateBookForm(formData) {
 
   return errors;
 }
+async function uploadBookImage(file) {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    });
+    
+    const result = await response.json();
+    
+    if (response.ok) {
+      return result.imagePath; // Retorna la ruta relativa ej: "/assets/images/book-123456789.jpg"
+    } else {
+      throw new Error(result.message || 'Error al subir imagen');
+    }
+  } catch (error) {
+    console.error('Error al subir imagen:', error);
+    throw error;
+  }
+}
 
 // Preparar datos para enviar al servidor
 async function prepareBookData(formData) {
-  const type = formData.get("bookType");
-  const category = formData.get("category") === "nueva" 
-    ? formData.get("newCategory") 
-    : formData.get("category");
+  const type = formData.get('bookType');
+  const category = formData.get('category') === 'nueva' 
+    ? formData.get('newCategory') 
+    : formData.get('category');
 
   const bookData = {
-    isbn: formData.get("isbn"),
-    title: formData.get("title"),
-    description: formData.get("description"),
-    price: parseFloat(formData.get("price")),
+    isbn: formData.get('isbn'),
+    title: formData.get('title'),
+    description: formData.get('description'),
+    price: parseFloat(formData.get('price')),
     category: category,
     type: type,
-    hasDiscount: formData.get("hasDiscount") === "on"
+    hasDiscount: formData.get('hasDiscount') === 'on' 
   };
 
   // Campos opcionales
-  if (formData.get("originalPrice")) {
-    bookData.originalPrice = parseFloat(formData.get("originalPrice"));
+  if (formData.get('originalPrice')) {
+    bookData.originalPrice = parseFloat(formData.get('originalPrice'));
   }
 
-  // Procesar imagen si existe
-  const imageFile = formData.get("imageFile");
+  // Procesar imagen
+  const imageFile = formData.get('imageFile');
   if (imageFile && imageFile.size > 0) {
-    bookData.image = await convertImageToBase64(imageFile);
+    bookData.image = await uploadBookImage(imageFile);
   }
 
   // Campos específicos para digital
-  if (type === "digital") {
+  if (type === 'digital') {
     bookData.digital = {
-      format: formData.get("format"),
-      fileSize: parseFloat(formData.get("fileSize")),
-      downloadLink: formData.get("downloadLink")
+      format: formData.get('format'),
+      fileSize: parseFloat(formData.get('fileSize')),
+      downloadLink: formData.get('downloadLink')
     };
   }
 

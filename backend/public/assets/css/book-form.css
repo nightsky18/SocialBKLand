@@ -1,0 +1,174 @@
+/* book-form.css */
+
+
+
+.book-modal {
+    background-color: #FFFFFF;
+    max-width: 700px;
+    width: 90%;
+    margin: 2% auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    position: relative;
+    color: #191919;
+    font-family: Arial, sans-serif;
+  
+    max-height: 90vh;          /* Limita altura del modal a la pantalla */
+    overflow-y: scroll;        /* 👈 Fuerza siempre la barra vertical */
+    scrollbar-width: thin;     /* Firefox */
+    scrollbar-color: #808080 #F5F5F5; /* track y thumb para Firefox */
+  }
+
+
+  #bookModal .close-btn {
+    position: absolute !important;
+    top: 15px !important;
+    right: 20px !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 28px !important;
+    color: #B22222 !important;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.2s ease;
+    z-index: 10;
+  }
+  
+  #bookModal .close-btn:hover {
+    color: #FF0000 !important;
+    transform: scale(1.2);
+  }
+  .book-modal::-webkit-scrollbar-track {
+    background: #F5F5F5;
+    border-radius: 8px;
+  }
+  
+  .modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1E90FF; /* Azul vibrante */
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #3CB371; /* Subrayado verde */
+    font-family: Arial, sans-serif;
+  }
+  
+  .book-modal-overlay {
+    position: absolute; /* antes era fixed */
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+    z-index: 1000;
+    overflow: visible;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: Arial, sans-serif;
+    color: #191919;
+  }
+  
+  /* Estilo base para todos los inputs, textareas y selects */
+.book-form input[type="text"],
+.book-form input[type="number"],
+.book-form input[type="url"],
+.book-form input[type="file"],
+.book-form select,
+.book-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #808080;
+  border-radius: 8px;
+  background-color: #F5F5F5;
+  color: #191919;
+  font-family: Arial, sans-serif;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Estado de foco */
+.book-form input:focus,
+.book-form textarea:focus,
+.book-form select:focus {
+  outline: none;
+  border-color: #1E90FF;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.3);
+}
+
+/* Textarea más alto */
+.book-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Etiquetas */
+.book-form label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #191919;
+}
+
+.submit-btn {
+    background-color: #32CD32;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px;
+  }
+  
+  .submit-btn:hover {
+    background-color: #3CB371;
+    transform: translateY(-2px);
+  }
+  
+
+
+  @media (max-width: 600px) {
+    .book-modal {
+      width: 95%;
+      margin: 1% auto;
+      padding: 20px;
+      max-height: 95vh;
+      font-size: 14px;
+    }
+  
+    .modal-title {
+      font-size: 20px;
+      text-align: center;
+    }
+  
+    .form-group label {
+      font-size: 13px;
+    }
+  
+    .book-form input,
+    .book-form select,
+    .book-form textarea {
+      font-size: 14px;
+      padding: 8px 10px;
+    }
+  
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+    }
+
+      
+      
+  }
+  
