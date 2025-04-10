@@ -7,9 +7,7 @@
     <title>SocialBKLand - Catálogo</title>
     <link rel="stylesheet" href="/assets/css/header-footer.css">
     <link rel="stylesheet" href="/assets/css/catalogo.css">
-    <link rel="stylesheet" href="/assets/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
 </head>
 
 <body>
@@ -17,7 +15,7 @@
         <div class="logo">
             <ul>
                 <li><a href="/home.html" id="imageButton"></a></li>
-        </ul>
+            </ul>
         </div>
         <nav class="navigation">
             <ul>
@@ -26,132 +24,73 @@
                 <li><a href="/mis-libros.html">Mis libros</a></li>
             </ul>
         </nav>
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar...">
-            <button type="button">🔍</button>
-        </div>
         <div class="user-actions">
             <button class="notification-btn">🔔</button>
             <button class="cart-btn">🛒</button>
             <button class="user-btn" onclick="openModal()">👤</button>
-
-            <div id="authModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" onclick="closeModal()">&times;</span>
-                    <div class="tab-container">
-                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
-                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
-                    </div>
-                    <div id="login-tab" class="tab-content active">
-                        <h2>Iniciar Sesión</h2>
-                        <form id="login-form">
-                            <input type="email" placeholder="Correo electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <button type="submit" class="submit-btn">Ingresar</button>
-                        </form>
-                    </div>
-                    <div id="register-tab" class="tab-content">
-                        <h2>Registrarse</h2>
-                        <form id="register-form">
-                            <input type="text" placeholder="Nombre completo" required>
-                            <input type="email" placeholder="Correo electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <input type="password" placeholder="Confirmar contraseña" required>
-                            <button type="submit" class="submit-btn">Registrarse</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
         </div>
     </header>
 
-
     <div class="catalog">
-
-<section class="catalogo-header">
+        <section class="catalogo-header">
             <h2>Catálogo de Libros</h2>
-            <!-- Filtros -->
-        <div class="filters">
-            <label for="category-filter">Categorías:</label>
-            <select id="category-filter">
-                <option value="all">Todos</option>
-                <option value="ficcion">Ficción</option>
-                <option value="no-ficcion">No Ficción</option>
-                <option value="aventura">Aventura</option>
-                <option value="ciencia">Ciencia</option>
-            </select>
-            <div class="search-and-filter">
-                <input type="text" id="search-input" placeholder="Buscar libros por título o autor...">
-                <button id="toggle-advanced-search-btn" class="filter-btn">
-                    <i class="fas fa-filter"></i> Búsqueda Avanzada
-                </button>
+            <div class="search-bar">
+                <input type="text" id="search-bar" placeholder="Buscar por título...">
+                <button id="search-btn" class="search-btn">🔍</button>
             </div>
+            <button id="toggle-filters">Búsqueda Avanzada</button>
         </section>
 
-        <aside id="advanced-search-panel" class="advanced-search-panel">
-            <h3>Filtros Avanzados</h3>
-            <div class="filter-group">
-                <label for="filter-rating">Rating Mínimo:</label>
-                <select id="filter-rating">
-                    <option value="">Cualquiera</option>
-                    <option value="1">★☆☆☆☆ (1+)</option>
-                    <option value="2">★★☆☆☆ (2+)</option>
-                    <option value="3">★★★☆☆ (3+)</option>
-                    <option value="4">★★★★☆ (4+)</option>
-                    <option value="5">★★★★★ (5)</option>
+        <!-- Contenedor de filtros (escondido por defecto) -->
+        <div id="filters-container" class="filters hidden">
+            <div class="filters-row">
+                <!-- Filtro por categoría -->
+                <label for="category-filter">Categorías:</label>
+                <select id="category-filter" multiple>
+                    <option value="ficcion">Ficción</option>
+                    <option value="no-ficcion">No Ficción</option>
+                    <option value="aventura">Aventura</option>
+                    <option value="ciencia">Ciencia</option>
                 </select>
-            </div>
-            <div class="filter-group">
-                <label>Rango de Precio:</label>
-                <div class="price-range">
-                    <input type="number" id="filter-min-price" placeholder="Min" min="0">
-                    <span>-</span>
-                    <input type="number" id="filter-max-price" placeholder="Max" min="0">
-                </div>
-            </div>
-            <div class="filter-group">
-                <label>Categorías:</label>
-                <div id="category-filters-container">
-                    <p>Cargando categorías...</p>
-                </div>
-            </div>
-            <div class="filter-group">
-                <label>
-                    <input type="checkbox" id="filter-discount">
-                    Solo en descuento
-                </label>
-            </div>
-            <div class="filter-actions">
-                <button id="apply-filters-btn" class="apply-btn">Aplicar Filtros</button>
-                <button id="clear-filters-btn" class="clear-btn">Limpiar Filtros</button>
-            </div>
-        </aside>
 
-            
+                <!-- Filtro por rating -->
+                <label for="rating-filter">Rating:</label>
+                <select id="rating-filter">
+                    <option value="all">Cualquiera</option>
+                    <option value="0-1.9">0 - 1.9</option>
+                    <option value="2-2.9">2 - 2.9</option>
+                    <option value="3-3.9">3 - 3.9</option>
+                    <option value="4-4.9">4 - 4.9</option>
+                    <option value="5-5">5</option>
+                </select>
+
+                <!-- Filtro por rango de precio -->
+                <label for="filter-min-price">Precio Mínimo:</label>
+                <input type="number" id="filter-min-price" placeholder="Min" min="0">
+                <label for="filter-max-price">Precio Máximo:</label>
+                <input type="number" id="filter-max-price" placeholder="Max" min="0">
+            </div>
+
+            <div class="filters-row">
+                <!-- Filtro por descuento -->
+                <label for="discount-filter">Solo con descuento:</label>
+                <input type="checkbox" id="discount-filter">
+
+                <!-- Botones de acción -->
+                <button id="apply-filters">Aplicar Filtros</button>
+                <button id="clear-filters">Limpiar Filtros</button>
+            </div>
         </div>
 
-        <!-- Sección de libros en descuento -->
-        <section class="discounts">
-            <h2>Libros en Descuento</h2>
-            <div class="book-list"></div>
-        </section>
-
-        <!-- Sección de libros generales -->
+        <!-- Sección de libros -->
         <section class="general-books">
-            <h2>Libros Generales</h2>
             <div class="book-list"></div>
         </section>
     </div>
 
-
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">
-            </div>
+            <div class="footer-logo"></div>
             <div class="footer-social">
                 <a href="https://facebook.com" target="_blank" aria-label="Facebook">
                     <i class="fab fa-facebook"></i>
@@ -169,10 +108,7 @@
         </div>
     </footer>
 
-
-
+    <script src="./assets/js/catalogo.js"></script>
 </body>
-<script src="./assets/js/catalogo.js"></script>
-<script src="./assets/js/modal.js"></script>
 
 </html>

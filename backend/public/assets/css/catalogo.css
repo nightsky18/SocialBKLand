@@ -18,6 +18,129 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Barra de búsqueda */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #1E90FF; /* Borde azul */
+    border-radius: 4px;
+    background-color: #FFFFFF; /* Fondo blanco */
+    color: #333;
+}
+
+.search-bar input::placeholder {
+    color: #999;
+}
+
+.search-bar button {
+    background-color: #FFFFFF; /* Fondo blanco */
+    border: 2px solid #1E90FF; /* Borde azul */
+    border-radius: 4px;
+    padding: 8px; /* Ajustar el tamaño del botón */
+    font-size: 80%; /* Reducir el tamaño del ícono al 80% */
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #1E90FF; /* Fondo azul al pasar el mouse */
+    color: #FFFFFF; /* Cambiar el color del ícono a blanco */
+    border-color: #1C86EE;
+}
+
+/* Botón de búsqueda avanzada */
+#toggle-filters {
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+#toggle-filters:hover {
+    background-color: #1C86EE;
+}
+
+/* Contenedor de filtros */
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filters.hidden {
+    display: none;
+}
+
+.filters-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Botones de acción */
+#apply-filters,
+#clear-filters {
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#apply-filters:hover {
+    background-color: #1C86EE;
+}
+
+#clear-filters {
+    background-color: #FF6347;
+}
+
+#clear-filters:hover {
+    background-color: #FF4500;
+}
+
+/* Etiquetas de los filtros */
+.filters label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Selectores y campos de entrada */
+.filters select,
+.filters input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-width: 120px;
+}
+
+/* Espaciado entre filtros */
+.filters input {
+    max-width: 100px;
+}
+
 /* Secciones de libros */
 section {
     margin-bottom: 30px;
@@ -81,22 +204,6 @@ section h2 {
     text-decoration: line-through;
     color: #666666;
     margin-right: 10px;
-}
-
-/* Filtros */
-.filters {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 16px;
-}
-
-.filters select {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #999999;
-    font-size: 16px;
 }
 
 /* Botones de añadir al carrito */

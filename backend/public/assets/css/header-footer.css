@@ -66,40 +66,18 @@
     color: #1E90FF; /* Dodger Blue */
 }
 
-/* Barra de búsqueda */
-.search-bar {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.search-bar input {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #666666; /* Gris oscuro */
-    border-radius: 4px;
-    outline: none;
-    width: 200px;
-    transition: box-shadow 0.3s;
-}
-
-.search-bar input:focus {
-    box-shadow: 0 0 5px #6495ED; /* Cornflower Blue */
-}
-
-.search-bar button {
-    padding: 8px 12px;
+/* Botón de notificaciones */
+.notification-btn {
+    background: none;
     border: none;
-    background-color: #1E90FF; /* Dodger Blue */
-    color: #FFFFFF; /* Blanco */
-    font-size: 14px;
+    font-size: 20px;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    color: #333;
+    margin-left: 10px;
 }
 
-.search-bar button:hover {
-    background-color: #6495ED; /* Cornflower Blue */
+.notification-btn:hover {
+    color: #1E90FF;
 }
 
 /* Botones de acción del usuario */
@@ -161,4 +139,3 @@ footer {
     transform: scale(1.2); /* Efecto de agrandamiento */
     color: #1E90FF; /* Cambia de color al pasar el cursor */
 }
-
