@@ -12,19 +12,20 @@ document.getElementById('category-filter').addEventListener('change', function (
         }
     });
 });
+// Filtrar libros por rating
+document.getElementById('rating-filter').addEventListener('change', function () {
+    const selectedRating = this.value;
+    const books = document.querySelectorAll('.book');
 
-console.log("¡catalogo.js se está ejecutando!");
-
-//Para parsar de pagina
-document.querySelector('.cart-btn').addEventListener('click', function() {
-    window.location.href = "./carrito.html";
+    books.forEach(book => {
+        const bookRating = book.getAttribute('data-rating');
+        if (selectedRating === 'all' || bookRating === selectedRating) {
+            book.style.display = 'block';
+        } else {
+            book.style.display = 'none';
+        }
+    });
 });
-
-document.getElementById('imageButton').addEventListener('click', function () {
-    window.location.href = "./home.html";
-});
-
-
 
 const books = [
     // Ficción
@@ -353,6 +354,11 @@ const books = [
     }
 ];
 
+//Para parsar de pagina
+document.querySelector('.cart-btn').addEventListener('click', function() {
+    window.location.href = "./carrito.html";
+});
+
 // BookCollection implementa el patrón Iterator
 class BookCollection {
     constructor(books) {
@@ -432,28 +438,14 @@ const bookCollection = new BookCollection(books);
 
 // Función modificada para usar el Iterator
 function renderBooks() {
-    const discountsSection = document.querySelector('.discounts .book-list');
     const generalBooksSection = document.querySelector('.general-books .book-list');
-
-    discountsSection.innerHTML = '';
     generalBooksSection.innerHTML = '';
 
-    // Usar iterator para libros con descuento
-    const discountedIterator = bookCollection.getDiscountedIterator();
-    while (discountedIterator.hasNext()) {
-        const book = discountedIterator.next();
-        const bookElement = BookFactory(book, books.indexOf(book));
-        discountsSection.appendChild(bookElement);
-    }
-
-    // Usar iterator para todos los libros sin descuento
     const generalIterator = bookCollection.getIterator();
     while (generalIterator.hasNext()) {
         const book = generalIterator.next();
-        if (!book.isDiscounted) {
-            const bookElement = BookFactory(book, books.indexOf(book));
-            generalBooksSection.appendChild(bookElement);
-        }
+        const bookElement = BookFactory(book, books.indexOf(book));
+        generalBooksSection.appendChild(bookElement);
     }
 
     handleAddToCart();
@@ -472,14 +464,108 @@ function filterBooks(category) {
     }
 }
 
-// Los event listeners se mantienen igual
-document.getElementById('category-filter').addEventListener('change', (e) => {
-    const selectedCategory = e.target.value;
-    if (selectedCategory === 'all') {
-        renderBooks();
-    } else {
-        filterBooks(selectedCategory);
+// Mostrar/ocultar filtros
+document.getElementById('toggle-filters').addEventListener('click', () => {
+    const filtersContainer = document.getElementById('filters-container');
+    filtersContainer.classList.toggle('hidden');
+});
+
+// Aplicar filtros al presionar el botón "Aplicar Filtros"
+document.getElementById('apply-filters').addEventListener('click', applyFilters);
+
+// Aplicar filtros dinámicamente
+function applyFilters() {
+    const selectedCategories = Array.from(document.getElementById('category-filter').selectedOptions).map(opt => opt.value);
+    const selectedRating = document.getElementById('rating-filter').value;
+    const minPrice = parseFloat(document.getElementById('filter-min-price').value) || 0;
+    const maxPrice = parseFloat(document.getElementById('filter-max-price').value) || Infinity;
+    const showDiscounted = document.getElementById('discount-filter').checked;
+    const searchQuery = document.getElementById('search-bar').value.toLowerCase();
+
+    const generalBooksSection = document.querySelector('.general-books .book-list');
+    generalBooksSection.innerHTML = '';
+
+    const filteredIterator = bookCollection.getIterator();
+    while (filteredIterator.hasNext()) {
+        const book = filteredIterator.next();
+
+        // Aplicar filtros
+        const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(book.category);
+        const matchesRating = selectedRating === 'all' || (
+            book.rating >= parseFloat(selectedRating.split('-')[0]) &&
+            book.rating <= parseFloat(selectedRating.split('-')[1])
+        );
+        const matchesPrice = book.price >= minPrice && book.price <= maxPrice;
+        const matchesDiscount = !showDiscounted || (book.originalPrice && book.price < book.originalPrice);
+        const matchesSearch = book.title.toLowerCase().includes(searchQuery);
+
+        if (matchesCategory && matchesRating && matchesPrice && matchesDiscount && matchesSearch) {
+            const bookElement = BookFactory(book, books.indexOf(book));
+            generalBooksSection.appendChild(bookElement);
+        }
     }
+
+    handleAddToCart();
+}
+
+// Limpiar filtros
+document.getElementById('clear-filters').addEventListener('click', () => {
+    document.getElementById('category-filter').value = '';
+    document.getElementById('rating-filter').value = 'all';
+    document.getElementById('filter-min-price').value = '';
+    document.getElementById('filter-max-price').value = '';
+    document.getElementById('discount-filter').checked = false;
+    document.getElementById('search-bar').value = '';
+    applyFilters();
+});
+
+// Mostrar libros al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+
+    if (searchQuery) {
+        searchBooks(searchQuery);
+    } else {
+        renderBooks();
+    }
+});
+
+// Función para buscar libros por título
+function searchBooks(query) {
+    const generalBooksSection = document.querySelector('.general-books .book-list');
+    generalBooksSection.innerHTML = '';
+
+    const filteredIterator = bookCollection.getIterator();
+    while (filteredIterator.hasNext()) {
+        const book = filteredIterator.next();
+        if (book.title.toLowerCase().includes(query.toLowerCase())) {
+            const bookElement = BookFactory(book, books.indexOf(book));
+            generalBooksSection.appendChild(bookElement);
+        }
+    }
+
+    handleAddToCart();
+}
+
+// Función para manejar la búsqueda
+function handleSearch(query) {
+    if (query.trim()) {
+        window.location.href = `/catalogo.html?search=${encodeURIComponent(query)}`;
+    }
+}
+
+// Barra de busqueda
+document.getElementById('search-bar').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const query = e.target.value;
+        searchBooks(query);
+    }
+});
+
+document.getElementById('search-btn').addEventListener('click', () => {
+    const query = document.getElementById('search-bar').value;
+    handleSearch(query);
 });
 
 function handleAddToCart() {
@@ -502,6 +588,73 @@ function handleAddToCart() {
     });
 }
 
+// Catálogo Cambios (Mongoose)
+const express = require('express');
+const { Book } = require('../models');
+const router = express.Router();
 
-// Renderizar los libros al cargar la página
-renderBooks();
+// GET /api/books - Obtener libros con filtros opcionales
+router.get('/', async (req, res) => {
+    try {
+        const { search, category, minRating, minPrice, maxPrice, categories, discount } = req.query;
+
+        let filter = {};
+
+        if (search) {
+            filter.$or = [
+                { title: new RegExp(search, 'i') },
+                { author: new RegExp(search, 'i') }
+            ];
+        }
+
+        if (category && !categories) {
+            filter.category = category;
+        }
+
+        if (minRating) {
+            const rating = parseInt(minRating, 10);
+            if (!isNaN(rating)) {
+                filter.rating = { $gte: rating };
+            }
+        }
+
+        const priceFilter = {};
+        if (minPrice) {
+            const min = parseFloat(minPrice);
+            if (!isNaN(min)) {
+                priceFilter.$gte = min;
+            }
+        }
+        if (maxPrice) {
+            const max = parseFloat(maxPrice);
+            if (!isNaN(max)) {
+                priceFilter.$lte = max;
+            }
+        }
+        if (Object.keys(priceFilter).length > 0) {
+            if (discount === 'true') {
+                filter.discountPrice = { ...priceFilter, $ne: null, $gt: 0 };
+            } else {
+                filter.price = priceFilter;
+            }
+        }
+
+        if (categories) {
+            const categoryArray = categories.split(',').map(cat => cat.trim()).filter(Boolean);
+            if (categoryArray.length > 0) {
+                filter.category = { $in: categoryArray };
+            }
+        }
+
+        if (discount === 'true') {
+            filter.discountPrice = { $ne: null, $lt: { $col: 'price' } };
+        }
+
+        const books = await Book.find(filter).sort({ title: 1 });
+        res.json(books);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener los libros del servidor', error: error.message });
+    }
+});
+
+module.exports = router;
