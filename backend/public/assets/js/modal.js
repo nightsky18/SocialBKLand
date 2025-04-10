@@ -37,14 +37,51 @@
         }
 
         // Manejar el envío de formularios
-        document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Inicio de sesión enviado');
-            // Aquí iría la lógica de autenticación
+// LOGIN
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+    const password = this.querySelector('input[type="password"]').value;
+  
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+  
+    const data = await res.json();
+    alert(data.message || data.error);
+  });
+  
+  // REGISTRO
+  document.getElementById('register-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = document.querySelector('#register-form input[placeholder="Nombre completo"]').value;
+    const email = document.querySelector('#register-form input[placeholder="Correo electrónico"]').value;
+    const password = document.querySelector('#register-form input[placeholder="Contraseña"]').value;
+
+    try {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, email, password })
         });
 
-        document.getElementById('register-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Registro enviado');
-            // Aquí iría la lógica de registro
-        });
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('Registro exitoso');
+            console.log(data);
+        } else {
+            alert('Error en el registro: ' + data.error);
+            console.error(data);
+        }
+    } catch (error) {
+        alert('Error al conectar con el servidor');
+        console.error(error);
+    }
+});
+
