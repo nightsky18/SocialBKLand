@@ -3,6 +3,8 @@ const path = require("path");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const authRoutes = require('./routes/authRoutes');
+
 const multer = require('multer');
 
 // Configurar variables de entorno
@@ -69,16 +71,7 @@ app.use("/api/posts", require("./routes/postRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/moderators", require("./routes/moderatorRoutes"));
+app.use('/api', authRoutes); 
 
-// Middleware para manejo de errores
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    message: err.message || 'Algo salió mal en el servidor'
-  });
-});
-
-// Iniciar servidor
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Servidor corriendo en el puerto ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Servidor corriendo en el puerto http://localhost:${PORT}`));

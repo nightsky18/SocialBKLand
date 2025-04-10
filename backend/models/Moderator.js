@@ -24,7 +24,7 @@ const ModeratorSchema = new mongoose.Schema({
     },
     asignadoDesde: { type: Date, default: Date.now },
     isActive: { type: Boolean, default: true }
-}, { timestamps: true });
+});
 
 // Crear modelo de Moderator con discriminador
 const Moderator = User.discriminator('moderador', ModeratorSchema);
