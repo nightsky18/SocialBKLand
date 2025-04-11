@@ -71,7 +71,14 @@ class PaymentController {
         if (paymentSuccess) {
             this.showMessage('¡Pago exitoso! Redirigiendo...', 'success');
             this.cartManager.clearCart();
-            setTimeout(() => window.location.href = '/gracias.html', 2000);
+            Swal.fire({
+                icon: 'success',
+                title: '¡Gracias por tu compra!',
+                text: 'Tu pedido ha sido procesado con éxito.',
+                timer: 3000,
+                showConfirmButton: false
+            });
+            
         } else {
             this.showMessage('Pago rechazado. Intenta nuevamente', 'error');
         }

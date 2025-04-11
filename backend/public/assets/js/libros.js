@@ -384,9 +384,6 @@ if (book) {
             cartManager.addItem(book); // Usar el método de CartManager
         }
 
-        // Guardar carrito actualizado en localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
-
         Swal.fire({
             icon: 'success',
             title: 'Añadido al carrito',
@@ -396,6 +393,10 @@ if (book) {
             toast: true,
             position: 'top-end'
         });
+        
+        // Guardar carrito actualizado en localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
         
     });
 
