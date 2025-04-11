@@ -69,6 +69,8 @@ document.getElementById('login-form').addEventListener('submit', async function 
     const data = await res.json();
 
     if (res.ok) {
+        sessionStorage.setItem('user', JSON.stringify(data.user));
+        closeModal(); 
         // Verificar si el correo es admin
         if (email === "admin@example.com") {  // Asegúrate de modificarlo si es necesario
             // Guardar en el localStorage que el usuario es admin
