@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialBKLand - Preguntas frecuentes</title>
+    <link rel="stylesheet" href="/assets/css/catalogo.css">
+    <link rel="stylesheet" href="/assets/css/header-footer.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+    <header class="header">
+        <button id="imageButton">
+            <img src="./assets/images/Logo-1.png" alt="Ir a Home" />
+          </button>
+          
+          
+        <nav class="navigation">
+            <ul>
+                <li><a href="/catalogo.html">Biblioteca</a></li>
+                <li><a href="/comunidades.html">Comunidades</a></li>
+                <li><a href="/mis-libros.html">Mis libros</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
+            <button class="notification-btn">🔔</button>
+            <button class="cart-btn">🛒</button>
+            <button class="user-btn" onclick="openModal()">👤</button>
+    
+            <div id="authModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <div class="tab-container">
+                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                    </div>
+                    <div id="login-tab" class="tab-content active">
+                        <h2>Iniciar Sesión</h2>
+                        <form id="login-form">
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <button type="submit" class="submit-btn">Ingresar</button>
+                        </form>
+                    </div>
+                    <div id="register-tab" class="tab-content">
+                        <h2>Registrarse</h2>
+                        <form id="register-form">
+                            <input type="text" placeholder="Nombre completo" required>
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <input type="password" placeholder="Confirmar contraseña" required>
+                            <button type="submit" class="submit-btn">Registrarse</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="userInfoModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+                    <h2>Información del Usuario</h2>
+                    <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+                    <p><strong>Correo:</strong> <span id="user-email"></span></p>
+                    <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="faq-container catalog">
+        <h1 class="faq-title">Preguntas Frecuentes</h1>
+    
+        <div class="faq-item">
+            <h2>📚 ¿Qué es SocialBKLand?</h2>
+            <p>Es una plataforma digital donde puedes explorar libros, unirte a comunidades y compartir tu experiencia lectora.</p>
+        </div>
+    
+        <div class="faq-item">
+            <h2>📝 ¿Cómo me registro?</h2>
+            <p>Haz clic en el botón 👤 (parte superior derecha), selecciona "Registrarse", completa el formulario y listo.</p>
+        </div>
+    
+        <div class="faq-item">
+            <h2>🔐 ¿Qué hago si olvidé mi contraseña?</h2>
+            <p>Contáctanos a <a href="mailto:support@socialbkland.com">support@socialbkland.com</a> para ayudarte a recuperar el acceso.</p>
+        </div>
+    
+        <div class="faq-item">
+            <h2>📖 ¿Cómo agrego libros a mi biblioteca?</h2>
+            <p>Desde la sección "Biblioteca", busca el libro deseado y presiona "Agregar a mis libros".</p>
+        </div>
+    
+        <div class="faq-item">
+            <h2>💬 ¿Qué puedo hacer en las comunidades?</h2>
+            <p>Intercambiar opiniones, compartir reseñas, y descubrir libros con otros lectores afines.</p>
+        </div>
+    
+        <div class="faq-item">
+            <h2>📦 ¿Tiene algún costo usar la plataforma?</h2>
+            <p>No. SocialBKLand es 100% gratuita.</p>
+        </div>
+    
+        <div class="faq-item">
+            <h2>🛠 ¿Cómo contacto a soporte técnico?</h2>
+            <p>Puedes usar el chat en la esquina inferior derecha o escribirnos a <a href="mailto:support@socialbkland.com">support@socialbkland.com</a>.</p>
+        </div>
+    </div>
+    
+    
+    
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+            </div>
+            <div class="footer-social">
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://t.me" target="_blank" aria-label="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:support@socialbkland.com" aria-label="Gmail">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+    <support-chat></support-chat>
+    
+    
+</body>
+<script src=""></script>
+<script src="./assets/js/modal.js"></script>
+</html>

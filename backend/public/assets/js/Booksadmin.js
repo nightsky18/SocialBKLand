@@ -1,20 +1,23 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    // 1. Configuración inicial
-    window.user = { isAdmin: true }; // Temporal: usuario admin
+    // 1. Obtener si el usuario es admin desde el localStorage
+    const isAdmin = localStorage.getItem('isAdmin') === 'true'; // Devuelve true si es string 'true'
 
-    // 2. Elementos del DOM
+    // 2. Configurar el usuario en window
+    window.user = { isAdmin };
+
+    // 3. Elementos del DOM
     const adminBtn = document.querySelector(".admin-libros");
     const librosStat = document.querySelector("#libros-agregados");
 
-    // 3. Mostrar elementos admin si corresponde
-    if (window.user?.isAdmin) {
-      if (adminBtn) adminBtn.style.display = "inline-block"; // Mostrar el botón de admin
-      if (librosStat) librosStat.closest(".stat").style.display = "block"; // Mostrar estadísticas
-      initBookManagement(); // Iniciar gestión de libros
+    // 4. Mostrar elementos admin si corresponde
+    if (window.user.isAdmin) {
+      if (adminBtn) adminBtn.style.display = "inline-block";
+      if (librosStat) librosStat.closest(".stat").style.display = "block";
+      initBookManagement();
     }
 
-    // 4. Cargar libros iniciales
+    // 5. Cargar libros
     await loadBooks();
   } catch (error) {
     console.error("Error al cargar la página:", error);
