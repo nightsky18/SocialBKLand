@@ -54,4 +54,25 @@ export class CartManager {
       this.cart = [];
       this.#save();
     }
+
+    getCartForDisplay() {
+        return this.cart.map(item => ({
+            title: item.title,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image
+        }));
+    }
+
+    isEmpty() {
+        return this.cart.length === 0;
+      }
+
+      handleCheckout() {
+        if (this.isEmpty()) {
+          alert("Tu carrito está vacío. Agrega productos antes de pagar.");
+          return null;
+        }
+        return '/pago.html';
+      }
   }
