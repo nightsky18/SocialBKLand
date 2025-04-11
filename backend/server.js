@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const authRoutes = require('./routes/authRoutes');
+const createAdminIfNotExists = require("./utils/createAdmin");
+
 
 const multer = require('multer');
 
@@ -48,7 +50,10 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Conectar a la base de datos
-connectDB();
+connectDB().then(() => {
+  // Crear admin quemado si no existe
+  createAdminIfNotExists();
+});
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, "public")));

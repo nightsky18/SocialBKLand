@@ -1,20 +1,24 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // 1. Configuración inicial
-  window.user = { isAdmin: true }; // Temporal: usuario admin
+  try {
+    // 1. Configuración inicial
+    window.user = { isAdmin: true }; // Temporal: usuario admin
 
-  // 2. Elementos del DOM
-  const adminBtn = document.querySelector(".admin-libros");
-  const librosStat = document.querySelector("#libros-agregados");
+    // 2. Elementos del DOM
+    const adminBtn = document.querySelector(".admin-libros");
+    const librosStat = document.querySelector("#libros-agregados");
 
-  // 3. Mostrar elementos admin si corresponde
-  if (window.user?.isAdmin) {
-    if (adminBtn) adminBtn.style.display = "inline-block";
-    if (librosStat) librosStat.closest(".stat").style.display = "block";
-    initBookManagement();
+    // 3. Mostrar elementos admin si corresponde
+    if (window.user?.isAdmin) {
+      if (adminBtn) adminBtn.style.display = "inline-block"; // Mostrar el botón de admin
+      if (librosStat) librosStat.closest(".stat").style.display = "block"; // Mostrar estadísticas
+      initBookManagement(); // Iniciar gestión de libros
+    }
+
+    // 4. Cargar libros iniciales
+    await loadBooks();
+  } catch (error) {
+    console.error("Error al cargar la página:", error);
   }
-
-  // 4. Cargar libros iniciales
-  await loadBooks();
 });
 
 // Función principal de gestión de libros
@@ -22,8 +26,6 @@ function initBookManagement() {
   createBookModal();
   setupEventListeners();
 }
-
-
 
 // Función para cargar libros
 async function loadBooks() {
@@ -50,8 +52,7 @@ const modalHTML = `
     <div class="book-modal">
       <div class="modal-drag-handle" id="modalDragHandle">
         <h2 class="modal-title">Agregar nuevo libro</h2>
-       <button id="closeBookModal" class="close-btn">&times;</button>
-
+        <button id="closeBookModal" class="close-btn">&times;</button>
       </div>
 
       <form id="bookForm" class="book-form">
