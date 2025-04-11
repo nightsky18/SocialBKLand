@@ -1,44 +1,61 @@
+const user = JSON.parse(sessionStorage.getItem('user'));
+if (user) {
+    console.log('Usuario en sesión:', user.email);
 
-        // Función para abrir el modal
-        function openModal() {
-            document.getElementById('authModal').style.display = 'block';
-        }
+} else {
+    console.log('No hay sesión activa');
+}
 
-        // Función para cerrar el modal
-        function closeModal() {
-            document.getElementById('authModal').style.display = 'none';
-        }
 
-        // Función para cambiar entre pestañas
-        function switchTab(tabName) {
-            // Ocultar todos los contenidos de pestañas
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            // Mostrar el contenido de la pestaña seleccionada
-            document.getElementById(`${tabName}-tab`).classList.add('active');
-            
-            // Actualizar las pestañas activas
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Marcar la pestaña actual como activa
-            event.currentTarget.classList.add('active');
-        }
+// Función para abrir el modal
+function openModal() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
 
-        // Cerrar el modal si se hace clic fuera del contenido
-        window.onclick = function(event) {
-            const modal = document.getElementById('authModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        }
+    if (user) {
+        // Si hay usuario en sesión, mostrar modal de información
+        showUserInfo();
+    } else {
+        // Si no hay sesión, mostrar modal de login/registro
+        document.getElementById('authModal').style.display = 'block';
+    }
+}
 
-        // Manejar el envío de formularios
+
+// Función para cerrar el modal
+function closeModal() {
+    document.getElementById('authModal').style.display = 'none';
+}
+
+// Función para cambiar entre pestañas
+function switchTab(tabName) {
+    // Ocultar todos los contenidos de pestañas
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+
+    // Mostrar el contenido de la pestaña seleccionada
+    document.getElementById(`${tabName}-tab`).classList.add('active');
+
+    // Actualizar las pestañas activas
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Marcar la pestaña actual como activa
+    event.currentTarget.classList.add('active');
+}
+
+// Cerrar el modal si se hace clic fuera del contenido
+window.onclick = function (event) {
+    const modal = document.getElementById('authModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+// Manejar el envío de formularios
 // LOGIN
-document.getElementById('login-form').addEventListener('submit', async function(e) {
+document.getElementById('login-form').addEventListener('submit', async function (e) {
     e.preventDefault();
     const email = this.querySelector('input[type="email"]').value;
     const password = this.querySelector('input[type="password"]').value;
@@ -83,7 +100,11 @@ document.getElementById('login-form').addEventListener('submit', async function(
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, email, password })
+            body: JSON.stringify({
+                name,
+                email,
+                password
+            })
         });
 
         const data = await response.json();
@@ -91,6 +112,8 @@ document.getElementById('login-form').addEventListener('submit', async function(
         if (response.ok) {
             alert('Registro exitoso');
             console.log(data);
+            closeModal();
+            // Cierra el modal después del registro
         } else {
             alert('Error en el registro: ' + data.error);
             console.error(data);
@@ -101,3 +124,49 @@ document.getElementById('login-form').addEventListener('submit', async function(
     }
 });
 
+
+
+function logout() {
+    sessionStorage.removeItem('user');
+    checkSession();
+    alert('Sesión cerrada');
+}
+
+// Mostrar modal con info de usuario
+function showUserInfoModal(user) {
+    document.getElementById('user-name').textContent = user.name || 'Nombre no disponible';
+    document.getElementById('user-email').textContent = user.email;
+    document.getElementById('userInfoModal').style.display = 'block';
+}
+
+// Cerrar modal de info de usuario
+function closeUserInfoModal() {
+    document.getElementById('userInfoModal').style.display = 'none';
+}
+
+
+
+
+function showUserInfo() {
+    const user = JSON.parse(sessionStorage.getItem('user'));
+    if (user) {
+        document.getElementById('user-name').textContent = user.name;
+        document.getElementById('user-email').textContent = user.email;
+        document.getElementById('userInfoModal').style.display = 'block';
+    }
+}
+
+function closeUserInfoModal() {
+    document.getElementById('userInfoModal').style.display = 'none';
+}
+
+function logout() {
+    sessionStorage.removeItem('user');
+    closeUserInfoModal();
+    alert('Sesión cerrada');
+    // Opcional: recargar para restablecer estado inicial
+    location.reload();
+}
+
+// Ejecutar al cargar la página
+window.addEventListener('DOMContentLoaded', checkSession);

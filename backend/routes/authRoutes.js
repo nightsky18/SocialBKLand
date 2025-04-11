@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const router = express.Router();
 
+
 // Registro
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
@@ -25,8 +26,10 @@ router.post('/login', async (req, res) => {
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: 'Contraseña incorrecta' });
-
-    res.status(200).json({ message: 'Inicio de sesión exitoso' });
+    res.status(200).json({ 
+      message: 'Inicio de sesión exitoso',
+      user: { name: user.name, email: user.email }
+    });
   } catch (err) {
     res.status(500).json({ error: 'Error del servidor' });
   }
