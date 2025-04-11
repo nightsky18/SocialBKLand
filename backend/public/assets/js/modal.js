@@ -136,21 +136,6 @@ document.getElementById('register-form').addEventListener('submit', async functi
     }
 });
 
-// LOGOUT
-function logout() {
-    sessionStorage.removeItem('user');
-    closeUserInfoModal();
-
-    Swal.fire({
-        icon: 'info',
-        title: 'Sesión cerrada',
-        timer: 1500,
-        showConfirmButton: false
-    });
-
-    location.reload();
-}
-
 
 // Mostrar modal con info de usuario
 function showUserInfoModal(user) {
@@ -176,9 +161,6 @@ function showUserInfo() {
     }
 }
 
-function closeUserInfoModal() {
-    document.getElementById('userInfoModal').style.display = 'none';
-}
 
 function logout() {
     sessionStorage.removeItem('user');
