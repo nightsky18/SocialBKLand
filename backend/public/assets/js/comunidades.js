@@ -147,13 +147,21 @@ document.addEventListener('DOMContentLoaded', () => {
                  const user = getCurrentUser();
 
                  if (!user) {
-                     alert('Debes iniciar sesión para interactuar con las comunidades.');
-                     // Asumiendo que tienes una función global openModal() en modal.js
-                     if (typeof openModal === 'function') {
-                         openModal();
-                     }
-                     return;
-                 }
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Inicia sesión',
+                        text: 'Debes iniciar sesión para interactuar con las comunidades.',
+                        confirmButtonText: 'Iniciar sesión',
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed && typeof openModal === 'function') {
+                            openModal();
+                        }
+                    });
+                    return;
+                }
+                
 
                  if (action === 'join') {
                      console.log(`Unirse a la comunidad: ${communityId} por ${user.email}`);
@@ -168,11 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
                          const currentCount = parseInt(memberCountSpan.textContent.match(/\d+/)[0] || '0');
                          memberCountSpan.innerHTML = `<i class="fas fa-user"></i> ${currentCount + 1} Miembro${(currentCount + 1) !== 1 ? 's' : ''}`;
                      }
-                     alert(`Te has unido a "${community.nombre}"`);
+                     Swal.fire({
+                        icon: 'success',
+                        title: '¡Unido con éxito!',
+                        text: `Te has unido a "${community.nombre}".`,
+                        timer: 2000,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                    
                  } else if (action === 'request') {
                       console.log(`Solicitar unirse a la comunidad privada: ${communityId} por ${user.email}`);
                       markAsRequested(communityId, user.email); // Guardar en localStorage
-                      alert(`Solicitud para unirte a "${community.nombre}" enviada (simulación).`);
+                      Swal.fire({
+                        icon: 'info',
+                        title: 'Solicitud enviada',
+                        text: `Tu solicitud para unirte a "${community.nombre}" ha sido enviada (simulación).`,
+                        timer: 2200,
+                        showConfirmButton: false,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                    
                       e.target.textContent = 'Solicitud Enviada';
                       e.target.disabled = true;
                       e.target.dataset.action = 'requested';
