@@ -1,59 +1,89 @@
-  /* Modal Styles */
-  .modal {
-    display: none; /* Hidden by default */
+/* ===== Modal Overlay ===== */
+.modal {
+    display: none; /* Oculto por defecto */
     position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con opacidad */
+    backdrop-filter: blur(3px); /* Efecto de desenfoque */
+    animation: fadeIn 0.3s ease;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== Contenido del Modal ===== */
 .modal-content {
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: black; /* Text color */
+    background-color: #ffffff;
+    margin: 8% auto;
+    padding: 25px 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    color: #333;
+    animation: slideIn 0.3s ease;
 }
 
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== Botón Cerrar (X) ===== */
 .close-btn {
-    color: black; /* Close button color */
-    float: right;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #666;
     font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.2s ease;
 }
 
 .close-btn:hover,
 .close-btn:focus {
-    color: red;
+    color: #e74c3c;
     text-decoration: none;
 }
 
+/* ===== Navegación por Pestañas ===== */
 .tab-container {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
     cursor: pointer;
-    padding: 10px 20px;
+    color: #555;
+    font-weight: 500;
+    transition: border-color 0.2s ease, color 0.2s ease;
     border-bottom: 2px solid transparent;
-    color: black; /* Tab text color */
+}
+
+.tab:hover {
+    color: #1E90FF;
 }
 
 .tab.active {
-    border-bottom: 2px solid black;
-    font-weight: bold;
+    border-bottom: 2px solid #1E90FF;
+    color: #1E90FF;
+    font-weight: 600;
 }
 
+/* ===== Contenido de las Pestañas ===== */
 .tab-content {
     display: none;
 }
@@ -62,28 +92,43 @@
     display: block;
 }
 
+/* ===== Formularios ===== */
 form {
     display: flex;
     flex-direction: column;
 }
 
 form input {
-    margin-bottom: 15px;
-    padding: 10px;
+    margin-bottom: 16px;
+    padding: 10px 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    color: black; /* Input text color */
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
 }
 
+form input:focus {
+    border-color: #1E90FF;
+    outline: none;
+}
+
+/* ===== Botón de Enviar ===== */
 form .submit-btn {
-    background-color: black;
+    background-color: #1E90FF;
     color: white;
-    padding: 10px;
+    padding: 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 form .submit-btn:hover {
-    background-color: #333;
+    background-color: #1C86EE;
+}
+
+form .submit-btn:active {
+    transform: scale(0.97);
 }

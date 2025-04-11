@@ -1,97 +1,95 @@
-/* public/assets/css/comunidades.css */
-
-/* Asegurar fuente base consistente */
+/* ===== Estilos Base ===== */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Fondo general ligero */
-    color: #333; /* Color de texto principal */
+    background-color: #f4f4f4;
+    color: #333;
 }
 
+/* ===== Página de Comunidades ===== */
 .communities-page {
     max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9; /* Un fondo ligeramente diferente para la sección principal */
-    border-radius: 8px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
 .communities-page h1 {
     text-align: center;
-    color: #3CB371; /* Verde */
+    color: #32CD32;
+    font-size: 2.5rem;
     margin-bottom: 10px;
-    font-size: 2.2rem;
 }
 
 .page-description {
     text-align: center;
     color: #555;
     margin-bottom: 40px;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
 }
 
-/* Grid para las tarjetas */
+/* ===== Grid de Tarjetas ===== */
 .communities-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Tarjetas un poco más anchas */
-    gap: 25px; /* Espacio entre tarjetas */
-    padding-bottom: 20px; /* Espacio al final */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    padding-bottom: 30px;
 }
 
-/* Estilo de cada tarjeta de comunidad */
+/* ===== Tarjeta de Comunidad ===== */
 .community-card {
     background-color: #FFFFFF;
-    border: 1px solid #E0E0E0;
-    border-radius: 8px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.07);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .community-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Área de imagen/icono */
+/* ===== Imagen/Icono superior ===== */
 .community-card-image {
-    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); /* Gradiente suave azulado */
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #5c7da5; /* Azul grisáceo para el icono */
-    font-size: 36px;
+    font-size: 40px;
+    color: #5c7da5;
     border-bottom: 1px solid #E0E0E0;
 }
 
-/* Iconos específicos (usando Font Awesome) */
+/* Iconos Font Awesome por tipo */
 .community-card[data-type="publica"] .community-card-image i::before {
-    font-family: "Font Awesome 6 Free"; /* Asegura que use la fuente correcta */
-    font-weight: 900; /* Peso para iconos sólidos */
-    content: "\f0c0"; /* Icono fa-users */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f0c0"; /* fa-users */
 }
 .community-card[data-type="privada"] .community-card-image i::before {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
-    content: "\f023"; /* Icono fa-lock */
+    content: "\f023"; /* fa-lock */
 }
 
-/* Contenido de la tarjeta */
+/* ===== Contenido Interno de Tarjeta ===== */
 .community-card-content {
     padding: 20px;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .community-name {
-    font-size: 1.25rem;
-    color: #1E90FF; /* Azul */
-    margin-top: 0;
+    font-size: 1.3rem;
+    color: #1E90FF;
     margin-bottom: 10px;
     font-weight: 600;
 }
@@ -99,9 +97,9 @@ body {
 .community-topic {
     font-size: 0.95rem;
     color: #666;
-    line-height: 1.5;
-    margin-bottom: 15px;
+    line-height: 1.6;
     flex-grow: 1;
+    margin-bottom: 15px;
 }
 
 .community-meta {
@@ -109,7 +107,7 @@ body {
     color: #777;
     margin-bottom: 20px;
     display: flex;
-    flex-wrap: wrap; /* Para que se ajusten en pantallas pequeñas */
+    flex-wrap: wrap;
     gap: 15px;
 }
 
@@ -121,83 +119,86 @@ body {
 .community-meta i {
     margin-right: 6px;
     color: #999;
-    width: 1em; /* Asegura espacio consistente para iconos */
+    width: 1em;
     text-align: center;
 }
 
-/* Iconos específicos para tipo en meta */
+/* Iconos meta específicos */
 .community-meta .fa-globe::before { content: "\f0ac"; }
 .community-meta .fa-eye-slash::before { content: "\f070"; }
 .community-meta .fa-user::before { content: "\f007"; }
 .community-meta .fa-comments::before { content: "\f086"; }
 
-
-/* Botón de Unirse/Ver */
+/* ===== Botones de Acción ===== */
 .community-action-btn {
-    background-color: #1E90FF; /* Azul por defecto (para públicas 'Unirse')*/
+    background-color: #1E90FF;
     color: white;
     border: none;
     padding: 10px 18px;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 6px;
     font-size: 0.95rem;
     font-weight: 500;
+    cursor: pointer;
     align-self: flex-start;
-    transition: background-color 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
 }
 
 .community-action-btn:hover:not(:disabled) {
     background-color: #1C86EE;
     transform: scale(1.03);
 }
+
 .community-action-btn:active:not(:disabled) {
-     transform: scale(0.98);
+    transform: scale(0.97);
 }
+
 .community-action-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-
-/* Botón para miembros (ya unido) */
+/* Estados personalizados del botón */
 .community-action-btn[data-action="member"] {
-    background-color: #5cb85c; /* Verde */
+    background-color: #32CD32;
 }
+
 .community-action-btn[data-action="member"]:hover:not(:disabled) {
-    background-color: #4cae4c;
+    background-color: #28a745;
 }
 
-
-/* Botón para solicitar unirse (privada) */
 .community-action-btn[data-action="request"] {
-    background-color: #ff9800; /* Naranja */
+    background-color: #ff9800;
 }
+
 .community-action-btn[data-action="request"]:hover:not(:disabled) {
     background-color: #f57c00;
 }
-/* Estilo si la solicitud está enviada */
+
 .community-action-btn[data-action="requested"] {
-    background-color: #ffcc80; /* Naranja claro */
+    background-color: #ffcc80;
     color: #555;
 }
 
-
-/* Mensajes de carga/error */
+/* ===== Mensajes especiales ===== */
 #loading-message,
 #no-communities-message {
+    text-align: center;
     color: #888;
     font-style: italic;
     padding: 30px 0;
+    font-size: 1rem;
 }
 
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
     .communities-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
-     .communities-page h1 {
-        font-size: 1.8rem;
+
+    .communities-page h1 {
+        font-size: 2rem;
     }
+
     .page-description {
         font-size: 1rem;
     }
@@ -207,12 +208,15 @@ body {
     .communities-grid {
         grid-template-columns: 1fr;
     }
-     .community-card-content {
-        padding: 15px;
+
+    .community-card-content {
+        padding: 16px;
     }
-     .community-name {
-        font-size: 1.1rem;
+
+    .community-name {
+        font-size: 1.15rem;
     }
+
     .community-meta {
         font-size: 0.8rem;
         gap: 10px;

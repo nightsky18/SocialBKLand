@@ -387,7 +387,16 @@ if (book) {
         // Guardar carrito actualizado en localStorage
         localStorage.setItem('cart', JSON.stringify(cart));
 
-        alert(`"${book.title}" se ha añadido al carrito ${quantity} vez/veces.`);
+        Swal.fire({
+            icon: 'success',
+            title: 'Añadido al carrito',
+            text: `"${book.title}" se ha añadido al carrito ${quantity} ${quantity === 1 ? 'vez' : 'veces'}.`,
+            timer: 2000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
+        });
+        
     });
 
       // Agregar evento al botón "Comprar Ahora"

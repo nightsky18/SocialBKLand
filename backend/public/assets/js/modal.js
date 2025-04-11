@@ -59,38 +59,43 @@ document.getElementById('login-form').addEventListener('submit', async function 
     e.preventDefault();
     const email = this.querySelector('input[type="email"]').value;
     const password = this.querySelector('input[type="password"]').value;
-  
+
     const res = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
     });
-  
+
     const data = await res.json();
 
     if (res.ok) {
         sessionStorage.setItem('user', JSON.stringify(data.user));
-        closeModal(); 
-        // Verificar si el correo es admin
-        if (email === "admin@example.com") {  // Asegúrate de modificarlo si es necesario
-            // Guardar en el localStorage que el usuario es admin
+        closeModal();
+
+        if (email === "admin@example.com") {
             localStorage.setItem('isAdmin', 'true');
-            window.location.href = "usuario.html";  // Redirigir al panel de admin
+            window.location.href = "usuario.html";
         } else {
             localStorage.setItem('isAdmin', 'false');
-            // Si no es admin, continuar con el proceso normal
-            alert("Bienvenido");
-            window.location.href = "usuario.html"
+            Swal.fire({
+                icon: 'success',
+                title: 'Bienvenido',
+                text: 'Has iniciado sesión como usuario normal',
+                timer: 2000,
+                showConfirmButton: false
+            });
         }
     } else {
-        // Si la autenticación falla
-        alert(data.message || data.error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de autenticación',
+            text: data.message || data.error
+        });
     }
 });
 
-  
-  // REGISTRO
-  document.getElementById('register-form').addEventListener('submit', async function (e) {
+// REGISTRO
+document.getElementById('register-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const name = document.querySelector('#register-form input[placeholder="Nombre completo"]').value;
@@ -100,40 +105,37 @@ document.getElementById('login-form').addEventListener('submit', async function 
     try {
         const response = await fetch('/api/register', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password
-            })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            alert('Registro exitoso');
-            console.log(data);
+            Swal.fire({
+                icon: 'success',
+                title: 'Registro exitoso',
+                text: '¡Ahora puedes iniciar sesión!',
+                timer: 2000,
+                showConfirmButton: false
+            });
             closeModal();
-            // Cierra el modal después del registro
         } else {
-            alert('Error en el registro: ' + data.error);
-            console.error(data);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en el registro',
+                text: data.error || 'Intenta de nuevo'
+            });
         }
     } catch (error) {
-        alert('Error al conectar con el servidor');
-        console.error(error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            text: 'No se pudo conectar con el servidor'
+        });
     }
 });
 
-
-
-function logout() {
-    sessionStorage.removeItem('user');
-    checkSession();
-    alert('Sesión cerrada');
-}
 
 // Mostrar modal con info de usuario
 function showUserInfoModal(user) {
@@ -159,17 +161,25 @@ function showUserInfo() {
     }
 }
 
-function closeUserInfoModal() {
-    document.getElementById('userInfoModal').style.display = 'none';
-}
 
 function logout() {
     sessionStorage.removeItem('user');
     closeUserInfoModal();
-    alert('Sesión cerrada');
-    // Opcional: recargar para restablecer estado inicial
-    location.reload();
+
+    Swal.fire({
+        icon: 'info',
+        title: 'Sesión cerrada',
+        text: 'Has cerrado sesión correctamente',
+        timer: 1500,
+        showConfirmButton: false
+    });
+
+    // Recargar después de un pequeño retraso para que se vea el mensaje
+    setTimeout(() => {
+        location.reload();
+    }, 1600);
 }
+
 
 // Ejecutar al cargar la página
 window.addEventListener('DOMContentLoaded', checkSession);
