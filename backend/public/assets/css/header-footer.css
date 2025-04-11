@@ -3,44 +3,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #666666; /* Gris medio para mejorar contraste */
-    color: #FFFFFF; /* Blanco */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px 40px;
+    background-color: #666666;
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
-
 
 .logo {
-    width: 180px;  /* Ajusta el tamaño del contenedor */
-    height: 60px;
-    background-image: url('/assets/images/Logo-1.png'); 
-    background-size: contain;  /* Ajusta la imagen sin recortarla */
-    background-repeat: no-repeat; 
+    width: 160px;
+    height: 50px;
+    background-image: url('/assets/images/Logo-1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
 }
-
-#imageButton {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  #imageButton:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  #imageButton img {
-    display: block;
-    width: 200px; /* Ajusta el tamaño de la imagen */
-    height: auto;
-    border-radius: 8px;
-  }
-  
 
 /* Navegación */
 .navigation ul {
@@ -48,32 +27,33 @@
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 15px;
-}
-
-.navigation ul li {
-    display: inline;
+    gap: 25px;
 }
 
 .navigation ul li a {
     text-decoration: none;
-    color: #FFFFFF; /* Blanco */
+    color: #FFFFFF;
+    font-weight: 500;
     font-size: 16px;
-    transition: color 0.3s;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .navigation ul li a:hover {
-    color: #1E90FF; /* Dodger Blue */
+    background-color: #1E90FF;
+    color: #FFFFFF;
 }
 
 /* Botón de notificaciones */
 .notification-btn {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 22px;
     cursor: pointer;
-    color: #333;
-    margin-left: 10px;
+    color: #FFFFFF;
+    margin-left: 12px;
+    transition: color 0.3s;
 }
 
 .notification-btn:hover {
@@ -83,59 +63,93 @@
 /* Botones de acción del usuario */
 .user-actions {
     display: flex;
-    gap: 10px;
+    gap: 15px;
+    align-items: center;
 }
 
 .user-actions button {
-    background: none;
-    border: none;
-    color: #050404; /* Blanco */
-    font-size: 20px;
+    background-color: transparent;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: color 0.3s;
+    transition: all 0.3s ease;
 }
 
 .user-actions button:hover {
-    color: #1E90FF; /* Dodger Blue */
+    background-color: #1E90FF;
+    border-color: #1E90FF;
+    color: #FFFFFF;
+}
+
+/* Imagen botón (si lo usas para links o algo visual) */
+#imageButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#imageButton:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#imageButton img {
+    display: block;
+    width: 180px;
+    height: auto;
+    border-radius: 8px;
 }
 
 /* Footer */
 footer {
-    background-color: #666666; /* Gris claro para mejorar la lectura */
-    color: #191919; /* Negro más oscuro para contraste */
-    padding: 20px 10%;
+    background-color: #666666;
+    color: #FFFFFF;
+    padding: 30px 10%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .footer-content {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .footer-logo {
-    width: 180px;  /* Ajusta el tamaño del contenedor */
-    height: 60px;
-    background-image: url('/assets/images/Logo-1.png'); 
-    background-size: contain;  /* Ajusta la imagen sin recortarla */
-    background-repeat: no-repeat; 
+    width: 160px;
+    height: 50px;
+    background-image: url('/assets/images/Logo-1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
-    display: flex;
-    justify-content: flex-start;
 }
 
 /* Redes sociales */
+.footer-social {
+    display: flex;
+    gap: 20px;
+}
+
 .footer-social a {
-    margin-left: 20px;
     text-decoration: none;
-    font-size: 40px; /* Aumenta el tamaño de los íconos */
-    color: inherit; /* Mantiene el color del tema */
+    font-size: 28px;
+    color: #FFFFFF;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .footer-social a:hover {
-    transform: scale(1.2); /* Efecto de agrandamiento */
-    color: #1E90FF; /* Cambia de color al pasar el cursor */
+    transform: scale(1.2);
+    color: #1E90FF;
 }
