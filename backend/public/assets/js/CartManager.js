@@ -1,48 +1,48 @@
 export class CartManager {
+    #KEY = 'cart';  // Propiedad privada
+
     constructor() {
-      this.cart = this.loadCart();
+        this.cart = this.#load();
     }
-  
-    loadCart() {
-      try {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        return cart.map(item => ({
-          ...item,
-          quantity: item.quantity || 1
-        }));
-      } catch (error) {
-        console.error('Error loading cart:', error);
+
+    #load() {
+        try {
+        const cart = JSON.parse(localStorage.getItem(this.#KEY)) || [];
+        return cart.map(item => ({ ...item, quantity: item.quantity || 1 }));
+        } catch (error) {
+        console.error('Cart load error:', error);
         return [];
-      }
+        }
     }
-  
-    saveCart() {
-      localStorage.setItem('cart', JSON.stringify(this.cart));
+
+    #save() {
+        localStorage.setItem(this.#KEY, JSON.stringify(this.cart));
     }
-  
+
     addItem(item) {
-      const existingIndex = this.cart.findIndex(i => i.id === item.id);
-      if (existingIndex > -1) {
-        this.cart[existingIndex].quantity++;
-      } else {
-        this.cart.push({ ...item, quantity: 1 });
-      }
-      this.saveCart();
+        const existing = this.cart.find(i => i.id === item.id);
+        existing ? existing.quantity++ : this.cart.push({ ...item, quantity: 1 });
+        this.#save();
     }
   
-    incrementQuantity(index) {
-      if (this.cart[index].quantity < 99) this.cart[index].quantity++;
-      this.saveCart();
-    }
-  
-    decrementQuantity(index) {
-      if (this.cart[index].quantity > 1) {
-        this.cart[index].quantity--;
-      } else {
+    removeItem(index) {
         this.cart.splice(index, 1);
+        this.#save();
       }
-      this.saveCart();
-    }
+    
+      incrementQuantity(index) {
+        if (this.cart[index].quantity < 99) this.cart[index].quantity++;
+        this.#save(); 
+      }
+    
+      decrementQuantity(index) {
+        if (this.cart[index].quantity > 1) {
+          this.cart[index].quantity--;
+        } else {
+          this.removeItem(index);
+        }
+        this.#save(); 
+      }
   
     getTotal() {
       return this.cart.reduce((acc, item) => 
@@ -52,6 +52,6 @@ export class CartManager {
   
     clearCart() {
       this.cart = [];
-      this.saveCart();
+      this.#save();
     }
   }
