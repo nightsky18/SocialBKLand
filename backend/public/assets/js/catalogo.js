@@ -579,7 +579,16 @@ function handleAddToCart() {
         const cartManager = new CartManager();
         cartManager.addItem(book);
         
-        alert(`"${book.title}" se ha añadido al carrito.`);
+        Swal.fire({
+            icon: 'success',
+            title: 'Añadido al carrito',
+            text: `"${book.title}" se ha añadido correctamente.`,
+            timer: 1800,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
+        });
+        
       });
     });
   }
