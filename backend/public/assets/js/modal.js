@@ -57,49 +57,37 @@ window.onclick = function (event) {
 // LOGIN
 document.getElementById('login-form').addEventListener('submit', async function (e) {
     e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+    const password = this.querySelector('input[type="password"]').value;
+  
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+  
+    const data = await res.json();
 
-    const email = document.querySelector('#login-form input[placeholder="Correo electrónico"]').value;
-    const password = document.querySelector('#login-form input[placeholder="Contraseña"]').value;
-
-    try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email,
-                password
-            })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            // Guardamos al usuario en sessionStorage
-
-            sessionStorage.setItem('user', JSON.stringify(data.user));
-
-
-            alert('Inicio de sesión exitoso');
-            console.log('Usuario logueado:', email);
-
-            // Opcional: redirige o cierra modal
-            closeModal(); // si tienes una función para cerrar el modal
-            checkSession();
-            showUserInfo();
+    if (res.ok) {
+        // Verificar si el correo es admin
+        if (email === "admin@example.com") {  // Asegúrate de modificarlo si es necesario
+            // Guardar en el localStorage que el usuario es admin
+            localStorage.setItem('isAdmin', 'true');
+            window.location.href = "usuario.html";  // Redirigir al panel de admin
         } else {
-            alert(data.error);
+            localStorage.setItem('isAdmin', 'false');
+            // Si no es admin, continuar con el proceso normal
+            alert("Bienvenido, usuario normal");
         }
-    } catch (error) {
-        console.error(error);
-        alert('Error al conectar con el servidor');
+    } else {
+        // Si la autenticación falla
+        alert(data.message || data.error);
     }
 });
 
-
-// REGISTRO
-document.getElementById('register-form').addEventListener('submit', async function (e) {
+  
+  // REGISTRO
+  document.getElementById('register-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const name = document.querySelector('#register-form input[placeholder="Nombre completo"]').value;

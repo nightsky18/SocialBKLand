@@ -1,9 +1,7 @@
-[
-  {
-    "nombre": "Super Admin",
-    "email": "admin@example.com",
-    "password": "123456",
-    "rol": "administrador",
-    "permisos": ["editar", "gestionarUsuarios"]
-  }
-]
+{
+  "nombre": "Admin Principal",
+  "email": "admin@admin.com",
+  "password": "$2b$10$Jxj0KKAjSTylsb6uLLa2dO4hI.xRqukiZ6YO92UCNxh8qUq4cyLOa",
+  "permisos": ["gestionar_usuarios", "ver_estadisticas", "modificar_contenido"],
+  "__t": "Admin"
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocialBKLand</title>
+    <link rel="stylesheet" href="/assets/css/perfil.css">
+    <link rel="stylesheet" href="/assets/css/header-footer.css">
+    <link rel="stylesheet" href="/assets/css/book-form.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <ul>
+                <li><a href="/home.html"></a></li>
+        </ul>
+        </div>
+        <nav class="navigation">
+            <ul>
+                <li><a href="/catalogo.html">Biblioteca</a></li>
+                <li><a href="/comunidades.html">Comunidades</a></li>
+                <li><a href="/mis-libros.html">Mis libros</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar...">
+            <button type="button">🔍</button>
+        </div>
+        <div class="user-actions">
+            <button class="notification-btn">🔔</button>
+            <button class="cart-btn">🛒</button>
+            <button class="user-btn">👤</button>
+        </div>
+    </header>
+
+     <!-- Perfil principal -->
+  <main class="perfil">
+    <section class="perfil-header">
+      <div class="avatar-container">
+        <i class="fas fa-user-circle avatar-icon"></i>
+      </div>
+      <div class="perfil-info">
+        <p class="registro-fecha">Registrado el: <span id="registroFecha">01/01/2023</span></p>
+        <div class="perfil-botones">
+          <button class="btn editar">Editar mi perfil</button>
+          <button class="btn crear-comunidad">Crear comunidad</button>
+          <button id="openBookModal" class="btn admin-libros" style="display:none;">
+            <i class="fas fa-plus-circle"></i> Agregar libro
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Barra de estadísticas -->
+    <section class="perfil-estadisticas">
+      <div class="stat"><span id="seguidores">120</span><p>Seguidores</p></div>
+      <div class="stat"><span id="libros-compartidos">45</span><p>Libros compartidos</p></div>
+      <div class="stat"><span id="publicaciones">85</span><p>Publicaciones</p></div>
+      <div class="stat js-only"><span id="libros-agregados">30</span><p>Libros agregados</p></div>
+    </section>
+
+    <!-- Cuadrícula de comunidades -->
+    <section class="comunidades-grid">
+      <div class="comunidad-seccion">
+        <h2>Mis comunidades</h2>
+        <div class="grid">
+            <a href="/comunidad/lectores-globales" class="comunidad">
+              <div class="comunidad-thumb"></div>
+              <p>Lectores Globales</p>
+            </a>
+            <a href="/comunidad/ciencia-ficcion" class="comunidad">
+              <div class="comunidad-thumb"></div>
+              <p>Ciencia Ficción</p>
+            </a>
+       
+        </div>
+      </div>
+      <div class="comunidad-seccion">
+        <h2>Comunidades seguidas</h2>
+        <div class="grid">
+          <div class="comunidad">
+            <div class="comunidad-thumb"></div>
+            <p>Ficción & Fantasía</p>
+          </div>
+         
+        </div>
+      </div>
+    </section>
+  </main>
+
+    
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+            </div>
+            <div class="footer-social">
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://t.me" target="_blank" aria-label="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="mailto:support@socialbkland.com" aria-label="Gmail">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+    <support-chat></support-chat>
+    
+</body>
+<script src="./assets/js/Booksadmin.js"></script>
+</html>
