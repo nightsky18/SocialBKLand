@@ -153,3 +153,95 @@ footer {
     transform: scale(1.2);
     color: #1E90FF;
 }
+
+/* ==== Modal de Información de Usuario ==== */
+#userInfoModal.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s ease;
+}
+
+#userInfoModal .modal-content {
+    background-color: #ffffff;
+    margin: 8% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: slideIn 0.3s ease;
+    color: #333;
+}
+
+#userInfoModal .close-btn {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+#userInfoModal .close-btn:hover {
+    color: #e74c3c;
+}
+
+#userInfoModal .modal-title {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #1E90FF;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+#userInfoModal .user-info-group p {
+    font-size: 1rem;
+    margin-bottom: 12px;
+}
+
+#userInfoModal .user-info-group strong {
+    color: #555;
+}
+
+#userInfoModal .logout-btn {
+    margin-top: 25px;
+    background-color: #e74c3c;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#userInfoModal .logout-btn:hover {
+    background-color: #c0392b;
+}
+
+#userInfoModal .logout-btn:active {
+    transform: scale(0.97);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-25px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
