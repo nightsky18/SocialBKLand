@@ -1,3 +1,5 @@
+import { CartManager } from './CartManager.js';
+
 const books = [
     // Ficción
     {
@@ -372,45 +374,36 @@ if (book) {
     // Agregar evento al botón "Añadir al Carrito"
     const addToCartButton = document.getElementById('add-to-cart');
     addToCartButton.addEventListener('click', () => {
-        // Obtener la cantidad seleccionada
         const quantityInput = document.getElementById('quantity');
         const quantity = parseInt(quantityInput.value) || 1;
-
-        // Obtener carrito actual de localStorage
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        // Agregar el libro al carrito la cantidad de veces seleccionada
+        
+        const cartManager = new CartManager();
+        
+        // Añadir la cantidad correctamente
         for (let i = 0; i < quantity; i++) {
-            cart.push(book);
+            cartManager.addItem(book); // Usar el método de CartManager
         }
-
-        // Guardar carrito actualizado en localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
-
-        alert(`"${book.title}" se ha añadido al carrito ${quantity} vez/veces.`);
+        
+        alert(`"${book.title}" se ha añadido al carrito (${quantity} unidades)`);
     });
 
       // Agregar evento al botón "Comprar Ahora"
       const buyNowButton = document.getElementById('buy-now');
-      buyNowButton.addEventListener('click', () => {
-          // Obtener la cantidad seleccionada
-          const quantityInput = document.getElementById('quantity');
-          const quantity = parseInt(quantityInput.value) || 1;
-  
-          // Obtener carrito actual de localStorage
-          let cart = JSON.parse(localStorage.getItem('cart')) || [];
-  
-          // Agregar el libro al carrito la cantidad de veces seleccionada
-          for (let i = 0; i < quantity; i++) {
-              cart.push(book);
-          }
-  
-          // Guardar carrito actualizado en localStorage
-          localStorage.setItem('cart', JSON.stringify(cart));
-  
-          // Redirigir al usuario a carrito.html
-          window.location.href = 'carrito.html';
-      });
+        buyNowButton.addEventListener('click', () => {
+            const quantityInput = document.getElementById('quantity');
+            const quantity = parseInt(quantityInput.value) || 1;
+            
+            const cartManager = new CartManager();
+            
+            // Añadir items
+            for (let i = 0; i < quantity; i++) {
+                cartManager.addItem(book);
+            }
+            
+            // Redirigir usando el método de CartManager
+            const redirectUrl = cartManager.handleCheckout();
+            if (redirectUrl) window.location.href = redirectUrl;
+        });
 }
 
 //Para parsar de pagina
