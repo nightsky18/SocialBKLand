@@ -100,8 +100,8 @@
 }
 .floating-faq-btn {
     position: fixed;
-    bottom: 80px; /* Mueve el FAQ arriba del Soporte (ajusta según el tamaño) */
-    right: 35px;  /* Igual que el botón de Soporte para que estén alineados */
+    bottom: 80px;
+    right: 35px; 
     background-color: #1E90FF;
     color: white;
     padding: 12px 20px;
@@ -111,16 +111,14 @@
     box-shadow: 0 4px 8px rgba(25, 25, 25, 0.2);
     text-decoration: none;
     transition: background-color 0.3s ease;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    z-index: 999;
 }
 
 .floating-faq-btn:hover {
     background-color: #1C86EE;
+    color: white;
+    text-decoration: none;
 }
-
 
 /* Footer */
 footer {
