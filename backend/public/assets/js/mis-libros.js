@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoButton = document.getElementById('imageButton');
      if (logoButton) {
          logoButton.addEventListener('click', () => {
-             window.location.href = "/home.html";
+             window.location.href = "/catalogo.html";
          });
      }
 

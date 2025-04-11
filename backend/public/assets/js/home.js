@@ -4,6 +4,6 @@ document.querySelector('.cart-btn').addEventListener('click', function() {
 });
 
 document.getElementById('imageButton').addEventListener('click', function () {
-    window.location.href = "/home.html";
+    window.location.href = "/catalogo.html";
   });
   
