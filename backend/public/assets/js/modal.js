@@ -79,7 +79,8 @@ document.getElementById('login-form').addEventListener('submit', async function 
         } else {
             localStorage.setItem('isAdmin', 'false');
             // Si no es admin, continuar con el proceso normal
-            alert("Bienvenido, usuario normal");
+            alert("Bienvenido");
+            window.location.href = "usuario.html"
         }
     } else {
         // Si la autenticación falla
