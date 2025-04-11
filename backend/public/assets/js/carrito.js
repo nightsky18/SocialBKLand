@@ -1,72 +1,73 @@
-// Suponiendo que tienes los libros del carrito almacenados en el LocalStorage
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+import { CartManager } from './CartManager.js';
 
-// Función para renderizar el carrito
+const cartManager = new CartManager();
+
+// Renderizar carrito
 function renderCart() {
-    const cartContainer = document.getElementById('cart-container');
-    cartContainer.innerHTML = ''; // Limpiar el contenedor
+  const cartContainer = document.getElementById('cart-container');
+  cartContainer.innerHTML = '';
 
-    // Si el carrito está vacío, mostrar un mensaje
-    if (cart.length === 0) {
-        cartContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
-        updateTotal();
-        return;
-    }
+  if (cartManager.cart.length === 0) {
+    cartContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
+    updateTotal();
+    return;
+  }
 
-    // Renderizar los artículos del carrito
-    cart.forEach((book, index) => {
-        const bookElement = document.createElement('div');
-        bookElement.classList.add('cart-item');
-        bookElement.innerHTML = `
-            <img src="${book.image}" alt="${book.title}">
-            <h3>${book.title}</h3>
-            <p class="price">$${book.price}</p>
-            <button class="remove-from-cart" data-index="${index}">Eliminar</button>
-        `;
-        cartContainer.appendChild(bookElement);
+  cartManager.cart.forEach((item, index) => {
+    const itemElement = document.createElement('div');
+    itemElement.className = 'cart-item';
+    itemElement.innerHTML = `
+      <img src="${item.image}" alt="${item.title}">
+      <div class="item-details">
+        <h3>${item.title}</h3>
+        <p class="price">$${(item.price * item.quantity).toFixed(2)}</p>
+      </div>
+      <div class="quantity-controls">
+        <button class="decrement" data-index="${index}">−</button>
+        <span class="quantity">${item.quantity}</span>
+        <button class="increment" data-index="${index}">+</button>
+      </div>
+      <button class="remove-item" data-index="${index}">🗑️</button>
+    `;
+    cartContainer.appendChild(itemElement);
+  });
+
+  // Event listeners
+  document.querySelectorAll('.increment').forEach(button => {
+    button.addEventListener('click', (e) => {
+      cartManager.incrementQuantity(parseInt(e.target.dataset.index));
+      renderCart();
     });
+  });
 
-    // Agregar evento para eliminar un libro
-    const removeButtons = document.querySelectorAll('.remove-from-cart');
-    removeButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const bookIndex = e.target.getAttribute('data-index');
-            removeBookFromCart(bookIndex);
-        });
+  document.querySelectorAll('.decrement').forEach(button => {
+    button.addEventListener('click', (e) => {
+      cartManager.decrementQuantity(parseInt(e.target.dataset.index));
+      renderCart();
     });
+  });
 
-    updateTotal(); // Actualizar el total del carrito
+  document.querySelectorAll('.remove-item').forEach(button => {
+    button.addEventListener('click', (e) => {
+      cartManager.cart.splice(parseInt(e.target.dataset.index), 1);
+      cartManager.saveCart();
+      renderCart();
+    });
+  });
+
+  updateTotal();
 }
 
-// Función para eliminar un libro del carrito
-function removeBookFromCart(index) {
-    cart.splice(index, 1); // Eliminar el libro en el índice especificado
-    localStorage.setItem('cart', JSON.stringify(cart)); // Guardar el carrito actualizado
-    renderCart(); // Volver a renderizar el carrito
-}
-
-// Función para calcular y actualizar el total
+// Actualizar total
 function updateTotal() {
-    const totalElement = document.getElementById('cart-total');
-    const total = cart.reduce((acc, book) => acc + parseFloat(book.price), 0);
-    totalElement.textContent = total.toFixed(2); // Actualizar el total con 2 decimales
+  document.getElementById('cart-total').textContent = cartManager.getTotal();
 }
 
-// Función para vaciar el carrito
+// Vaciar carrito
 document.getElementById('clear-cart').addEventListener('click', () => {
-    cart = [];
-    localStorage.setItem('cart', JSON.stringify(cart)); // Guardar el carrito vacío
-    renderCart(); // Volver a renderizar el carrito
+  cartManager.clearCart();
+  renderCart();
 });
 
-// Función para proceder a la compra (esto puede llevar al usuario a una página de pago)
-document.getElementById('checkout').addEventListener('click', () => {
-    if (cart.length === 0) {
-        alert("Tu carrito está vacío. Agrega productos antes de proceder.");
-    } else {
-        alert("Compra realizada");
-    }
-});
-
-// Inicializar la renderización del carrito
+// Inicializar
 renderCart();
