@@ -50,8 +50,24 @@ document.getElementById('login-form').addEventListener('submit', async function(
     });
   
     const data = await res.json();
-    alert(data.message || data.error);
-  });
+
+    if (res.ok) {
+        // Verificar si el correo es admin
+        if (email === "admin@example.com") {  // Asegúrate de modificarlo si es necesario
+            // Guardar en el localStorage que el usuario es admin
+            localStorage.setItem('isAdmin', 'true');
+            window.location.href = "usuario.html";  // Redirigir al panel de admin
+        } else {
+            localStorage.setItem('isAdmin', 'false');
+            // Si no es admin, continuar con el proceso normal
+            alert("Bienvenido, usuario normal");
+        }
+    } else {
+        // Si la autenticación falla
+        alert(data.message || data.error);
+    }
+});
+
   
   // REGISTRO
   document.getElementById('register-form').addEventListener('submit', async function (e) {
