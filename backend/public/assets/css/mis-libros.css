@@ -1,0 +1,109 @@
+/* public/assets/css/mis-libros.css */
+
+/* Estilos base para la página */
+.my-books-page {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #F5F5F5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif; /* Asegurar fuente */
+}
+
+.my-books-page h1 {
+    text-align: center;
+    color: #1E90FF; /* Azul */
+    margin-bottom: 30px;
+    font-size: 2rem; /* Ajustar tamaño */
+}
+
+/* Contenedor de botones centrado */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px; /* Más espacio abajo */
+    flex-wrap: wrap;
+}
+
+/* Estilo base de los botones de filtro */
+.filter-btn {
+    padding: 10px 20px;
+    font-size: 1rem; /* Tamaño de fuente relativo */
+    font-weight: bold;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Colores específicos */
+#btn-leyendo { background-color: #1E90FF; } /* Azul */
+#btn-comprados { background-color: #FFD700; color: #333; } /* Amarillo */
+#btn-leidos { background-color: #32CD32; } /* Verde */
+#btn-my-communities { background-color: #DC143C; } /* Rojo Carmesí */
+
+/* Efecto Hover (cuando no está seleccionado) */
+#btn-leyendo:not(.selected):hover,
+#btn-leyendo:not(.selected):focus {
+    background-color: rgba(30, 144, 255, 0.7);
+    box-shadow: 0 2px 5px rgba(30, 144, 255, 0.3);
+}
+#btn-comprados:not(.selected):hover,
+#btn-comprados:not(.selected):focus {
+    background-color: rgba(255, 215, 0, 0.7);
+    box-shadow: 0 2px 5px rgba(255, 215, 0, 0.3);
+}
+#btn-leidos:not(.selected):hover,
+#btn-leidos:not(.selected):focus {
+    background-color: rgba(50, 205, 50, 0.7);
+    box-shadow: 0 2px 5px rgba(50, 205, 50, 0.3);
+}
+#btn-my-communities:not(.selected):hover,
+#btn-my-communities:not(.selected):focus {
+    background-color: rgba(220, 20, 60, 0.7);
+    box-shadow: 0 2px 5px rgba(220, 20, 60, 0.3);
+}
+
+/* Estilo cuando un botón está seleccionado */
+.filter-btn.selected {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    /* Los colores base se aplican directamente */
+}
+#btn-comprados.selected { color: #333; } /* Asegura texto oscuro en amarillo */
+
+
+/* Estilos para contenedores de contenido (libros y comunidades) */
+/* Usamos los estilos de catalogo.css para .book-list y .book */
+/* Usamos los estilos de comunidades.css para .communities-grid y .community-card */
+
+/* Aseguramos display correcto para los contenedores (JS controla cuál es visible) */
+#my-books-list {
+    display: flex; /* O grid si prefieres grid para libros también */
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    min-height: 150px;
+}
+
+#my-communities-list {
+    display: grid; /* Hereda de comunidades.css */
+    /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */ /* Hereda */
+    /* gap: 25px; */ /* Hereda */
+    min-height: 150px;
+}
+
+/* Mensajes de "no encontrado" */
+#no-books-message,
+#no-joined-communities-message {
+    color: #888;
+    font-style: italic;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
