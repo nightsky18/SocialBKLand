@@ -1,56 +1,73 @@
 [
-    {
-      "nombre": "Amantes de la Lectura",
-      "tema": "Libros de ficción y no ficción",
-      "tipo": "publica",
-      "miembros": [
-        "alice@example.com",
-        "carlos@example.com",
-        "laura@example.com",
-        "pedro@example.com"
-      ],
-      "publicaciones": []
-    },
-    {
-      "nombre": "Desarrolladores Frontend",
-      "tema": "React, Angular, Vue.js y desarrollo web",
-      "tipo": "publica",
-      "miembros": [
-        "juan@example.com",
-        "admin@example.com"
-      ],
-      "publicaciones": []
-    },
-    {
-      "nombre": "Cocina para Principiantes",
-      "tema": "Recetas fáciles y trucos de cocina",
-      "tipo": "publica",
-      "miembros": [
-        "andrea@example.com",
-        "jose@example.com",
-        "maria@example.com"
-      ],
-      "publicaciones": []
-    },
-    {
-      "nombre": "Viajeros del Mundo",
-      "tema": "Consejos, destinos y experiencias de viaje",
-      "tipo": "publica",
-      "miembros": [
-        "isabel@example.com",
-        "miguel@example.com"
-      ],
-      "publicaciones": []
-    },
-    {
-      "nombre": "Grupo Secreto de Ciencia",
-      "tema": "Discusión avanzada sobre física y astronomía",
-      "tipo": "privada",
-      "miembros": [
-        "carlos@example.com",
-        "luis@example.com",
-        "moderador@example.com"
-      ],
-      "publicaciones": []
-    }
-  ]
+  {
+    "_id": "comm1",
+    "nombre": "Ficción Fantástica",
+    "tema": "Debate sobre dragones, magia, mundos épicos y autores como Tolkien o Sanderson.",
+    "tipo": "publica",
+    "miembros": [
+      "alice@example.com",
+      "pedro@example.com",
+      "laura@example.com"
+    ],
+    "publicaciones": []
+  },
+  {
+    "_id": "comm2",
+    "nombre": "Ciencia Ficción y Cosmos",
+    "tema": "Exploración de futuros distópicos, viajes espaciales, IA y clásicos como Asimov o Clarke.",
+    "tipo": "publica",
+    "miembros": [
+      "carlos@example.com",
+      "admin@example.com",
+      "juan@example.com"
+    ],
+    "publicaciones": []
+  },
+  {
+    "_id": "comm3",
+    "nombre": "Club de Lectura: Clásicos",
+    "tema": "Análisis y discusión de obras literarias universales, desde Homero hasta García Márquez.",
+    "tipo": "publica",
+    "miembros": [
+      "maria@example.com",
+      "jose@example.com",
+      "isabel@example.com"
+    ],
+    "publicaciones": []
+  },
+  {
+    "_id": "comm4",
+    "nombre": "Misterio y Novela Negra",
+    "tema": "Para amantes de los thrillers, detectives, crímenes sin resolver y autores como Agatha Christie.",
+    "tipo": "publica",
+    "miembros": [
+      "miguel@example.com",
+      "sofia@example.com"
+    ],
+    "publicaciones": []
+  },
+  {
+    "_id": "comm5",
+    "nombre": "Desarrollo Personal y No Ficción",
+    "tema": "Libros sobre psicología, productividad, historia, ciencia y autoayuda.",
+    "tipo": "privada",
+    "miembros": [
+      "carlos@example.com",
+      "luis@example.com",
+      "moderador@example.com"
+    ],
+    "publicaciones": []
+  },
+  {
+    "_id": "comm6",
+    "nombre": "Aventuras Épicas",
+    "tema": "Relatos de exploradores, tesoros perdidos, piratas y grandes viajes.",
+    "tipo": "publica",
+    "miembros": [
+       "gabriel@example.com",
+       "marta@example.com",
+       "tomas@example.com"
+    ],
+    "publicaciones": []
+  }
+]
