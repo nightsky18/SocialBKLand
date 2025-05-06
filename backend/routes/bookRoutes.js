@@ -11,52 +11,40 @@ const handleError = (res, error) => {
     });
 };
 
-router.post('/', async (req, res) => {
-    try {
-      
-      const newBook = new Book(req.body);
-      await newBook.save();
-      
-      res.status(201).json({
-        success: true,
-        data: newBook
-      });
-    } catch (error) {
-      res.status(400).json({
-        success: false,
-        message: error.message
-      });
-    }
-  });
-// Obtener todos los libros (ambos tipos)
-router.get("/", async (req, res) => {
-    try {
-        const books = await Book.find().sort({ createdAt: -1 });
-        res.json({
-            success: true,
-            count: books.length,
-            data: books
-        });
-    } catch (error) {
-        handleError(res, error);
-    }
-});
-
 // Crear nuevo libro (físico o digital)
 router.post("/", async (req, res) => {
     try {
         let book;
-        
+
         if (req.body.type === 'digital') {
             // Validar campos específicos de libro digital
-            if (!req.body.format || !req.body.fileSizeMB || !req.body.downloadLink) {
+            const { format, fileSizeMB, downloadLink, author, quantity } = req.body;
+
+            if (!format || !fileSizeMB || !downloadLink) {
                 return res.status(400).json({
                     success: false,
                     message: "Para libros digitales son obligatorios: formato, tamaño de archivo y enlace de descarga"
                 });
             }
+
+            if (!author || quantity === undefined) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Campos 'author' y 'quantity' también son obligatorios"
+                });
+            }
+
             book = new DigitalBook(req.body);
         } else {
+            const { author, quantity } = req.body;
+
+            if (!author || quantity === undefined) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Campos 'author' y 'quantity' son obligatorios para libros físicos"
+                });
+            }
+
             book = new Book(req.body);
         }
 
@@ -77,7 +65,21 @@ router.post("/", async (req, res) => {
     }
 });
 
-// Obtener un libro específico por ID
+// Obtener todos los libros
+router.get("/", async (req, res) => {
+    try {
+        const books = await Book.find().sort({ createdAt: -1 });
+        res.json({
+            success: true,
+            count: books.length,
+            data: books
+        });
+    } catch (error) {
+        handleError(res, error);
+    }
+});
+
+// Obtener un libro por ID
 router.get("/:id", async (req, res) => {
     try {
         const book = await Book.findById(req.params.id);
@@ -107,7 +109,6 @@ router.put("/:id", async (req, res) => {
             });
         }
 
-        // No permitir cambiar el tipo de libro
         if (req.body.type && req.body.type !== book.type) {
             return res.status(400).json({
                 success: false,
@@ -120,7 +121,7 @@ router.put("/:id", async (req, res) => {
             req.body,
             { new: true, runValidators: true }
         );
-        
+
         res.json({
             success: true,
             data: updatedBook
@@ -133,6 +134,52 @@ router.put("/:id", async (req, res) => {
                 errors: Object.values(error.errors).map(e => e.message)
             });
         }
+        handleError(res, error);
+    }
+});
+
+//  actualizar solo el stock
+router.patch("/:id/stock", async (req, res) => {
+    const { quantity, delta } = req.body;
+
+    try {
+        const book = await Book.findById(req.params.id);
+        if (!book) {
+            return res.status(404).json({
+                success: false,
+                message: "Libro no encontrado"
+            });
+        }
+
+        let newQuantity;
+
+        if (typeof delta === 'number') {
+            newQuantity = book.quantity + delta;
+        } else if (typeof quantity === 'number') {
+            newQuantity = quantity;
+        } else {
+            return res.status(400).json({
+                success: false,
+                message: "Debes proporcionar 'quantity' (nuevo valor absoluto) o 'delta' (ajuste relativo)"
+            });
+        }
+
+        if (newQuantity < 0) {
+            return res.status(400).json({
+                success: false,
+                message: "El stock no puede ser menor a 0"
+            });
+        }
+
+        book.quantity = newQuantity;
+        await book.save();
+
+        res.json({
+            success: true,
+            message: "Stock actualizado correctamente",
+            data: book
+        });
+    } catch (error) {
         handleError(res, error);
     }
 });
@@ -156,4 +203,4 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-module.exports = router; 
+module.exports = router;

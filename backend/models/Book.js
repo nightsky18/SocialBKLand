@@ -6,6 +6,8 @@ const options = { discriminatorKey: 'type', collection: 'books' };
 const BookSchema = new mongoose.Schema({
     isbn: { type: String, required: true, unique: true },
     title: { type: String, required: true },
+    author: { type: String, required: true }, 
+    quantity: { type: Number, required: true, min: 0 },
     price: { type: Number, required: true },
     originalPrice: { type: Number },
     category: { type: String, required: true },
@@ -35,5 +37,5 @@ const DigitalBookSchema = new mongoose.Schema({
 // Se crea el discriminador de libros digitales
 const DigitalBook = Book.discriminator('DigitalBook', DigitalBookSchema);
 
-// Exportación mejorada
+
 module.exports = { Book, DigitalBook };
