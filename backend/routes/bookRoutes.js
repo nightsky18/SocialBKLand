@@ -1,206 +1,62 @@
-const express = require("express");
+// routes/bookRoutes.js
+const express = require('express');
 const router = express.Router();
-const { Book, DigitalBook } = require("../models/Book");
+const Book = require('../models/Book'); // Importa el modelo Book
+const mongoose = require('mongoose'); // Necesario para validar ObjectId
 
-// Helper para manejar errores
-const handleError = (res, error) => {
-    console.error(error);
-    res.status(500).json({
-        success: false,
-        message: error.message || "Error interno del servidor"
-    });
-};
+// Ejemplo: Ruta para OBTENER TODOS los libros (si la necesitas)
+// router.get('/', async (req, res) => {
+//     try {
+//         const books = await Book.find();
+//         res.json(books);
+//     } catch (err) {
+//         res.status(500).json({ message: err.message });
+//     }
+// });
 
-// Crear nuevo libro (físico o digital)
-router.post("/", async (req, res) => {
+// --- NUEVA RUTA: Obtener UN libro por su ID ---
+router.get('/:id', async (req, res) => {
     try {
-        let book;
+        const bookId = req.params.id;
 
-        if (req.body.type === 'digital') {
-            // Validar campos específicos de libro digital
-            const { format, fileSizeMB, downloadLink, author, quantity } = req.body;
-
-            if (!format || !fileSizeMB || !downloadLink) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Para libros digitales son obligatorios: formato, tamaño de archivo y enlace de descarga"
-                });
-            }
-
-            if (!author || quantity === undefined) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Campos 'author' y 'quantity' también son obligatorios"
-                });
-            }
-
-            book = new DigitalBook(req.body);
-        } else {
-            const { author, quantity } = req.body;
-
-            if (!author || quantity === undefined) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Campos 'author' y 'quantity' son obligatorios para libros físicos"
-                });
-            }
-
-            book = new Book(req.body);
+        // Validar si el ID proporcionado es un ObjectId válido
+        if (!mongoose.Types.ObjectId.isValid(bookId)) {
+            return res.status(400).json({ message: 'ID de libro inválido' });
         }
 
-        const savedBook = await book.save();
-        res.status(201).json({
-            success: true,
-            data: savedBook
-        });
-    } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                success: false,
-                message: "Error de validación",
-                errors: Object.values(error.errors).map(e => e.message)
-            });
-        }
-        handleError(res, error);
-    }
-});
+        // Buscar el libro por su _id en la base de datos
+        const book = await Book.findById(bookId);
 
-// Obtener todos los libros
-router.get("/", async (req, res) => {
-    try {
-        const books = await Book.find().sort({ createdAt: -1 });
-        res.json({
-            success: true,
-            count: books.length,
-            data: books
-        });
-    } catch (error) {
-        handleError(res, error);
-    }
-});
-
-// Obtener un libro por ID
-router.get("/:id", async (req, res) => {
-    try {
-        const book = await Book.findById(req.params.id);
         if (!book) {
-            return res.status(404).json({
-                success: false,
-                message: "Libro no encontrado"
-            });
+            // Si no se encuentra el libro, enviar una respuesta 404
+            return res.status(404).json({ message: 'Libro no encontrado' });
         }
-        res.json({
-            success: true,
-            data: book
-        });
+
+        // Enviar los datos del libro encontrado
+        // Mongoose transforma automáticamente el _id en un campo 'id' virtual
+        res.json(book);
+
     } catch (error) {
-        handleError(res, error);
+        console.error('Error al obtener libro por ID:', error);
+        // Enviar un error 500 si ocurre un problema con la DB
+        res.status(500).json({ message: 'Error interno del servidor al buscar libro' });
     }
 });
 
-// Actualizar un libro
-router.put("/:id", async (req, res) => {
-    try {
-        const book = await Book.findById(req.params.id);
-        if (!book) {
-            return res.status(404).json({
-                success: false,
-                message: "Libro no encontrado"
-            });
-        }
+// Ejemplo: Ruta para CREAR un nuevo libro (si la necesitas, probablemente protegida)
+// router.post('/', async (req, res) => {
+//     const book = new Book({
+//         title: req.body.title,
+//         // ...otras propiedades del body
+//     });
+//     try {
+//         const newBook = await book.save();
+//         res.status(201).json(newBook);
+//     } catch (err) {
+//         res.status(400).json({ message: err.message });
+//     }
+// });
 
-        if (req.body.type && req.body.type !== book.type) {
-            return res.status(400).json({
-                success: false,
-                message: "No se puede cambiar el tipo de libro"
-            });
-        }
-
-        const updatedBook = await Book.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true, runValidators: true }
-        );
-
-        res.json({
-            success: true,
-            data: updatedBook
-        });
-    } catch (error) {
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({
-                success: false,
-                message: "Error de validación",
-                errors: Object.values(error.errors).map(e => e.message)
-            });
-        }
-        handleError(res, error);
-    }
-});
-
-//  actualizar solo el stock
-router.patch("/:id/stock", async (req, res) => {
-    const { quantity, delta } = req.body;
-
-    try {
-        const book = await Book.findById(req.params.id);
-        if (!book) {
-            return res.status(404).json({
-                success: false,
-                message: "Libro no encontrado"
-            });
-        }
-
-        let newQuantity;
-
-        if (typeof delta === 'number') {
-            newQuantity = book.quantity + delta;
-        } else if (typeof quantity === 'number') {
-            newQuantity = quantity;
-        } else {
-            return res.status(400).json({
-                success: false,
-                message: "Debes proporcionar 'quantity' (nuevo valor absoluto) o 'delta' (ajuste relativo)"
-            });
-        }
-
-        if (newQuantity < 0) {
-            return res.status(400).json({
-                success: false,
-                message: "El stock no puede ser menor a 0"
-            });
-        }
-
-        book.quantity = newQuantity;
-        await book.save();
-
-        res.json({
-            success: true,
-            message: "Stock actualizado correctamente",
-            data: book
-        });
-    } catch (error) {
-        handleError(res, error);
-    }
-});
-
-// Eliminar un libro
-router.delete("/:id", async (req, res) => {
-    try {
-        const deletedBook = await Book.findByIdAndDelete(req.params.id);
-        if (!deletedBook) {
-            return res.status(404).json({
-                success: false,
-                message: "Libro no encontrado"
-            });
-        }
-        res.json({
-            success: true,
-            message: "Libro eliminado exitosamente"
-        });
-    } catch (error) {
-        handleError(res, error);
-    }
-});
+// ... otras rutas para PUT, DELETE, etc.
 
 module.exports = router;

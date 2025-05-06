@@ -1,41 +1,38 @@
+// models/book.js
 const mongoose = require('mongoose');
 
-const options = { discriminatorKey: 'type', collection: 'books' };
+// Sub-esquema para los comentarios (si los quieres guardar)
+const commentSchema = new mongoose.Schema({
+    user: { type: String, required: true },
+    text: { type: String, required: true }
+}, { _id: false }); // No necesitamos un _id separado para cada comentario en este caso
 
-// 📘 Modelo base de libros
-const BookSchema = new mongoose.Schema({
-    isbn: { type: String, required: true, unique: true },
+// Esquema principal para el libro
+const bookSchema = new mongoose.Schema({
+    // MongoDB automáticamente añade un campo _id como ObjectId único.
+    // Este será el identificador que usaremos.
     title: { type: String, required: true },
     author: { type: String, required: true }, 
     quantity: { type: Number, required: true, min: 0 },
     price: { type: Number, required: true },
-    originalPrice: { type: Number },
+    originalPrice: { type: Number }, // Opcional
     category: { type: String, required: true },
-    image: { type: String },
+    image: { type: String, required: true }, // Ruta a la imagen
     isDiscounted: { type: Boolean, default: false },
-    description: { type: String },
-    rating: { type: Number, default: 0 },
+    description: { type: String, required: true },
+    rating: { type: Number, min: 0, max: 5 },
     deliveryTime: { type: String },
-    comments: [
-        {
-            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // 🔹 Ahora referencia a un usuario real
-            text: { type: String, required: true },
-            createdAt: { type: Date, default: Date.now }
-        }
-    ]
-}, options);
-
-const Book = mongoose.model('Book', BookSchema);
-
-//  Modelo de libro digital (subtipo de Book)
-const DigitalBookSchema = new mongoose.Schema({
-    format: { type: String, enum: ['PDF', 'EPUB', 'MOBI'], required: true },
-    fileSizeMB: { type: Number, required: true },
-    downloadLink: { type: String, required: true }
+    comments: [commentSchema] // Un array de comentarios usando el sub-esquema
+}, {
+    timestamps: true // Añade campos createdAt y updatedAt automáticamente
 });
 
-// Se crea el discriminador de libros digitales
-const DigitalBook = Book.discriminator('DigitalBook', DigitalBookSchema);
+// Opcional: Puedes añadir un índice si buscas libros con frecuencia por categoría o título
+// bookSchema.index({ category: 1 });
+// bookSchema.index({ title: 'text' }); // Para búsquedas de texto completo (requiere configuración adicional en MongoDB)
 
+// Mongoose crea un getter virtual 'id' que retorna el _id como string, lo cual es conveniente.
+// No necesitas mapear 'id' manualmente a '_id' a menos que tengas requisitos específicos.
 
-module.exports = { Book, DigitalBook };
+// Exportar el modelo
+module.exports = mongoose.model('Book', bookSchema);

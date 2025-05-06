@@ -1,0 +1,185 @@
+/* public/assets/css/pago.css */
+
+.payment-page {
+    max-width: 900px; /* Un poco más ancho para dos columnas */
+    margin: 30px auto;
+    padding: 25px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #191919;
+}
+
+.payment-page h1 {
+    text-align: center;
+    color: #1E90FF; /* Azul */
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.payment-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que se apilen en pantallas pequeñas */
+    gap: 30px; /* Espacio entre columnas */
+}
+
+.cart-summary-column,
+.payment-form-column {
+    flex: 1; /* Que ambas columnas intenten ocupar el mismo espacio */
+    min-width: 300px; /* Ancho mínimo antes de apilarse */
+}
+
+.cart-summary-column h2,
+.payment-form-column h2 {
+    color: #3CB371; /* Verde */
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+}
+
+/* Estilos para el resumen del carrito */
+#payment-cart-summary {
+    margin-bottom: 20px;
+    max-height: 400px; /* Altura máxima antes de scroll */
+    overflow-y: auto; /* Scroll si hay muchos items */
+    padding-right: 10px; /* Espacio para el scroll */
+    border: 1px solid #e0e0e0;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #e0e0e0;
+    font-size: 0.95rem;
+}
+.summary-item:last-child {
+    border-bottom: none;
+}
+.summary-item .item-name {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+.summary-item .item-qty {
+    color: #555;
+    margin-right: 10px;
+}
+.summary-item .item-price {
+    font-weight: 500;
+    min-width: 60px; /* Asegura alineación de precios */
+    text-align: right;
+}
+
+.summary-total {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #3CB371; /* Línea verde arriba del total */
+    text-align: right;
+    font-size: 1.3rem;
+}
+.summary-total strong {
+    color: #1E90FF; /* Azul para el total */
+}
+
+/* Estilos para el formulario de pago */
+#payment-form .form-group {
+    margin-bottom: 15px;
+}
+
+#payment-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+#payment-form input[type="text"],
+#payment-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Incluye padding en el width */
+}
+
+#payment-form input:focus,
+#payment-form select:focus {
+    border-color: #1E90FF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.3);
+}
+
+#payment-form .form-row {
+    display: flex;
+    gap: 15px;
+}
+
+#payment-form .form-row .form-group {
+    flex: 1; /* Hace que los campos en fila ocupen espacio equitativo */
+}
+
+.pay-button {
+    background-color: #32CD32; /* Verde */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: block; /* Hace que ocupe todo el ancho */
+    width: 100%;
+    margin-top: 20px;
+}
+
+.pay-button:hover {
+    background-color: #3CB371; /* Verde más oscuro */
+    transform: translateY(-2px);
+}
+.pay-button:disabled {
+    background-color: #a5d6a7; /* Verde pálido */
+    cursor: not-allowed;
+}
+
+/* Estilos para mensajes */
+.payment-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+}
+.payment-message.success {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde oscuro */
+    border: 1px solid #c3e6cb;
+}
+.payment-message.error {
+    background-color: #f8d7da; /* Rojo claro */
+    color: #721c24; /* Rojo oscuro */
+    border: 1px solid #f5c6cb;
+}
+.payment-message.processing {
+    background-color: #e2e3e5; /* Gris claro */
+    color: #383d41; /* Gris oscuro */
+    border: 1px solid #d6d8db;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .payment-container {
+        flex-direction: column; /* Apilar columnas */
+    }
+    .payment-page h1 {
+        font-size: 1.8rem;
+    }
+}

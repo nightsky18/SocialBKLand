@@ -1,3 +1,4 @@
+import { CartManager } from './CartManager.js';
 // Filtrar libros por categoría
 document.getElementById('category-filter').addEventListener('change', function () {
     const selectedCategory = this.value;
@@ -568,25 +569,29 @@ document.getElementById('search-btn').addEventListener('click', () => {
     handleSearch(query);
 });
 
+// En la función handleAddToCart:
 function handleAddToCart() {
     document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const bookIndex = e.target.getAttribute('data-index');
-            const book = books[bookIndex];
-
-            // Obtener carrito actual de localStorage
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-            // Agregar libro al carrito
-            cart.push(book);
-
-            // Guardar carrito actualizado en localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
-
-            alert(`"${book.title}" se ha añadido al carrito.`);
+      button.addEventListener('click', (e) => {
+        const bookIndex = e.target.getAttribute('data-index');
+        const book = books[bookIndex];
+        
+        const cartManager = new CartManager();
+        cartManager.addItem(book);
+        
+        Swal.fire({
+            icon: 'success',
+            title: 'Añadido al carrito',
+            text: `"${book.title}" se ha añadido correctamente.`,
+            timer: 1800,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
         });
+        
+      });
     });
-}
+  }
 
 // Catálogo Cambios (Mongoose)
 const express = require('express');
