@@ -8,57 +8,36 @@ dotenv.config();
 const connectDB = require("../config/db");
 connectDB();
 
-// Importar modelos automáticamente desde la carpeta models/
-const modelsDir = path.join(__dirname, "../models");
-const models = {};
+// utils/importData.js
+const { Book } = require("../models/Book");
 
-fs.readdirSync(modelsDir).forEach((file) => {
-    if (file.endsWith(".js")) {
-        const modelName = file.replace(".js", "");
-        models[modelName] = require(path.join(modelsDir, file));
-    }
-});
 
-// Ruta de los archivos JSON
-const dataDir = path.join(__dirname, "../cache");
 
-if (!fs.existsSync(dataDir)) {
-    console.log("❌ La carpeta `cache/` no existe.");
-    process.exit(1);
-}
+// Ruta del archivo book.json
+const bookDataPath = path.join(__dirname, "../cache/books.json");
 
-// Función para importar datos
 const importData = async () => {
     try {
-        console.log("⏳ Importando datos JSON...\n");
+        if (!fs.existsSync(bookDataPath)) {
+            console.log("❌ El archivo `books.json` no existe.");
+            return;
+        }
 
-        const files = fs.readdirSync(dataDir);
+        console.log("⏳ Importando `books.json`...\n");
 
-        for (const file of files) {
-            if (file.endsWith(".json")) {
-                const modelName = file.replace(".json", "");
+        const bookData = JSON.parse(fs.readFileSync(bookDataPath, "utf-8"));
 
-                if (models[modelName]) {
-                    const filePath = path.join(dataDir, file);
-                    const jsonData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-                    if (jsonData.length > 0) {
-                        await models[modelName].insertMany(jsonData);
-                        console.log(`✅ Datos importados en ${modelName} (${jsonData.length} registros)`);
-                    } else {
-                        console.log(`⚠️ Archivo ${file} está vacío.`);
-                    }
-                } else {
-                    console.log(`⚠️ No se encontró un modelo para ${modelName}.`);
-                }
-            }
+        if (bookData.length > 0) {
+            await Book.insertMany(bookData);
+            console.log(`✅ Datos importados en Book (${bookData.length} registros)`);
+        } else {
+            console.log("⚠️ El archivo `book.json` está vacío.");
         }
 
         console.log("\n🎉 Importación finalizada.");
     } catch (error) {
-        console.error("❌ Error al importar datos:", error);
+        console.error("❌ Error al importar datos de `books.json`:", error);
     }
 };
 
-// Exportar la función para ser usada en `server.js`
 module.exports = importData;
