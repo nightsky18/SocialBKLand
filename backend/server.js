@@ -7,6 +7,7 @@ const connectDB = require("./config/db"); // Asumimos que esto conecta Mongoose
 const authRoutes = require('./routes/authRoutes');
 const createAdminIfNotExists = require("./utils/createAdmin"); // Asumimos que esto existe
 const Book = require('./models/Book'); // Importamos el modelo Book para el sembrado
+const bookRoutes = require('./routes/bookRoutes');
 
 const multer = require('multer');
 

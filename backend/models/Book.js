@@ -27,12 +27,5 @@ const bookSchema = new mongoose.Schema({
     timestamps: true // Añade campos createdAt y updatedAt automáticamente
 });
 
-// Opcional: Puedes añadir un índice si buscas libros con frecuencia por categoría o título
-// bookSchema.index({ category: 1 });
-// bookSchema.index({ title: 'text' }); // Para búsquedas de texto completo (requiere configuración adicional en MongoDB)
 
-// Mongoose crea un getter virtual 'id' que retorna el _id como string, lo cual es conveniente.
-// No necesitas mapear 'id' manualmente a '_id' a menos que tengas requisitos específicos.
-
-// Exportar el modelo
 module.exports = mongoose.model('Book', bookSchema);
