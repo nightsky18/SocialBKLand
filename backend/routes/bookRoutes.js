@@ -19,6 +19,41 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los libros' });
     }
 });
+// POST /api/cart/validate-stock
+router.post('/validate-stock', async (req, res) => {
+    try {
+      const cartItems = req.body;
+  
+      if (!Array.isArray(cartItems)) {
+        return res.status(400).json({ success: false, message: 'El cuerpo debe ser un array de items' });
+      }
+  
+      const outOfStock = [];
+  
+      for (const item of cartItems) {
+        const book = await Book.findById(item.id).select('quantity title');
+  
+        if (!book || book.quantity < item.quantity) {
+            console.log(`Libro sin stock:`, book);
+            outOfStock.push({
+                id: item.id,
+                title: book?.title || 'Desconocido',
+                availableQuantity: book?.quantity || 0
+            });             
+        }
+      }
+  
+      if (outOfStock.length > 0) {
+        return res.status(200).json({ success: false, outOfStock });
+      }
+  
+      return res.json({ success: true });
+  
+    } catch (error) {
+      console.error('Error en /validate-stock:', error);
+      return res.status(500).json({ success: false, message: 'Error del servidor' });
+    }
+  });
 
 // GET /api/books/:id/availability
 router.get('/:id/availability', async (req, res) => {
@@ -35,7 +70,7 @@ router.get('/:id/availability', async (req, res) => {
       console.error('Error al obtener disponibilidad:', error);
       res.status(500).json({ message: 'Error del servidor al verificar stock' });
     }
-  });
+  });  
 
 // Obtener un libro por ID
 router.get('/:id', async (req, res) => {

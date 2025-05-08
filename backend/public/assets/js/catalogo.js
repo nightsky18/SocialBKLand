@@ -305,8 +305,6 @@ function handleAddToCart() {
     });
 }
 
-
-
 // Catálogo Cambios (Mongoose)
 const express = require('express');
 const { Book } = require('../models');

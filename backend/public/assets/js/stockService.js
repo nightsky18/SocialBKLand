@@ -24,7 +24,7 @@ export async function checkBookAvailability(bookId, quantity = 1) {
    */
   export async function validateCartStock(cartItems) {
     try {
-      const response = await fetch('/api/cart/validate-stock', {
+      const response = await fetch('/api/books/validate-stock', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(cartItems)
