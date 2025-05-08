@@ -20,8 +20,13 @@ export class CartManager {
     }
 
     addItem(item) {
-        const existing = this.cart.find(i => i.id === item.id);
-        existing ? existing.quantity++ : this.cart.push({ ...item, quantity: 1 });
+        const bookId = item._id || item.id;
+        const existing = this.cart.find(i => (i._id || i.id) === bookId);
+        existing ? existing.quantity++ : this.cart.push({
+          ...item,
+          _id: bookId,
+          quantity: 1
+        });
         this.#save();
     }
   
