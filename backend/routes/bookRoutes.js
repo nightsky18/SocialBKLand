@@ -19,7 +19,8 @@ router.get('/', async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los libros' });
     }
 });
-// POST /api/cart/validate-stock
+
+// POST /api/books/validate-stock
 router.post('/validate-stock', async (req, res) => {
     try {
       const cartItems = req.body;
@@ -55,6 +56,39 @@ router.post('/validate-stock', async (req, res) => {
     }
   });
 
+  // POST /api/books/decrement-stock
+  router.post('/decrement-stock', async (req, res) => {
+    try {
+      const items = req.body;
+  
+      if (!Array.isArray(items)) {
+        return res.status(400).json({ success: false, message: 'Datos inválidos' });
+      }
+  
+      for (const item of items) {
+        if (!item.id || typeof item.quantity !== 'number') {
+          return res.status(400).json({ success: false, message: 'Item inválido' });
+        }
+  
+        const book = await Book.findById(item.id);
+        if (!book || book.quantity < item.quantity) {
+          return res.status(400).json({
+            success: false,
+            message: `Stock insuficiente para el libro con ID ${item.id}`
+          });
+        }
+  
+        book.quantity -= item.quantity;
+        await book.save();
+      }
+  
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error al descontar stock:', error);
+      res.status(500).json({ success: false, message: 'Error al descontar stock' });
+    }
+  });  
+
 // GET /api/books/:id/availability
 router.get('/:id/availability', async (req, res) => {
     try {
@@ -70,8 +104,7 @@ router.get('/:id/availability', async (req, res) => {
       console.error('Error al obtener disponibilidad:', error);
       res.status(500).json({ message: 'Error del servidor al verificar stock' });
     }
-  });  
-
+  });
 // Obtener un libro por ID
 router.get('/:id', async (req, res) => {
     try {
