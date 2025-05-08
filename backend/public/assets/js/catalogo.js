@@ -270,7 +270,11 @@ function handleAddToCart() {
             const book = books.find(b => b.id === bookId);
         
             if (book) {
-                const tieneStock = await checkBookAvailability(book.id, 1);
+                const cartManager = new CartManager();
+                const cartItem = cartManager.cart.find(i => (i._id || i.id) === book._id);
+                const cantidadExistente = cartItem?.quantity || 0;
+                const cantidad=1; 
+                const tieneStock = await checkBookAvailability(book._id, cantidad + cantidadExistente);
                 if (!tieneStock) {
                     Swal.fire({
                         icon: 'error',
