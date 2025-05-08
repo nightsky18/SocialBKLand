@@ -1,6 +1,9 @@
 // public/script.js
 // Importamos CartManager
 import { CartManager } from './CartManager.js';
+import { checkBookAvailability } from './stockService.js';
+import { requireUserSession } from './sessionService.js';
+
 // Asumiendo SweetAlert2 está disponible globalmente (incluido en HTML o otro script)
 // import Swal from 'sweetalert2';
 
@@ -104,73 +107,78 @@ async function fetchAndRenderBookDetails() {
             // Es crucial seleccionar los botones *después* de que innerHTML ha actualizado el DOM.
             const addToCartButton = document.getElementById('add-to-cart');
             if (addToCartButton) {
-                addToCartButton.addEventListener('click', () => {
+                addToCartButton.addEventListener('click', async () => {
+                    if (!requireUserSession()) return;
                     const quantityInput = document.getElementById('quantity');
                     const quantity = parseInt(quantityInput.value) || 1;
-
-                    // Crea o usa una instancia de CartManager.
-                    // Si CartManager maneja estado en localStorage, es mejor crearla una vez al inicio
-                    // (fuera de esta función o usar un patrón Singleton).
                     const cartManager = new CartManager();
-
-                    // Añadir el libro al carrito la cantidad de veces indicada
+                    const cartItem = cartManager.cart.find(i => (i._id || i.id) === book._id);
+                    const cantidadExistente = cartItem?.quantity || 0;
+                    const tieneStock = await checkBookAvailability(book._id, quantity + cantidadExistente);
+                    if (!tieneStock) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Sin stock',
+                        text: `Solo hay ${book.quantity} unidades disponibles de "${book.title}".`,
+                        toast: true,
+                        position: 'top-end',
+                        timer: 2500,
+                        showConfirmButton: false
+                      });
+                      return;
+                    }
                     for (let i = 0; i < quantity; i++) {
-                        // Pasa el objeto book obtenido del backend
-                        cartManager.addItem(book); // Tu CartManager debe aceptar el objeto libro completo
+                      cartManager.addItem(book);
                     }
-
-                    // *** NOTA: La línea `localStorage.setItem('cart', JSON.stringify(cart));`
-                    //          previamente existente fue eliminada.
-                    //          CartManager DEBE manejar su propio guardado en localStorage
-                    //          dentro de sus métodos (ej: addItem, removeItem). ***
-
-
-                    // Mostrar notificación (asumiendo SweetAlert2 está disponible globalmente)
-                    if (typeof Swal !== 'undefined' && Swal.fire) {
-                         Swal.fire({
-                            icon: 'success',
-                            title: 'Añadido al carrito',
-                            text: `"${book.title}" se ha añadido al carrito ${quantity} ${quantity === 1 ? 'vez' : 'veces'}.`,
-                            timer: 2000, // Duración en ms
-                            showConfirmButton: false,
-                            toast: true, // Estilo toast en la esquina
-                            position: 'top-end' // Posición
-                        });
-                    } else {
-                        // Fallback si SweetAlert2 no está disponible
-                        console.log(`"${book.title}" se ha añadido al carrito ${quantity} ${quantity === 1 ? 'vez' : 'veces'}.`);
-                        alert(`"${book.title}" se ha añadido al carrito ${quantity} ${quantity === 1 ? 'vez' : 'veces'}.`);
-                    }
-
-                });
+                  
+                    Swal.fire({
+                      icon: 'success',
+                      title: 'Añadido al carrito',
+                      text: `"${book.title}" se ha añadido al carrito ${quantity} ${quantity === 1 ? 'vez' : 'veces'}.`,
+                      timer: 2000,
+                      showConfirmButton: false,
+                      toast: true,
+                      position: 'top-end'
+                    });
+                  });
+                  
             }
 
 
             const buyNowButton = document.getElementById('buy-now');
              if (buyNowButton) {
-                buyNowButton.addEventListener('click', () => {
+                buyNowButton.addEventListener('click', async () => {
+                    if (!requireUserSession()) return;
                     const quantityInput = document.getElementById('quantity');
                     const quantity = parseInt(quantityInput.value) || 1;
-
-                    const cartManager = new CartManager(); // O reusar instancia
-
-                    // Añadir items al carrito
-                    for (let i = 0; i < quantity; i++) {
-                         cartManager.addItem(book);
+                    const cartManager = new CartManager();
+                    const cartItem = cartManager.cart.find(i => (i._id || i.id) === book._id);
+                    const cantidadExistente = cartItem?.quantity || 0;
+                    const tieneStock = await checkBookAvailability(book._id, quantity + cantidadExistente);
+                    if (!tieneStock) {
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Sin stock',
+                        text: `Solo hay ${book.quantity} unidades disponibles de "${book.title}".`,
+                        toast: true,
+                        position: 'top-end',
+                        timer: 2500,
+                        showConfirmButton: false
+                      });
+                      return;
                     }
-
-                    // Redirigir usando el método de CartManager
-                    // Si handleCheckout implica un proceso de pago REAL,
-                    // tu CartManager (o una lógica separada de checkout) DEBERÍA
-                    // hacer una llamada API al back-end aquí para procesar la compra.
+                    for (let i = 0; i < quantity; i++) {
+                      cartManager.addItem(book);
+                    }
+                  
                     const redirectUrl = cartManager.handleCheckout();
                     if (redirectUrl) {
-                         window.location.href = redirectUrl;
+                      window.location.href = redirectUrl;
                     } else {
-                         console.warn("handleCheckout no retornó una URL de redirección.");
-                         // Opcional: Mostrar un mensaje al usuario indicando que algo falló
+                      console.warn("handleCheckout no retornó una URL de redirección.");
                     }
-                });
+                  });
+                  
              }
         }
 

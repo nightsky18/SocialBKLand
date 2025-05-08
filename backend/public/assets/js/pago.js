@@ -61,25 +61,58 @@ class PaymentController {
     async handlePayment() {
         this.showMessage('Procesando pago...', 'processing');
 
+        const submitButton = this.paymentForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Procesando...';
+
+
         if (!this.validateForm()) {
             this.showMessage('Datos de pago inválidos', 'error');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Pagar';
             return;
-        }
+          }
 
         const paymentSuccess = await this.simulatePayment();
 
+        if (!paymentSuccess) {
+            this.showMessage('Pago rechazado. Intenta nuevamente', 'error');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Pagar';
+            return;
+        }
+          
+
         if (paymentSuccess) {
+            const cartItems = this.cartManager.cart.map(item => ({
+              id: item._id || item.id,
+              quantity: item.quantity
+            }));
+          
+            const response = await fetch('/api/books/decrement-stock', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(cartItems)
+            });
+          
+            const data = await response.json();
+          
+            if (!data.success) {
+              this.showMessage('Error al actualizar stock: ' + data.message, 'error');
+              return;
+            }
+          
             this.showMessage('¡Pago exitoso! Redirigiendo...', 'success');
             this.cartManager.clearCart();
+          
             Swal.fire({
-                icon: 'success',
-                title: '¡Gracias por tu compra!',
-                text: 'Tu pedido ha sido procesado con éxito.',
-                timer: 3000,
-                showConfirmButton: false
+              icon: 'success',
+              title: '¡Gracias por tu compra!',
+              text: 'Tu pedido ha sido procesado con éxito.',
+              timer: 3000,
+              showConfirmButton: false
             });
-            
-        } else {
+          }else {
             this.showMessage('Pago rechazado. Intenta nuevamente', 'error');
         }
     }

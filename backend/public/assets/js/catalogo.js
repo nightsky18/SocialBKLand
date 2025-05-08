@@ -1,4 +1,7 @@
 import { CartManager } from './CartManager.js';
+import { checkBookAvailability } from './stockService.js';
+import { requireUserSession } from './sessionService.js';
+
 const cartManager = new CartManager();
 
 
@@ -263,12 +266,31 @@ function handleAddToCart() {
     const buttons = document.querySelectorAll('.add-to-cart');
 
     buttons.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
+            if (!requireUserSession()) return;
             const bookId = button.dataset.id;
             const book = books.find(b => b.id === bookId);
-
+        
             if (book) {
-                cartManager.addItem(book);  // Usa el método correcto en la instancia
+                const cartManager = new CartManager();
+                const cartItem = cartManager.cart.find(i => (i._id || i.id) === book._id);
+                const cantidadExistente = cartItem?.quantity || 0;
+                const cantidad=1; 
+                const tieneStock = await checkBookAvailability(book._id, cantidad + cantidadExistente);
+                if (!tieneStock) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Sin stock',
+                        text: `No hay stock suficiente para "${book.title}".`,
+                        toast: true,
+                        position: 'top-end',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+        
+                cartManager.addItem(book);
                 Swal.fire({
                     icon: 'success',
                     title: 'Añadido al carrito',
@@ -281,11 +303,9 @@ function handleAddToCart() {
             } else {
                 console.error(`Libro con ID ${bookId} no encontrado.`);
             }
-        });
+        });        
     });
 }
-
-
 
 // Catálogo Cambios (Mongoose)
 const express = require('express');
