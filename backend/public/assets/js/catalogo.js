@@ -1,4 +1,6 @@
 import { CartManager } from './CartManager.js';
+import { checkBookAvailability } from './stockService.js';
+
 const cartManager = new CartManager();
 
 
@@ -263,12 +265,26 @@ function handleAddToCart() {
     const buttons = document.querySelectorAll('.add-to-cart');
 
     buttons.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', async () => {
             const bookId = button.dataset.id;
             const book = books.find(b => b.id === bookId);
-
+        
             if (book) {
-                cartManager.addItem(book);  // Usa el método correcto en la instancia
+                const tieneStock = await checkBookAvailability(book.id, 1);
+                if (!tieneStock) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Sin stock',
+                        text: `No hay stock suficiente para "${book.title}".`,
+                        toast: true,
+                        position: 'top-end',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                    return;
+                }
+        
+                cartManager.addItem(book);
                 Swal.fire({
                     icon: 'success',
                     title: 'Añadido al carrito',
@@ -281,7 +297,7 @@ function handleAddToCart() {
             } else {
                 console.error(`Libro con ID ${bookId} no encontrado.`);
             }
-        });
+        });        
     });
 }
 

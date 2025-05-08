@@ -20,6 +20,23 @@ router.get('/', async (req, res) => {
     }
 });
 
+// GET /api/books/:id/availability
+router.get('/:id/availability', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const book = await Book.findById(id).select('quantity');
+  
+      if (!book) {
+        return res.status(404).json({ message: 'Libro no encontrado' });
+      }
+  
+      res.json({ quantity: book.quantity });
+    } catch (error) {
+      console.error('Error al obtener disponibilidad:', error);
+      res.status(500).json({ message: 'Error del servidor al verificar stock' });
+    }
+  });
+
 // Obtener un libro por ID
 router.get('/:id', async (req, res) => {
     try {
