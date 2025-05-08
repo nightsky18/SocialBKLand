@@ -36,61 +36,45 @@
     </header>
 
      <!-- Perfil principal -->
-  <main class="perfil">
-    <section class="perfil-header">
-      <div class="avatar-container">
-        <i class="fas fa-user-circle avatar-icon"></i>
-      </div>
-      <div class="perfil-info">
-        <p class="registro-fecha">Registrado el: <span id="registroFecha">01/01/2023</span></p>
-        <div class="perfil-botones">
-          <button class="btn editar">Editar mi perfil</button>
-          <button class="btn crear-comunidad">Crear comunidad</button>
-          <button id="openBookModal" class="btn admin-libros" style="display:none;">
-            <i class="fas fa-plus-circle"></i> Agregar libro
-          </button>
 
+     <main class="perfil">
+      <section class="perfil-header">
+        <div class="avatar-container">
+          <i class="fas fa-user-circle avatar-icon"></i>
         </div>
-      </div>
-    </section>
-
-    <!-- Barra de estadísticas -->
-    <section class="perfil-estadisticas">
-      <div class="stat"><span id="seguidores">120</span><p>Seguidores</p></div>
-      <div class="stat"><span id="libros-compartidos">45</span><p>Libros compartidos</p></div>
-      <div class="stat"><span id="publicaciones">85</span><p>Publicaciones</p></div>
-      <div class="stat js-only"><span id="libros-agregados">30</span><p>Libros agregados</p></div>
-    </section>
-
-    <!-- Cuadrícula de comunidades -->
-    <section class="comunidades-grid">
-      <div class="comunidad-seccion">
-        <h2>Mis comunidades</h2>
-        <div class="grid">
-            <a href="/comunidad/lectores-globales" class="comunidad">
-              <div class="comunidad-thumb"></div>
-              <p>Lectores Globales</p>
-            </a>
-            <a href="/comunidad/ciencia-ficcion" class="comunidad">
-              <div class="comunidad-thumb"></div>
-              <p>Ciencia Ficción</p>
-            </a>
-       
-        </div>
-      </div>
-      <div class="comunidad-seccion">
-        <h2>Comunidades seguidas</h2>
-        <div class="grid">
-          <div class="comunidad">
-            <div class="comunidad-thumb"></div>
-            <p>Ficción & Fantasía</p>
+        <div class="perfil-info">
+          <h2>Usuario</h2>
+          <p class="registro-fecha">📅 Registrado el: <span id="registroFecha">31-03-2023</span></p>
+          <div class="perfil-botones">
+            <button class="btn editar"><i class="fas fa-pen"></i> Editar mi perfil</button>
+            <button class="btn crear-comunidad"><i class="fas fa-users"></i> Crear Comunidad</button>  
           </div>
-         
         </div>
-      </div>
-    </section>
-  </main>
-
+      </section>
+     
+       <section class="perfil-estadisticas">
+         <div class="stat"><span id="seguidores">120</span><p>Seguidores</p></div>
+         <div class="stat"><span id="libros-compartidos">45</span><p>Libros compartidos</p></div>
+         <div class="stat"><span id="publicaciones">85</span><p>Publicaciones</p></div>
+         <div class="stat js-only"><span id="libros-agregados">30</span><p>Libros agregados</p></div>
+       </section>
+     
+       <!-- Accesos del administrador -->
+  <!-- Accesos del administrador -->
+  <section class="admin-seccion" id="adminSeccion" style="display: none;">
+    <h2>Gestión de contenido</h2>
+    <div class="grid-admin">
+      <a href="/gestionLibros.html" class="admin-card">
+        <div class="admin-thumb libros"></div>
+        <p>Gestión de Libros</p>
+      </a>
+      <a href="/admin/comunidades" class="admin-card">
+        <div class="admin-thumb comunidades"></div>
+        <p>Gestión de Comunidades</p>
+      </a>
+    </div>
+  </section>
+     </main>
     
     
     <footer>

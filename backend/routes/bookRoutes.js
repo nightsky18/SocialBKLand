@@ -33,5 +33,82 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ message: 'Error al buscar el libro' });
     }
 });
+// Crear un nuevo libro
+router.post('/', async (req, res) => {
+    try {
+        const {
+            title,
+            author,
+            isbn,
+            quantity,
+            category,
+            description,
+            price,
+            originalPrice,
+            image,
+            isDiscounted,
+            deliveryTime,
+            rating
+        } = req.body;
+
+        const newBook = new Book({
+            title,
+            author,
+            isbn,
+            quantity,
+            category,
+            description,
+            price,
+            originalPrice,
+            image,
+            isDiscounted,
+            deliveryTime,
+            rating
+        });
+
+        const saved = await newBook.save();
+        res.status(201).json(saved);
+    } catch (err) {
+        console.error('Error al crear el libro:', err);
+        res.status(500).json({ message: 'Error al crear el libro' });
+    }
+});
+
+// Actualizar un libro existente
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedBook = await Book.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedBook) {
+            return res.status(404).json({ message: 'Libro no encontrado' });
+        }
+
+        res.status(200).json(updatedBook);
+    } catch (err) {
+        console.error('Error al actualizar el libro:', err);
+        res.status(500).json({ message: 'Error al actualizar el libro' });
+    }
+});
+
+// Eliminar un libro
+router.delete('/:id', async (req, res) => {
+    try {
+        const deleted = await Book.findByIdAndDelete(req.params.id);
+
+        if (!deleted) {
+            return res.status(404).json({ message: 'Libro no encontrado' });
+        }
+
+        res.status(200).json({ message: 'Libro eliminado correctamente' });
+    } catch (err) {
+        console.error('Error al eliminar el libro:', err);
+        res.status(500).json({ message: 'Error al eliminar el libro' });
+    }
+});
+
 
 module.exports = router;

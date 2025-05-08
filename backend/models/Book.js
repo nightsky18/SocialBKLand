@@ -1,4 +1,4 @@
-// models/book.js
+// models/Book.js
 const mongoose = require('mongoose');
 
 // Subesquema para los comentarios (si los quieres guardar)
