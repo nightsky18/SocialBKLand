@@ -174,6 +174,9 @@ function logout() {
         showConfirmButton: false
     });
 
+    localStorage.removeItem('cart'); // si lo estás guardando ahí
+    sessionStorage.removeItem('cart'); // por si acaso
+
     // Recargar después de un pequeño retraso para que se vea el mensaje
     setTimeout(() => {
         location.reload();
