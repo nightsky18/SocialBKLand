@@ -1,5 +1,6 @@
 import { CartManager } from './CartManager.js';
 import { checkBookAvailability } from './stockService.js';
+import { requireUserSession } from './sessionService.js';
 
 const cartManager = new CartManager();
 
@@ -266,6 +267,7 @@ function handleAddToCart() {
 
     buttons.forEach(button => {
         button.addEventListener('click', async () => {
+            if (!requireUserSession()) return;
             const bookId = button.dataset.id;
             const book = books.find(b => b.id === bookId);
         

@@ -2,6 +2,7 @@
 // Importamos CartManager
 import { CartManager } from './CartManager.js';
 import { checkBookAvailability } from './stockService.js';
+import { requireUserSession } from './sessionService.js';
 
 // Asumiendo SweetAlert2 está disponible globalmente (incluido en HTML o otro script)
 // import Swal from 'sweetalert2';
@@ -107,6 +108,7 @@ async function fetchAndRenderBookDetails() {
             const addToCartButton = document.getElementById('add-to-cart');
             if (addToCartButton) {
                 addToCartButton.addEventListener('click', async () => {
+                    if (!requireUserSession()) return;
                     const quantityInput = document.getElementById('quantity');
                     const quantity = parseInt(quantityInput.value) || 1;
                     const cartManager = new CartManager();
@@ -146,6 +148,7 @@ async function fetchAndRenderBookDetails() {
             const buyNowButton = document.getElementById('buy-now');
              if (buyNowButton) {
                 buyNowButton.addEventListener('click', async () => {
+                    if (!requireUserSession()) return;
                     const quantityInput = document.getElementById('quantity');
                     const quantity = parseInt(quantityInput.value) || 1;
                     const cartManager = new CartManager();

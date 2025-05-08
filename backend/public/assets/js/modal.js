@@ -180,6 +180,5 @@ function logout() {
     }, 1600);
 }
 
-
 // Ejecutar al cargar la página
 window.addEventListener('DOMContentLoaded', checkSession);
