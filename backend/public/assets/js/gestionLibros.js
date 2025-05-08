@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
           title: 'Error al subir imagen',
           text: error.message || 'No se pudo subir la imagen',
           willOpen: () => {
-            document.querySelector('.swal2-popup').style.zIndex = '100001';
+            document.querySelector('.swal2-popup').style.zIndex = '99999';
           }
         });
       }
@@ -81,7 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(book)
       });
   
-      if (!res.ok) throw new Error('Error al guardar el libro');
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error('Respuesta del servidor:', errorData);
+        throw new Error(errorData.message || 'Error al guardar el libro');
+      }
+      
   
       const data = await res.json();
   
