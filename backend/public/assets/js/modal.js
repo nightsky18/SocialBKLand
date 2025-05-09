@@ -230,7 +230,61 @@ window.openBookModal = function () {
     //  Emitir evento para que lo escuche gestionLibros.js
     window.dispatchEvent(new Event('modal:closed'));
   };
-  
+import { validateRecoveryEmail } from './passwordRecoveryService.js';
+
+const forgotPasswordLink = document.getElementById('forgot-password-link');
+const recoverTab = document.getElementById('recover-tab');
+const loginTab = document.getElementById('login-tab');
+const recoveryForm = document.getElementById('recovery-form');
+const recoveryMessage = document.getElementById('recovery-message');
+const returnToLogin = document.getElementById('return-to-login');
+
+if (forgotPasswordLink) {
+  forgotPasswordLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTabManually('recover-tab');
+  });
+}
+
+if (returnToLogin) {
+  returnToLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTabManually('login-tab');
+  });
+}
+
+if (recoveryForm) {
+  recoveryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('recovery-email').value;
+
+    recoveryMessage.textContent = 'Verificando correo...';
+
+    const result = await validateRecoveryEmail(email);
+    if (result.success) {
+      recoveryMessage.textContent = 'Correo válido. Redirigiendo...';
+      setTimeout(() => {
+        window.location.href = `/reset.html?email=${encodeURIComponent(email)}`;
+      }, 3000);
+    } else {
+      recoveryMessage.textContent = result.message;
+    }
+  });
+}
+
+function switchTabManually(targetId) {
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.style.display = 'none';
+  });
+  const target = document.getElementById(targetId);
+  if (target) target.style.display = 'block';
+}
+
 
 // Ejecutar al cargar la página
+window.openModal = openModal;
+window.userPerfil = userPerfil;
+window.showUserInfo = showUserInfo;
+window.validateRecoveryEmail = validateRecoveryEmail;
+window.checkSession = checkSession;
 window.addEventListener('DOMContentLoaded', checkSession);
