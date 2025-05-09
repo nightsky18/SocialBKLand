@@ -1,169 +1,597 @@
 /* ========== Base ========== */
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif; /* Considera usar una fuente más moderna como 'Roboto', 'Open Sans' o 'Lato' */
     color: #191919;
-    background-color: #FFFFFF;
-  }
-  
-  main {
+    background-color: #F8F8F8; /* Un gris muy suave para un fondo menos duro que el blanco puro */
+}
+
+main {
     padding: 20px;
-  }
-  
-  /* ========== Perfil principal ========== */
-  .perfil-header {
+    max-width: 960px; /* Limitar el ancho del contenido principal en pantallas grandes */
+    margin: 0 auto; /* Centrar el contenido principal */
+    background-color: #FFFFFF; /* Fondo blanco para el área de contenido principal */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05); /* Sutil sombra para destacar el contenido */
+    border-radius: 8px;
+    margin-top: 30px; /* Espacio desde el header */
+    margin-bottom: 30px; /* Espacio antes del footer */
+}
+
+/* ========== Perfil principal - Encabezado ========== */
+.perfil-header {
     display: flex;
-    gap: 20px;
-    margin-top: 30px;
+    gap: 30px; /* Aumentar un poco el espacio */
+    margin-top: 20px; /* Ajuste ya que main tiene margin-top */
     align-items: center;
-  }
-  
-  .avatar-container {
-    font-size: 80px;
-    color: #808080;
-  }
-  
-  .perfil-info {
+    padding-bottom: 20px; /* Espacio inferior para separar del contenido siguiente */
+    border-bottom: 1px solid #EEEEEE; /* Línea sutil para separar el encabezado */
+}
+
+.avatar-container {
+    font-size: 100px; /* Aumentar el tamaño del icono para que destaque más */
+    color: #1E90FF; /* Un color más vibrante para el icono */
+    flex-shrink: 0; /* Evitar que el avatar se encoja */
+}
+
+.perfil-info {
     flex: 1;
-  }
-  
-  .registro-fecha {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espacio entre elementos de info (nombre, email, fecha) */
+}
+
+.perfil-info h2 {
+    margin: 0 0 5px 0; /* Espacio debajo del nombre */
+    font-size: 1.8rem; /* Tamaño más grande para el nombre */
+    color: #333333; /* Color más oscuro para el nombre */
+}
+
+#perfil-email { /* Estilo para el email si le agregaste un ID */
+    font-size: 1rem;
+    color: #555555;
+    margin: 0 0 10px 0; /* Espacio debajo del email */
+}
+
+
+.registro-fecha {
     font-size: 0.9rem;
     color: #808080;
-    margin-bottom: 10px;
-  }
-  
-  .perfil-botones {
+    margin-bottom: 15px; /* Espacio antes de los botones */
+    margin-top: 0;
+}
+
+.perfil-botones {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-  }
-  
-  .perfil-botones .btn {
-    background-color: #32CD32;
+    margin-top: auto; /* Empujar los botones hacia abajo si el contenedor .perfil-info es flexible */
+}
+
+.perfil-botones .btn {
+    background-color: #32CD32; /* Verde lima */
     color: white;
     border: none;
-    padding: 10px 15px;
-    height: 40px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    display: flex;
+    padding: 10px 20px; /* Aumentar padding */
+    height: auto; /* Permitir que la altura se ajuste al contenido */
+    border-radius: 25px; /* Bordes más redondeados (forma de "pill") */
+    font-size: 1rem; /* Ajustar tamaño de fuente */
+    display: inline-flex; /* Usar inline-flex para que no ocupe todo el ancho por defecto si el padre es flex */
     align-items: center;
     gap: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .perfil-botones .btn:hover {
-    background-color: #3CB371;
-  }
-  
-  /* ========== Estadísticas ========== */
-  .perfil-estadisticas {
-    display: flex;
-    justify-content: space-around;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none; /* Si conviertes los botones en <a> */
+}
+
+.perfil-botones .btn i {
+    font-size: 0.9rem; /* Ajustar tamaño del icono */
+}
+
+.perfil-botones .btn:hover {
+    background-color: #3CB371; /* Verde mar */
+    transform: translateY(-2px); /* Efecto hover sutil */
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo específico para el botón de crear comunidad si quieres diferenciarlo */
+/* .perfil-botones .crear-comunidad {
+    background-color: #1E90FF; // Azul
+}
+.perfil-botones .crear-comunidad:hover {
+    background-color: #4682B4; // Azul acerado
+} */
+
+
+/* ========== Estadísticas ========== */
+.perfil-estadisticas {
+    display: grid; /* Usar grid para mejor control en diferentes tamaños */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Responsive grid */
+    gap: 20px; /* Espacio entre ítems */
     background-color: #F5F5F5;
-    padding: 20px;
+    padding: 25px; /* Aumentar padding */
     margin: 30px 0;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05); /* Sombra interna sutil */
     text-align: center;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  
-  .perfil-estadisticas .stat {
-    flex: 1;
-    min-width: 120px;
-  }
-  
-  .perfil-estadisticas .stat span {
+}
+
+.perfil-estadisticas .stat {
+    background-color: #FFFFFF;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #EEEEEE;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.perfil-estadisticas .stat:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+
+.perfil-estadisticas .stat span {
     display: block;
-    font-size: 1.3rem;
+    font-size: 1.5rem; /* Aumentar tamaño del número */
     font-weight: bold;
-    color: #1E90FF;
-  }
-  
-  .perfil-estadisticas .stat p {
-    font-size: 0.85rem;
-    color: #808080;
-    margin-top: 4px;
-  }
-  
-  /* ========== Comunidades ========== */
+    color: #1E90FF; /* Azul */
+    margin-bottom: 5px; /* Espacio debajo del número */
+}
+
+.perfil-estadisticas .stat p {
+    font-size: 0.9rem; /* Ajustar tamaño del texto */
+    color: #555555; /* Color un poco más oscuro */
+    margin: 0; /* Eliminar margen por defecto */
+}
+
+/* ========== Sección de Administrador ========== */
+.admin-seccion {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #EEEEEE;
+}
+
+.admin-seccion h2 {
+    color: #CC5500; /* Un color diferente para diferenciar las secciones */
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.grid-admin {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Grid para cards de admin */
+    gap: 20px;
+}
+
+.admin-card {
+    display: block; /* Asegurarse de que el enlace ocupe el área de la tarjeta */
+    background-color: #FFF3E0; /* Fondo suave */
+    border: 1px solid #FFECB3;
+    border-radius: 10px;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    text-decoration: none; /* Quitar subrayado del enlace */
+    color: #333333;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-card:hover {
+     transform: translateY(-2px);
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.admin-thumb {
+    height: 80px; /* Altura para el thumbnail */
+    background-color: #FFB300; /* Color de fondo de ejemplo */
+    border-radius: 8px;
+    margin-bottom: 10px;
+    /* Puedes agregar imágenes de fondo aquí si quieres */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Estilos específicos para los thumbnails de admin */
+.admin-thumb.libros {
+     background-image: url('/assets/images/admin-libros.webp'); /* Reemplaza con imágenes reales */
+     background-color: #A5D6A7; /* Fondo si la imagen no carga */
+}
+.admin-thumb.comunidades {
+     background-image: url('/assets/images/admin-comunidades.webp'); /* Reemplaza con imágenes reales */
+     background-color: #BBDEFB; /* Fondo si la imagen no carga */
+}
+
+
+.admin-card p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+/* ========== Utilidades y Responsive ========== */
+.js-only {
+    /* display: none; */ /* Mantenemos el original, pero si lo haces visible con JS, necesitará estilos */
+}
+
+/* Media Query para hacer ajustes en pantallas más pequeñas */
+@media (max-width: 768px) {
+    main {
+        padding: 15px; /* Reducir padding en móviles */
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .perfil-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding-bottom: 15px;
+    }
+
+     .avatar-container {
+         font-size: 80px; /* Ajustar tamaño del avatar en móviles */
+     }
+
+    .perfil-info h2 {
+        font-size: 1.5rem; /* Ajustar tamaño del nombre */
+    }
+
+    #perfil-email {
+        font-size: 0.9rem; /* Ajustar tamaño del email */
+    }
+
+
+    .registro-fecha {
+        font-size: 0.85rem; /* Ajustar tamaño de la fecha */
+        margin-bottom: 10px;
+    }
+
+    .perfil-botones {
+        flex-direction: column;
+        align-items: stretch; /* Estirar botones al ancho completo */
+    }
+
+    .perfil-botones .btn {
+        padding: 12px 15px; /* Ajustar padding */
+        justify-content: center; /* Centrar contenido del botón */
+    }
+
+    .perfil-estadisticas {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .perfil-estadisticas .stat span {
+         font-size: 1.3rem; /* Ajustar tamaño de número */
+    }
+
+    .perfil-estadisticas .stat p {
+         font-size: 0.8rem; /* Ajustar tamaño de texto */
+    }
+
+    .admin-seccion h2 {
+        font-size: 1.2rem; /* Ajustar tamaño del título admin */
+    }
+
+    .grid-admin {
+        grid-template-columns: 1fr; /* Una columna en móviles para tarjetas admin */
+        gap: 15px;
+    }
+
+    .admin-card {
+        padding: 10px;
+    }
+
+    .admin-thumb {
+        height: 60px; /* Ajustar tamaño del thumbnail admin */
+    }
+}
+
+
+/* ===================================================================
+   MODAL DE EDICIÓN DE PERFIL
+   Asumimos que tienes estilos base para .modal y .modal-content
+   en otro archivo CSS (ej: modal.css). Estos estilos son específicos
+   para el contenido DENTRO del modal de edición.
+   =================================================================== */
+
+/* Si no tienes estilos base para el modal, puedes añadir algo como esto
+.modal {
+    display: none; // Hidden by default
+    position: fixed; // Stay in place
+    z-index: 1; // Sit on top
+    left: 0;
+    top: 0;
+    width: 100%; // Full width
+    height: 100%; // Full height
+    overflow: auto; // Enable scroll if needed
+    background-color: rgba(0,0,0,0.4); // Black w/ opacity
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; // 15% from the top and centered
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; // Could be more or less, depending on screen size
+    max-width: 500px; // Max width for larger screens
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+*/
+
+/* Estilos específicos para el contenido del modal de edición */
+#editProfileModal .modal-content {
+     /* Asegúrate de que el estilo base de modal-content en modal.css sea adecuado */
+     padding: 30px; /* Ajustar padding */
+     text-align: left; /* Alinear texto del modal a la izquierda */
+}
+
+#editProfileModal h2 {
+    text-align: center; /* Centrar el título del modal */
+    color: #333333;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+    border-bottom: 1px solid #EEEEEE;
+    padding-bottom: 15px;
+}
+
+#editProfileForm label {
+    display: block; /* Mostrar labels en su propia línea */
+    margin-bottom: 8px; /* Espacio debajo del label */
+    font-weight: bold;
+    color: #555555;
+    font-size: 0.95rem;
+}
+
+#editProfileForm input[type="text"],
+#editProfileForm input[type="email"] {
+    width: calc(100% - 24px); /* Ancho del input menos padding y borde */
+    padding: 12px; /* Padding interno */
+    margin-bottom: 20px; /* Espacio debajo del input */
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Incluir padding y borde en el ancho */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#editProfileForm input[type="text"]:focus,
+#editProfileForm input[type="email"]:focus {
+    border-color: #1E90FF; /* Cambiar color del borde al enfocar */
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5); /* Sombra sutil al enfocar */
+    outline: none; /* Eliminar el outline por defecto del navegador */
+}
+
+#editProfileForm .submit-btn {
+    display: block; /* Botón de guardar cambios en su propia línea */
+    width: 100%; /* Ancho completo */
+    background-color: #32CD32; /* Verde lima */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
+}
+
+#editProfileForm .submit-btn:hover {
+     background-color: #3CB371; /* Verde mar */
+     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el botón de cerrar modal (asumiendo clase .close-btn) */
+#editProfileModal .close-btn {
+    position: absolute; /* Posicionar absolutamente */
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    color: #aaaaaa;
+    transition: color 0.3s ease;
+}
+
+#editProfileModal .close-btn:hover,
+#editProfileModal .close-btn:focus {
+    color: #777777;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Asegúrate de que los estilos para otros modales (authModal, userInfoModal)
+   en modal.css o donde sea que estén, no entren en conflicto.
+   Puedes hacerlos más específicos si es necesario.
+   ej: #authModal .modal-content { ... }
+*/
+
+
+/* ========== Comunidades Grid y Items (manteniendo lo tuyo con ajustes) ========== */
+/* Mantenemos tus estilos para comunidades pero con algunos ajustes para coherencia */
+
 .comunidades-grid {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 30px; /* Ajuste el espacio */
+    margin-top: 40px; /* Espacio desde la sección anterior */
     margin-bottom: 40px;
-  }
-  
-  .comunidad-seccion {
+    padding-top: 20px;
+    border-top: 1px solid #EEEEEE; /* Separador */
+}
+
+.comunidad-seccion {
     width: 100%;
-  }
-  
-  .comunidad-seccion h2 {
+}
+
+.comunidad-seccion h2 {
     color: #3CB371;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-  }
-  
-  .grid {
-    display: flex;
-    flex-wrap: wrap;
+    margin-bottom: 20px; /* Ajuste el espacio */
+    font-size: 1.4rem; /* Ajuste el tamaño */
+    border-bottom: 1px solid #EEEEEE; /* Separador */
+    padding-bottom: 10px;
+}
+
+.grid {
+    display: grid; /* Usar grid para las comunidades */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid */
     gap: 20px;
-  }
-  
-  /* Tarjeta individual de comunidad */
-  .comunidad {
-    width: 180px;
+}
+
+/* Tarjeta individual de comunidad */
+.comunidad {
+    /* width: 180px; */ /* Dejar que grid maneje el ancho */
     background-color: #F5F5F5;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08); /* Borde un poco más visible */
     border-radius: 10px;
     text-align: center;
-    padding: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    padding: 15px; /* Ajustar padding */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08); /* Sombra más pronunciada */
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .comunidad:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .comunidad-thumb {
+    text-decoration: none; /* Para que no parezca un enlace si lo usas como <a> */
+    color: #191919; /* Asegurar color de texto */
+}
+
+.comunidad:hover {
+    transform: translateY(-4px); /* Aumentar efecto hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Aumentar sombra en hover */
+}
+
+.comunidad-thumb {
     height: 100px;
-    background-color: #E0E0E0;
+    background-color: #E0E0E0; /* Fondo de ejemplo si no hay imagen */
     border-radius: 8px;
-    margin-bottom: 8px;
-  }
-  
-  /* ========== Utilidades y Responsive ========== */
-  .js-only {
-    display: none;
-  }
-  
-  @media (max-width: 768px) {
-    .perfil-estadisticas {
-      flex-direction: column;
-      align-items: center;
+    margin-bottom: 10px; /* Ajuste el espacio */
+    background-size: cover;
+    background-position: center;
+}
+
+.comunidad p {
+    margin: 0; /* Eliminar margen por defecto */
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333333;
+}
+
+
+/* ========== Utilidades y Responsive ========== */
+/* ... Tu media query existente con los ajustes que hicimos arriba ... */
+@media (max-width: 768px) {
+    main {
+        padding: 15px;
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
-  
-    .comunidades-grid {
-      flex-direction: column;
-      gap: 20px;
-    }
-  
+
     .perfil-header {
-      flex-direction: column;
-      align-items: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding-bottom: 15px;
     }
-  
+
+     .avatar-container {
+         font-size: 80px;
+     }
+
+    .perfil-info h2 {
+        font-size: 1.5rem;
+    }
+
+    #perfil-email {
+        font-size: 0.9rem;
+    }
+
+    .registro-fecha {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+    }
+
     .perfil-botones {
-      flex-direction: column;
-      align-items: stretch;
+        flex-direction: column;
+        align-items: stretch;
     }
-  }
-  
+
+    .perfil-botones .btn {
+        padding: 12px 15px;
+        justify-content: center;
+    }
+
+    .perfil-estadisticas {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .perfil-estadisticas .stat span {
+         font-size: 1.3rem;
+    }
+
+    .perfil-estadisticas .stat p {
+         font-size: 0.8rem;
+    }
+
+    .admin-seccion h2 {
+        font-size: 1.2rem;
+    }
+
+    .grid-admin {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .admin-card {
+        padding: 10px;
+    }
+
+    .admin-thumb {
+        height: 60px;
+    }
+
+    /* Ajustes para el modal en pantallas pequeñas */
+    #editProfileModal .modal-content {
+         width: 90%; /* Usar más ancho en móviles */
+         margin: 10% auto; /* Ajustar margen superior */
+         padding: 20px;
+    }
+
+    #editProfileModal h2 {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+    }
+
+    #editProfileForm label {
+        font-size: 0.9rem;
+    }
+
+    #editProfileForm input[type="text"],
+    #editProfileForm input[type="email"] {
+        padding: 10px;
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+    }
+
+    #editProfileForm .submit-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+}
