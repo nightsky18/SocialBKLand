@@ -21,48 +21,47 @@
             </ul>
         </nav>
         <div class="user-actions">
-            <button class="notification-btn">🔔</button>
-            <button class="cart-btn">🛒</button>
-            <button class="user-btn" onclick="userPerfil()">👤</button>
-            <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
-    
-            <div id="authModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" onclick="closeModal()">&times;</span>
-                    <div class="tab-container">
-                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
-                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
-                    </div>
-                    <div id="login-tab" class="tab-content active">
-                        <h2>Iniciar Sesión</h2>
-                        <form id="login-form">
-                            <input type="email" placeholder="Correo electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <button type="submit" class="submit-btn">Ingresar</button>
-                        </form>
-                    </div>
-                    <div id="register-tab" class="tab-content">
-                        <h2>Registrarse</h2>
-                        <form id="register-form">
-                            <input type="text" placeholder="Nombre completo" required>
-                            <input type="email" placeholder="Correo electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <input type="password" placeholder="Confirmar contraseña" required>
-                            <button type="submit" class="submit-btn">Registrarse</button>
-                        </form>
-                    </div>
-                </div>
+    <button class="notification-btn">🔔</button>
+    <button class="cart-btn">🛒</button>
+<button class="user-btn" onclick="userPerfil()">👤</button>
+      <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
+      
+    <button class="user-btn" onclick="openModal()" id="loginBtn">👤</button>
+
+    <div id="userInfo" style="display: none;">
+        <span id="userEmail" style="margin-right: 10px;"></span>
+        <button onclick="logout()" style="padding: 5px 10px;">Cerrar sesión</button>
+    </div>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="tab-container">
+                <div class="tab active" onclick="switchTab('login', this)">Iniciar Sesión</div>
+                <div class="tab" onclick="switchTab('register', this)">Registrarse</div>
             </div>
-            <div id="userInfoModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
-                    <h2>Información del Usuario</h2>
-                    <p><strong>Nombre:</strong> <span id="user-name"></span></p>
-                    <p><strong>Correo:</strong> <span id="user-email"></span></p>
-                    <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
-                </div>
+            <div id="login-tab" class="tab-content active">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form">
+                    <input type="email" placeholder="Correo electrónico" required>
+                    <input type="password" placeholder="Contraseña" required>
+                    <button type="submit" class="submit-btn">Ingresar</button>
+                </form>
+            </div>
+            <div id="register-tab" class="tab-content">
+                <h2>Registrarse</h2>
+                <form id="register-form">
+                    <input type="text" placeholder="Nombre completo" required>
+                    <input type="email" placeholder="Correo electrónico" required>
+                    <input type="password" placeholder="Contraseña" required>
+                    <input type="password" placeholder="Confirmar contraseña" required>
+                    <button type="submit" class="submit-btn">Registrarse</button>
+                </form>
             </div>
         </div>
+    </div>
+
+    </div>
     </header>
 
     <div class="faq-container catalog">
