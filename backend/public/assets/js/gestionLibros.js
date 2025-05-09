@@ -101,7 +101,7 @@ async function handleCreateBook(form) {
         throw new Error(data.message || 'Error al guardar el libro');
       }
       
-       // ✅ Solo limpiar si todo salió bien
+    
       Swal.fire({
         icon: 'success',
         title: 'Libro creado',
@@ -246,6 +246,59 @@ async function handleCreateBook(form) {
     } catch (err) {
       console.error('Error al cargar libros:', err);
       Swal.fire('Error', err.message || 'No se pudieron cargar los libros', 'error');
+    }
+  }
+  
+  // Función para eliminar un libro
+  async function eliminarLibro(id) {
+    const confirmar = await Swal.fire({
+      title: '¿Eliminar libro?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      customClass: {
+        popup: 'swal2-custom-popup'
+      }
+    });
+  
+    if (!confirmar.isConfirmed) return;
+  
+    try {
+      const res = await fetch(`/api/books/${id}`, {
+        method: 'DELETE'
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        throw new Error(data.message || 'Error al eliminar');
+      }
+  
+      Swal.fire({
+        icon: 'success',
+        title: 'Eliminado',
+        text: 'El libro fue eliminado correctamente',
+        timer: 1500,
+        showConfirmButton: false,
+        customClass: {
+          popup: 'swal2-custom-popup'
+        }
+      });
+  
+      await cargarLibros(); // recargar tabla
+    } catch (err) {
+      console.error('Error al eliminar libro:', err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message || 'Error al eliminar el libro',
+        customClass: {
+          popup: 'swal2-custom-popup'
+        }
+      });
     }
   }
   

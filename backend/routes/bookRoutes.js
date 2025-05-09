@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/Book');
+const fs = require('fs');
+const path = require('path');
+
 
 // Obtener todos los libros (usado por el catálogo)
 router.get('/', async (req, res) => {
@@ -182,11 +185,20 @@ router.put('/:id', async (req, res) => {
 // Eliminar un libro
 router.delete('/:id', async (req, res) => {
     try {
-      const deleted = await Book.findByIdAndDelete(req.params.id);
-      if (!deleted) {
-        return res.status(404).json({ message: 'Libro no encontrado' });
+      const book = await Book.findById(req.params.id);
+      if (!book) return res.status(404).json({ message: 'Libro no encontrado' });
+  
+      // Eliminar la imagen físicamente del disco
+      const imagePath = path.join(__dirname, '..', 'public', book.image); // ej: /assets/images/book.jpg
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+        console.log(`Imagen eliminada: ${imagePath}`);
+      } else {
+        console.warn(`Imagen no encontrada en disco: ${imagePath}`);
       }
-      res.status(200).json({ message: 'Libro eliminado correctamente' });
+  
+      await book.deleteOne();
+      res.status(200).json({ message: 'Libro e imagen eliminados correctamente' });
     } catch (err) {
       console.error('Error al eliminar libro:', err);
       res.status(500).json({ message: 'Error al eliminar el libro' });
