@@ -1,0 +1,506 @@
+/* === Tipografía principal === */
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: #fff;
+  color: #191919;
+}
+.titulo-gestion {
+  width: 100%;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1E90FF;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #3CB371;
+  padding-bottom: 10px;
+}
+
+/* === Contenedor principal === */
+.admin-libros-page {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #f5f5f5;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* === Cabecera con búsqueda === */
+.libros-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+/* === Search Input === */
+#search-bar {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 2px solid #1E90FF;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#search-bar::placeholder {
+  color: #aaa;
+  font-style: italic;
+  font-family: 'Inter', sans-serif;
+}
+
+#search-bar:focus {
+  border-color: #1C86EE;
+}
+
+/* === Search Button === */
+#search-btn {
+  padding: 10px 16px;
+  font-size: 15px;
+  background-color: #1E90FF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#search-btn:hover {
+  background-color: #1C86EE;
+}
+
+/* === Toggle Advanced Filters Button === */
+#toggle-filters {
+  background-color: #1E90FF;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#toggle-filters:hover {
+  background-color: #1C86EE;
+}
+
+
+/* === Botón Agregar === */
+.agregar-libro {
+  background-color: #1E90FF;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.agregar-libro:hover {
+  background-color: #1C86EE;
+}
+
+/* === Tabla === */
+.tabla-libros table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tabla-libros th,
+.tabla-libros td {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.tabla-libros thead {
+  background-color: #1E90FF;
+  color: white;
+}
+
+.tabla-libros tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* === Imagen en celda === */
+.tabla-libros img {
+  height: 60px;
+  width: auto;
+  border-radius: 4px;
+}
+
+/* === Acciones === */
+.btn-accion {
+  cursor: pointer;
+  margin-right: 8px;
+  font-size: 16px;
+  color: #1E90FF;
+  transition: color 0.2s ease;
+}
+
+.btn-accion:hover {
+  color: #1C86EE;
+}
+
+/* === Filtros === */
+.filters {
+  background-color: #FAFAFA;
+  padding: 20px;
+  margin-bottom: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filters.hidden {
+  display: none;
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+}
+
+.filters label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+.filters input,
+.filters select {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 140px;
+}
+
+#apply-filters {
+  background-color: #1E90FF;
+  color: white;
+}
+
+#apply-filters:hover {
+  background-color: #1C86EE;
+}
+
+#clear-filters {
+  background-color: #FF6347;
+  color: white;
+}
+
+#clear-filters:hover {
+  background-color: #FF4500;
+}
+
+/* === Sección sin libros === */
+#sinLibros {
+  font-size: 18px;
+  color: #555;
+  text-align: center;
+}
+
+/* === Formulario dinámico bajo tabla === */
+.book-form-wrapper {
+  margin-top: 40px;
+  background-color: #fff;
+  padding: 24px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.05);
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 40px 20px;
+}
+
+/* Contenedor del formulario */
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 700px;
+  max-height: 90vh; /* scroll vertical si se necesita */
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+  color: #191919;
+  font-family: 'Inter', Arial, sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: #999 #f0f0f0;
+}
+
+/* Scroll para Chrome */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background: #999;
+  border-radius: 6px;
+}
+.modal-content::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botón cerrar (X) */
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+  color: #f62c2c;
+  font-weight: bold;
+  border: none;
+  background: none;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.close:hover {
+  color: #9b1212;
+  transform: scale(1.2);
+}
+
+/* Grupos de campos */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Etiquetas */
+.form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #191919;
+}
+
+/* Campos */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #F9F9F9;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #1E90FF;
+  outline: none;
+  box-shadow: 0 0 5px rgba(30, 144, 255, 0.3);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Botón guardar */
+.submit-btn {
+  background-color: #32CD32;
+  color: white;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-btn:hover {
+  background-color: #3CB371;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+    max-height: 95vh;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+}
+
+.swal2-container {
+  z-index: 10010 !important;
+}
+.swal2-custom-popup {
+  z-index: 10010 !important;
+}
+
+/* ==== Imagen de vista previa del libro ==== */
+#previewImageContainer {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#previewImage {
+  max-width: 160px;
+  max-height: 220px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 4px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+#previewImage:hover {
+  transform: scale(1.02);
+}
+@media (max-width: 600px) {
+  #previewImage {
+    max-width: 120px;
+    max-height: 180px;
+  }
+}
+
+#formularioLibroContainer {
+  position: fixed;
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 700px;
+  max-height: 75vh;
+  overflow-y: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
+
+/* Imagen dentro del modal */
+#formularioLibroContainer img {
+  width: 100%;
+  height: auto;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto 16px;
+}
+
+.book-view-modal h3 {
+  font-size: 22px;
+  color: #1E90FF;
+  border-bottom: 2px solid #3CB371;
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.book-view-img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin: 16px 0;
+}
+
+.book-view-modal p {
+  font-size: 14px;
+  margin: 6px 0;
+  line-height: 1.5;
+}
+
+.btn-cerrar-vista {
+  background-color: #FF6347;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto 0;
+}
+
+.btn-cerrar-vista:hover {
+  background-color: #FF4500;
+}
+
+@media (max-width: 600px) {
+  .book-view-modal {
+    padding: 16px;
+  }
+
+  .book-view-img {
+    max-height: 220px;
+  }
+
+  .book-view-modal p {
+    font-size: 13px;
+  }
+}
+
+.disable-interaction * {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Asegura que el modal y sus elementos sí sean interactivos */
+#formularioLibroContainer,
+#formularioLibroContainer * {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}

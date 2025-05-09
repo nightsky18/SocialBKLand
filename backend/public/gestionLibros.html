@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Libros | SocialBKLand</title>
+  <link rel="stylesheet" href="/assets/css/header-footer.css" />
+  <link rel="stylesheet" href="/assets/css/libros.css" />
+  <link rel="stylesheet" href="/assets/css/book-form.css" />
+  <link rel="stylesheet" href="/assets/css/gestion-libros.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <button id="imageButton">
+        <img src="./assets/images/Logo-1.png" alt="Ir a Home" />
+      </button>
+      
+      
+    <nav class="navigation">
+        <ul>
+            <li><a href="/catalogo.html">Biblioteca</a></li>
+            <li><a href="/comunidades.html">Comunidades</a></li>
+            <li><a href="/mis-libros.html">Mis libros</a></li>
+        </ul>
+    </nav>
+    <div class="user-actions">
+        <button class="notification-btn">🔔</button>
+        <button class="cart-btn">🛒</button>
+        <button class="user-btn" onclick="userPerfil()">👤</button>
+        <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
+
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <div class="tab-container">
+                    <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                    <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                </div>
+                <div id="login-tab" class="tab-content active">
+                    <h2>Iniciar Sesión</h2>
+                    <form id="login-form">
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <button type="submit" class="submit-btn">Ingresar</button>
+                    </form>
+                </div>
+                <div id="register-tab" class="tab-content">
+                    <h2>Registrarse</h2>
+                    <form id="register-form">
+                        <input type="text" placeholder="Nombre completo" required>
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <input type="password" placeholder="Confirmar contraseña" required>
+                        <button type="submit" class="submit-btn">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="userInfoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+                <h2>Información del Usuario</h2>
+                <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+                <p><strong>Correo:</strong> <span id="user-email"></span></p>
+                <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+  <main class="admin-libros-page">
+    <section class="libros-header">
+      <h2 class="titulo-gestion">Gestión de Libros</h2>
+      <div class="search-bar">
+        <input type="text" id="search-bar" placeholder="Buscar por título...">
+        <button id="search-btn" class="search-btn">🔍</button>
+      </div>
+      <button id="toggle-filters">Búsqueda Avanzada</button>
+      <button id="openBookModal" class="btn agregar-libro">
+        <i class="fas fa-plus"></i> Agregar libro
+      </button>
+    </section>
+
+    <!-- Filtros avanzados -->
+    <div id="filters-container" class="filters hidden">
+      <div class="filters-row">
+        <label for="category-filter">Categorías:</label>
+        <select id="category-filter" multiple>
+          <option value="Ficción">Ficción</option>
+          <option value="Educativo">Educativo</option>
+          <option value="Técnico">Técnico</option>
+          <option value="Infantil">Infantil</option>
+        </select>
+
+        <label for="rating-filter">Rating:</label>
+        <select id="rating-filter">
+          <option value="all">Cualquiera</option>
+          <option value="0-1.9">0 - 1.9</option>
+          <option value="2-2.9">2 - 2.9</option>
+          <option value="3-3.9">3 - 3.9</option>
+          <option value="4-4.9">4 - 4.9</option>
+          <option value="5">5</option>
+        </select>
+
+        <label for="filter-min-price">Precio Mínimo:</label>
+        <input type="number" id="filter-min-price" placeholder="Min" min="0">
+
+        <label for="filter-max-price">Precio Máximo:</label>
+        <input type="number" id="filter-max-price" placeholder="Max" min="0">
+      </div>
+
+      <div class="filters-row">
+        <label for="discount-filter">Solo con descuento:</label>
+        <input type="checkbox" id="discount-filter">
+        <button id="apply-filters">Aplicar Filtros</button>
+        <button id="clear-filters">Limpiar Filtros</button>
+      </div>
+    </div>
+
+    <!-- Tabla solo si hay datos -->
+    <section id="tablaLibrosContainer" class="tabla-libros" style="display: none;">
+      <table>
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Original</th>
+            <th>Stock</th>
+            <th>Descuento</th>
+            <th>Rating</th>
+            <th>Entrega</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="librosTablaBody">
+          <!-- Libros renderizados dinámicamente -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Mensaje si no hay libros -->
+    <section id="sinLibros" style="display: none; text-align: center; margin-top: 2rem;">
+      <p>📚 No hay libros registrados aún.</p>
+    </section>
+
+    <!-- Formulario dinámico (modo editar/ver) -->
+    <section id="formularioLibroContainer" class="book-form-wrapper" style="display: none;">
+      <!-- Aquí se inserta el formulario dinámicamente vía JS -->
+    </section>
+    <!-- Modal para agregar libro -->
+<div id="bookModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" id="closeBookModal">&times;</span>
+    <h2>Agregar nuevo libro</h2>
+
+    <form id="bookForm">
+      <div class="form-group">
+        <label for="title">Título*</label>
+        <input type="text" name="title" id="title" required />
+      </div>
+
+      <div class="form-group">
+        <label for="author">Autor*</label>
+        <input type="text" name="author" id="author" required />
+      </div>
+
+      <div class="form-group">
+        <label for="isbn">ISBN</label>
+        <input type="text" name="isbn" id="isbn" />
+      </div>
+
+      <div class="form-group">
+        <label for="category">Categoría*</label>
+        <input type="text" name="category" id="category" list="categorias-list" required />
+        <datalist id="categorias-list"></datalist>
+
+      </div>
+
+      <div class="form-group">
+        <label for="price">Precio*</label>
+        <input type="number" name="price" id="price" step="0.01" required />
+      </div>
+
+      <div class="form-group">
+        <label for="originalPrice">Precio original</label>
+        <input type="number" name="originalPrice" id="originalPrice" step="0.01" />
+      </div>
+
+      <div class="form-group">
+        <label for="quantity">Cantidad*</label>
+        <input type="number" name="quantity" id="quantity" required />
+      </div>
+
+      <div class="form-group">
+        <label for="imageFile">Imagen*</label>
+        <input type="file" name="imageFile" id="imageFile" accept="image/*" />
+        <img id="previewImage" src="/assets/images/default-book.jpg" class="preview-img" />
+      </div>
+      
+
+      <div class="form-group">
+        <label for="description">Descripción*</label>
+        <textarea name="description" id="description" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="deliveryTime">Tiempo de entrega</label>
+        <input type="text" name="deliveryTime" id="deliveryTime" />
+      </div>
+
+      <div class="form-group">
+        <label><input type="checkbox" name="isDiscounted" /> ¿Tiene descuento?</label>
+      </div>
+
+      <button type="submit" class="submit-btn">Guardar libro</button>
+    </form>
+  </div>
+</div>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo"></div>
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://t.me" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@socialbkland.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+  <support-chat></support-chat>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/assets/js/modal.js"></script>
+  <script src="/assets/js/gestionLibros.js"></script>  
+</body>
+</html>
