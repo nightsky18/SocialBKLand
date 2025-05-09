@@ -262,3 +262,50 @@ section h2 {
 #checkout-button:hover {
     background-color: #3CB371;
 }
+
+/* Categorías */
+.category-section {
+    margin-bottom: 40px;
+}
+
+.category-section h2 {
+    font-size: 24px;
+    color: #1E90FF;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #3CB371;
+    padding-bottom: 5px;
+}
+
+/* Botón "Más" */
+.load-more-btn {
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    padding: 15px 15px;
+    font-size: 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background-color: #1C86EE;
+}
+
+/* Mensaje "No hay coincidencias" llamativo y centrado */
+.no-books-message {
+    font-size: 1.5rem;
+    color: #FF6347;
+    text-align: center;
+    margin: 40px auto 20px auto;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background: #fff3f0;
+    border-radius: 8px;
+    padding: 18px 0;
+    max-width: 400px;
+    box-shadow: 0 2px 8px rgba(255,99,71,0.08);
+}
