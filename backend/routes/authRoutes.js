@@ -4,6 +4,9 @@ const User = require('../models/User');
 const router = express.Router();
 
 
+
+
+
 // Registro
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
@@ -13,7 +16,7 @@ router.post('/register', async (req, res) => {
     await user.save();
     res.status(201).json({ message: 'Usuario registrado con éxito' });
   } catch (err) {
-    res.status(400).json({ error: 'Error al registrar' });
+    res.status(400).json({ error: 'Error al registrar correo ya registrado' });
   }
 });
 
