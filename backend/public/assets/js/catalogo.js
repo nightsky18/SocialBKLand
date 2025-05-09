@@ -15,11 +15,12 @@ async function fetchBooksFromAPI() {
         const data = await response.json();
         books = data; // esto actualiza la variable global
         bookCollection = new BookCollection(books);
-        renderBooks();
+        renderBooksByCategory(books);
     } catch (error) {
         console.error('Error al cargar libros desde la API:', error);
     }
 }
+
 // Filtrar libros por categoría
 document.getElementById('category-filter').addEventListener('change', function () {
     const selectedCategory = this.value;
@@ -34,6 +35,7 @@ document.getElementById('category-filter').addEventListener('change', function (
         }
     });
 });
+
 // Filtrar libros por rating
 document.getElementById('rating-filter').addEventListener('change', function () {
     const selectedRating = this.value;
@@ -48,6 +50,7 @@ document.getElementById('rating-filter').addEventListener('change', function () 
         }
     });
 });
+
 //Para parsar de pagina
 document.querySelector('.cart-btn').addEventListener('click', function() {
     window.location.href = "./carrito.html";
@@ -128,91 +131,128 @@ function BookFactory({ id, title, price, originalPrice, category, image, isDisco
     return bookDiv;
 }
 
-// Crear instancia de BookCollection
-
-
-// Función modificada para usar el Iterator
-function renderBooks() {
-    const generalBooksSection = document.querySelector('.general-books .book-list');
-    generalBooksSection.innerHTML = '';
-
-    const generalIterator = bookCollection.getIterator();
-    while (generalIterator.hasNext()) {
-        const book = generalIterator.next();
-        const bookElement = BookFactory(book, books.indexOf(book));
-        generalBooksSection.appendChild(bookElement);
-    }
-
-    handleAddToCart();
+// Utilidad para ordenar libros alfabéticamente
+function sortBooksAlphabetically(books) {
+    return books.slice().sort((a, b) => a.title.localeCompare(b.title));
 }
 
-// Función modificada para usar el Iterator
-function filterBooks(category) {
-    const generalBooksSection = document.querySelector('.general-books .book-list');
-    generalBooksSection.innerHTML = '';
+// Renderiza los libros agrupados por categorías con paginación y botón "Más"
+function renderBooksByCategory(filteredBooks) {
+    const catalogContainer = document.querySelector('.general-books');
+    catalogContainer.innerHTML = '';
 
-    const categoryIterator = bookCollection.getCategoryIterator(category);
-    while (categoryIterator.hasNext()) {
-        const book = categoryIterator.next();
-        const bookElement = BookFactory(book, books.indexOf(book));
-        generalBooksSection.appendChild(bookElement);
-    }
-}
+    // Categorías fijas
+    const fixedCategories = [
+        { label: "Aventura", match: "aventura" },
+        { label: "Ciencia", match: "ciencia" },
+        { label: "Ficcion", match: "ficcion" },
+        { label: "No-Ficcion", match: "no-ficcion" },
+        { label: "Terror", match: "terror" }
+    ];
 
-// Mostrar/ocultar filtros
-document.getElementById('toggle-filters').addEventListener('click', () => {
-    const filtersContainer = document.getElementById('filters-container');
-    filtersContainer.classList.toggle('hidden');
-});
+    // Inicializa los grupos
+    const categoriesMap = {
+        'General': [],
+        'En Descuento': [],
+        'Aventura': [],
+        'Ciencia': [],
+        'Ficcion': [],
+        'No-Ficcion': [],
+        'Terror': []
+    };
 
-// Aplicar filtros al presionar el botón "Aplicar Filtros"
-document.getElementById('apply-filters').addEventListener('click', applyFilters);
-
-// Aplicar filtros dinámicamente
-function applyFilters() {
-    const selectedCategories = Array.from(document.getElementById('category-filter').selectedOptions).map(opt => opt.value);
-    const selectedRating = document.getElementById('rating-filter').value;
-    const minPrice = parseFloat(document.getElementById('filter-min-price').value) || 0;
-    const maxPrice = parseFloat(document.getElementById('filter-max-price').value) || Infinity;
-    const showDiscounted = document.getElementById('discount-filter').checked;
-    const searchQuery = document.getElementById('search-bar').value.toLowerCase();
-
-    const generalBooksSection = document.querySelector('.general-books .book-list');
-    generalBooksSection.innerHTML = '';
-
-    const filteredIterator = bookCollection.getIterator();
-    while (filteredIterator.hasNext()) {
-        const book = filteredIterator.next();
-
-        // Aplicar filtros
-        const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(book.category);
-        const matchesRating = selectedRating === 'all' || (
-            book.rating >= parseFloat(selectedRating.split('-')[0]) &&
-            book.rating <= parseFloat(selectedRating.split('-')[1])
-        );
-        const matchesPrice = book.price >= minPrice && book.price <= maxPrice;
-        const matchesDiscount = !showDiscounted || (book.originalPrice && book.price < book.originalPrice);
-        const matchesSearch = book.title.toLowerCase().includes(searchQuery);
-
-        if (matchesCategory && matchesRating && matchesPrice && matchesDiscount && matchesSearch) {
-            const bookElement = BookFactory(book, books.indexOf(book));
-            generalBooksSection.appendChild(bookElement);
+    // Clasifica los libros
+    filteredBooks.forEach(book => {
+        // General (sin repetir)
+        if (!categoriesMap['General'].some(b => (b._id || b.id) === (book._id || book.id))) {
+            categoriesMap['General'].push(book);
         }
-    }
+        // En Descuento
+        if (book.isDiscounted) {
+            categoriesMap['En Descuento'].push(book);
+        }
+        // Clasificación por coincidencia parcial
+        if (book.category) {
+            const bookCats = book.category.split(',').map(c => c.trim().toLowerCase().replace(/-/g, ''));
+            fixedCategories.forEach(cat => {
+                if (bookCats.some(bc => bc.includes(cat.match.replace(/-/g, '')))) {
+                    if (!categoriesMap[cat.label].some(b => (b._id || b.id) === (book._id || book.id))) {
+                        categoriesMap[cat.label].push(book);
+                    }
+                }
+            });
+        }
+    });
+
+    // Orden de categorías: General, En Descuento, luego las fijas en el orden dado
+    const sortedCategories = ['General', 'En Descuento', ...fixedCategories.map(c => c.label)];
+
+    sortedCategories.forEach(category => {
+        let booksInCategory = categoriesMap[category] || [];
+        // Elimina duplicados en General
+        if (category === 'General') {
+            const seen = new Set();
+            booksInCategory = booksInCategory.filter(b => {
+                const id = b._id || b.id;
+                if (seen.has(id)) return false;
+                seen.add(id);
+                return true;
+            });
+        }
+        // Ordena libros alfabéticamente
+        const sortedBooks = sortBooksAlphabetically(booksInCategory);
+
+        // Crea sección de categoría
+        const section = document.createElement('section');
+        section.className = 'category-section';
+
+        section.innerHTML = `
+            <h2>${category}</h2>
+            <div class="book-list" id="book-list-${category.replace(/\s/g, '-')}"></div>
+            <button class="load-more-btn" data-category="${category}" style="display: none;">Más</button>
+            <p class="no-books-message" style="display: none;">No hay coincidencias</p>
+        `;
+        catalogContainer.appendChild(section);
+
+        // Renderizar libros iniciales
+        renderBooksInCategory(sortedBooks, category, 0);
+
+        // Mostrar botón "Más" si hay más
+        if (sortedBooks.length > 8) {
+            const loadMoreBtn = section.querySelector('.load-more-btn');
+            loadMoreBtn.style.display = 'block';
+            loadMoreBtn.disabled = false;
+            loadMoreBtn.addEventListener('click', () => {
+                const currentCount = section.querySelectorAll('.book').length;
+                renderBooksInCategory(sortedBooks, category, currentCount);
+                if (currentCount + 8 >= sortedBooks.length) {
+                    loadMoreBtn.style.display = 'none';
+                    loadMoreBtn.disabled = true;
+                }
+            });
+        }
+
+        // Mostrar mensaje "No hay coincidencias" si no hay libros
+        if (sortedBooks.length === 0) {
+            section.querySelector('.no-books-message').style.display = 'block';
+        }
+    });
 
     handleAddToCart();
 }
 
-// Limpiar filtros
-document.getElementById('clear-filters').addEventListener('click', () => {
-    document.getElementById('category-filter').value = '';
-    document.getElementById('rating-filter').value = 'all';
-    document.getElementById('filter-min-price').value = '';
-    document.getElementById('filter-max-price').value = '';
-    document.getElementById('discount-filter').checked = false;
-    document.getElementById('search-bar').value = '';
-    applyFilters();
-});
+// Renderiza libros dentro de una categoría con paginación
+function renderBooksInCategory(books, category, startIndex) {
+    const categoryContainer = document.getElementById(`book-list-${category.replace(/\s/g, '-')}`);
+    const booksToRender = books.slice(startIndex, startIndex + 8);
+
+    booksToRender.forEach(book => {
+        const bookElement = BookFactory(book, books.indexOf(book));
+        categoryContainer.appendChild(bookElement);
+    });
+
+    handleAddToCart();
+}
 
 // Mostrar libros al cargar la página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -220,11 +260,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     const searchQuery = urlParams.get('search');
 
     await fetchBooksFromAPI();
+    renderBooksByCategory(books);
 
     if (searchQuery) {
         searchBooks(searchQuery);
     }
+
+    document.getElementById('apply-filters').addEventListener('click', applyFilters);
+    document.getElementById('clear-filters').addEventListener('click', clearFilters);
+
+    // Si agregas el filtro de stock al HTML, también puedes escuchar su cambio:
+    const stockFilter = document.getElementById('stock-filter');
+    if (stockFilter) {
+        stockFilter.addEventListener('change', applyFilters);
+    }
 });
+
 // Función para buscar libros por título
 function searchBooks(query) {
     const generalBooksSection = document.querySelector('.general-books .book-list');
