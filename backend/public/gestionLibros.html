@@ -13,26 +13,62 @@
 <body>
   <!-- Header -->
   <header class="header">
-    <div class="logo">
-      <ul><li><a href="/home.html"></a></li></ul>
-    </div>
+    <button id="imageButton">
+        <img src="./assets/images/Logo-1.png" alt="Ir a Home" />
+      </button>
+      
+      
     <nav class="navigation">
-      <ul>
-        <li><a href="/catalogo.html">Biblioteca</a></li>
-        <li><a href="/comunidades.html">Comunidades</a></li>
-        <li><a href="/mis-libros.html">Mis libros</a></li>
-      </ul>
+        <ul>
+            <li><a href="/catalogo.html">Biblioteca</a></li>
+            <li><a href="/comunidades.html">Comunidades</a></li>
+            <li><a href="/mis-libros.html">Mis libros</a></li>
+        </ul>
     </nav>
-    <div class="search-bar">
-      <input type="text" placeholder="Buscar...">
-      <button type="button">🔍</button>
-    </div>
     <div class="user-actions">
-      <button class="notification-btn">🔔</button>
-      <button class="cart-btn">🛒</button>
-      <button class="user-btn">👤</button>
+        <button class="notification-btn">🔔</button>
+        <button class="cart-btn">🛒</button>
+        <button class="user-btn" onclick="userPerfil()">👤</button>
+        <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
+
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <div class="tab-container">
+                    <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                    <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                </div>
+                <div id="login-tab" class="tab-content active">
+                    <h2>Iniciar Sesión</h2>
+                    <form id="login-form">
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <button type="submit" class="submit-btn">Ingresar</button>
+                    </form>
+                </div>
+                <div id="register-tab" class="tab-content">
+                    <h2>Registrarse</h2>
+                    <form id="register-form">
+                        <input type="text" placeholder="Nombre completo" required>
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <input type="password" placeholder="Confirmar contraseña" required>
+                        <button type="submit" class="submit-btn">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="userInfoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+                <h2>Información del Usuario</h2>
+                <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+                <p><strong>Correo:</strong> <span id="user-email"></span></p>
+                <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+            </div>
+        </div>
     </div>
-  </header>
+</header>
 
   <main class="admin-libros-page">
     <section class="libros-header">
@@ -163,8 +199,10 @@
 
       <div class="form-group">
         <label for="imageFile">Imagen*</label>
-        <input type="file" name="imageFile" id="imageFile" accept="image/*" required />
+        <input type="file" name="imageFile" id="imageFile" accept="image/*" />
+        <img id="previewImage" src="/assets/images/default-book.jpg" class="preview-img" />
       </div>
+      
 
       <div class="form-group">
         <label for="description">Descripción*</label>
@@ -202,7 +240,7 @@
   <script type="module" src="/assets/js/chat/SupportChat.js"></script>
   <support-chat></support-chat>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script  src="/assets/js/modal.js"></script>
+  <script src="/assets/js/modal.js"></script>
   <script src="/assets/js/gestionLibros.js"></script>  
 </body>
 </html>

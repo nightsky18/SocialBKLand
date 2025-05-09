@@ -20,6 +20,22 @@ function openModal() {
     }
 }
 
+function userPerfil() {
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
+  if (user) {
+    // Redirigir al perfil
+    window.location.href = "usuario.html";
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Ingresa a tu cuenta',
+      text: 'Debes iniciar sesión para acceder al perfil.'
+    });
+  }
+}
+
+
 
 // Función para cerrar el modal
 function closeModal() {
@@ -181,6 +197,7 @@ function showUserInfo() {
 
 function logout() {
     sessionStorage.removeItem('user');
+    window.location.href = "catalogo.html"
     closeUserInfoModal();
 
     Swal.fire({
@@ -209,12 +226,10 @@ window.openBookModal = function () {
   window.closeBookModal = function () {
     const modal = document.getElementById('bookModal');
     if (modal) modal.style.display = 'none';
+  
+    //  Emitir evento para que lo escuche gestionLibros.js
+    window.dispatchEvent(new Event('modal:closed'));
   };
-  // Cerrar modal si clic fuera del contenido
-  window.addEventListener('click', function (event) {
-    const modal = document.getElementById('bookModal');
-    if (event.target === modal) closeBookModal();
-  });
   
 
 // Ejecutar al cargar la página

@@ -3,6 +3,21 @@ const router = express.Router();
 const Book = require('../models/Book');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '..', 'public', 'assets', 'images'));
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, 'book-' + uniqueSuffix + ext);
+  }
+});
+const upload = multer({ storage });
+
+
 
 
 // Obtener todos los libros (usado por el catálogo)
@@ -158,30 +173,71 @@ router.post('/', async (req, res) => {
         res.status(201).json(saved);
     } catch (err) {
         console.error('Error al crear el libro:', err);
-        res.status(500).json({ message: 'El isbn ya esta registrado, actualiza la cantidad del libro' });
+        res.status(500).json({ message: 'Isbn ya registrado, o valor de cantidad o precio inválidos ' });
     }
 });
 
 // Actualizar un libro existente
-router.put('/:id', async (req, res) => {
-    try {
-        const updatedBook = await Book.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true, runValidators: true }
-        );
+router.put('/:id', upload.single('imageFile'), async (req, res) => {
+  try {
+    const {
+      title,
+      author,
+      isbn,
+      price,
+      originalPrice,
+      quantity,
+      category,
+      deliveryTime,
+      description,
+      isDiscounted,
+      image: previousImage
+    } = req.body;
 
-        if (!updatedBook) {
-            return res.status(404).json({ message: 'Libro no encontrado' });
+    let imagePath = previousImage;
+
+    // Si hay nueva imagen, usarla
+    if (req.file) {
+      imagePath = `/assets/images/${req.file.filename}`;
+
+      // Si tenía una imagen anterior y no es la default, eliminarla
+      if (
+        previousImage &&
+        !previousImage.includes('default-book.jpg')
+      ) {
+        const fullPath = path.join(__dirname, '..', 'public', previousImage);
+        if (fs.existsSync(fullPath)) {
+          fs.unlinkSync(fullPath);
         }
-
-        res.status(200).json(updatedBook);
-    } catch (err) {
-        console.error('Error al actualizar el libro:', err);
-        res.status(500).json({ message: 'Error al actualizar el libro' });
+      }
     }
+
+    const updatedBook = await Book.findByIdAndUpdate(
+      req.params.id,
+      {
+        title,
+        author,
+        isbn,
+        price,
+        originalPrice,
+        quantity,
+        category,
+        deliveryTime: deliveryTime ? `${deliveryTime} días hábiles` : '',
+        description,
+        isDiscounted: isDiscounted === 'true' || isDiscounted === true,
+        image: imagePath
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    console.error('Error al actualizar libro:', error);
+    res.status(500).json({ message: 'Isbn cambiado por uno repetido, o valor de cantidad o precio inválidos ' });
+  }
 });
 
+  
 // Eliminar un libro
 router.delete('/:id', async (req, res) => {
     try {

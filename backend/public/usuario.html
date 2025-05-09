@@ -1,109 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialBKLand</title>
-    <link rel="stylesheet" href="/assets/css/perfil.css">
-    <link rel="stylesheet" href="/assets/css/header-footer.css">
-    <link rel="stylesheet" href="/assets/css/book-form.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil de Usuario | SocialBKLand</title>
+  <link rel="stylesheet" href="/assets/css/perfil.css">
+  <link rel="stylesheet" href="/assets/css/header-footer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <header class="header">
-        <div class="logo">
-            <ul>
-                <li><a href="/home.html"></a></li>
-        </ul>
-        </div>
-        <nav class="navigation">
-            <ul>
-                <li><a href="/catalogo.html">Biblioteca</a></li>
-                <li><a href="/comunidades.html">Comunidades</a></li>
-                <li><a href="/mis-libros.html">Mis libros</a></li>
-            </ul>
-        </nav>
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar...">
-            <button type="button">🔍</button>
-        </div>
-        <div class="user-actions">
-            <button class="notification-btn">🔔</button>
-            <button class="cart-btn">🛒</button>
-            <button class="user-btn">👤</button>
-        </div>
-    </header>
+  <header class="header">
+    <button id="imageButton" onclick="window.location.href='/home.html'">
+      <img src="/assets/images/Logo-1.png" alt="Ir a Home" />
+    </button>
 
-     <!-- Perfil principal -->
+    <nav class="navigation">
+      <ul>
+        <li><a href="/catalogo.html">Biblioteca</a></li>
+        <li><a href="/comunidades.html">Comunidades</a></li>
+        <li><a href="/mis-libros.html">Mis libros</a></li>
+      </ul>
+    </nav>
 
-     <main class="perfil">
-      <section class="perfil-header">
-        <div class="avatar-container">
-          <i class="fas fa-user-circle avatar-icon"></i>
-        </div>
-        <div class="perfil-info">
-          <h2>Usuario</h2>
-          <p class="registro-fecha">📅 Registrado el: <span id="registroFecha">31-03-2023</span></p>
-          <div class="perfil-botones">
-            <button class="btn editar"><i class="fas fa-pen"></i> Editar mi perfil</button>
-            <button class="btn crear-comunidad"><i class="fas fa-users"></i> Crear Comunidad</button>  
-          </div>
-        </div>
-      </section>
-     
-       <section class="perfil-estadisticas">
-         <div class="stat"><span id="seguidores">120</span><p>Seguidores</p></div>
-         <div class="stat"><span id="libros-compartidos">45</span><p>Libros compartidos</p></div>
-         <div class="stat"><span id="publicaciones">85</span><p>Publicaciones</p></div>
-         <div class="stat js-only"><span id="libros-agregados">30</span><p>Libros agregados</p></div>
-       </section>
-     
-       <!-- Accesos del administrador -->
-  <!-- Accesos del administrador -->
-  <section class="admin-seccion" id="adminSeccion" style="display: none;">
-    <h2>Gestión de contenido</h2>
-    <div class="grid-admin">
-      <a href="/gestionLibros.html" class="admin-card">
-        <div class="admin-thumb libros"></div>
-        <p>Gestión de Libros</p>
-      </a>
-      <a href="/admin/comunidades" class="admin-card">
-        <div class="admin-thumb comunidades"></div>
-        <p>Gestión de Comunidades</p>
-      </a>
+    <div class="user-actions">
+      <button class="notification-btn">🔔</button>
+      <button class="cart-btn">🛒</button>
+      <button class="user-btn" onclick="userPerfil()">👤</button>
+      <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
     </div>
-  </section>
-     </main>
-    
-    
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-            </div>
-            <div class="footer-social">
-                <a href="https://facebook.com" target="_blank" aria-label="Facebook">
-                    <i class="fab fa-facebook"></i>
-                </a>
-                <a href="https://t.me" target="_blank" aria-label="Telegram">
-                    <i class="fab fa-telegram"></i>
-                </a>
-                <a href="https://instagram.com" target="_blank" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="mailto:support@socialbkland.com" aria-label="Gmail">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </div>
+  </header>
+
+  <main class="perfil">
+    <section class="perfil-header">
+      <div class="avatar-container">
+        <i class="fas fa-user-circle avatar-icon"></i>
+      </div>
+      <div class="perfil-info">
+        <h2>Usuario</h2>
+        <p class="registro-fecha">📅 Registrado el: <span id="registroFecha">31-03-2023</span></p>
+        <div class="perfil-botones">
+          <button class="btn editar"><i class="fas fa-pen"></i> Editar mi perfil</button>
+          <button class="btn crear-comunidad"><i class="fas fa-users"></i> Crear Comunidad</button>
         </div>
-    </footer>
-    
-    <script type="module" src="/assets/js/chat/SupportChat.js"></script>
-    <support-chat></support-chat>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <a href="/preguntas.html" class="floating-faq-btn" title="Soporte y Preguntas Frecuentes">
-      🔧 FAQ
-  </a>
+      </div>
+    </section>
+
+    <section class="perfil-estadisticas">
+      <div class="stat"><span id="seguidores">120</span><p>Seguidores</p></div>
+      <div class="stat"><span id="libros-compartidos">45</span><p>Libros compartidos</p></div>
+      <div class="stat"><span id="publicaciones">85</span><p>Publicaciones</p></div>
+      <div class="stat"><span id="libros-agregados">30</span><p>Libros agregados</p></div>
+    </section>
+
+    <section class="admin-seccion" id="adminSeccion" style="display: none;">
+      <h2>Gestión de contenido</h2>
+      <div class="grid-admin">
+        <a href="/gestionLibros.html" class="admin-card">
+          <div class="admin-thumb libros"></div>
+          <p>Gestión de Libros</p>
+        </a>
+        <a href="/admin/comunidades" class="admin-card">
+          <div class="admin-thumb comunidades"></div>
+          <p>Gestión de Comunidades</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="authModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <div class="tab-container">
+        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+      </div>
+      <div id="login-tab" class="tab-content active">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+          <input type="email" placeholder="Correo electrónico" required>
+          <input type="password" placeholder="Contraseña" required>
+          <button type="submit" class="submit-btn">Ingresar</button>
+        </form>
+      </div>
+      <div id="register-tab" class="tab-content">
+        <h2>Registrarse</h2>
+        <form id="register-form">
+          <input type="text" placeholder="Nombre completo" required>
+          <input type="email" placeholder="Correo electrónico" required>
+          <input type="password" placeholder="Contraseña" required>
+          <input type="password" placeholder="Confirmar contraseña" required>
+          <button type="submit" class="submit-btn">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="userInfoModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+      <h2>Información del Usuario</h2>
+      <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+      <p><strong>Correo:</strong> <span id="user-email"></span></p>
+      <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo"></div>
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://t.me" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@socialbkland.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/assets/js/modal.js"></script>
+  <script src="/assets/js/Booksadmin.js"></script>
+  <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+  <support-chat></support-chat>
 </body>
-<script src="./assets/js/Booksadmin.js"></script>
 </html>
