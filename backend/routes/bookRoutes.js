@@ -155,7 +155,7 @@ router.post('/', async (req, res) => {
         res.status(201).json(saved);
     } catch (err) {
         console.error('Error al crear el libro:', err);
-        res.status(500).json({ message: 'Error al crear el libro' });
+        res.status(500).json({ message: 'El isbn ya esta registrado, actualiza la cantidad del libro' });
     }
 });
 
@@ -182,18 +182,16 @@ router.put('/:id', async (req, res) => {
 // Eliminar un libro
 router.delete('/:id', async (req, res) => {
     try {
-        const deleted = await Book.findByIdAndDelete(req.params.id);
-
-        if (!deleted) {
-            return res.status(404).json({ message: 'Libro no encontrado' });
-        }
-
-        res.status(200).json({ message: 'Libro eliminado correctamente' });
+      const deleted = await Book.findByIdAndDelete(req.params.id);
+      if (!deleted) {
+        return res.status(404).json({ message: 'Libro no encontrado' });
+      }
+      res.status(200).json({ message: 'Libro eliminado correctamente' });
     } catch (err) {
-        console.error('Error al eliminar el libro:', err);
-        res.status(500).json({ message: 'Error al eliminar el libro' });
+      console.error('Error al eliminar libro:', err);
+      res.status(500).json({ message: 'Error al eliminar el libro' });
     }
-});
-
+  });
+  
 
 module.exports = router;

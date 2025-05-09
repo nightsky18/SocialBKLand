@@ -386,3 +386,11 @@ textarea {
     font-size: 16px;
   }
 }
+
+.swal2-container {
+  z-index: 10010 !important;
+}
+.swal2-custom-popup {
+  z-index: 10010 !important;
+}
+
