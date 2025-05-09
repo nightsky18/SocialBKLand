@@ -7,10 +7,10 @@
  */
 export async function validateRecoveryEmail(email) {
   try {
-    const response = await fetch('/api/users/recovery-request', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
+    const response = await fetch('/api/recovery-request', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email })
     });
     return await response.json();
   } catch (error) {
@@ -27,7 +27,7 @@ export async function validateRecoveryEmail(email) {
  */
 export async function resetPassword(email, newPassword) {
   try {
-    const response = await fetch('/api/users/reset-password', {
+    const response = await fetch('/api/reset-password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, newPassword })

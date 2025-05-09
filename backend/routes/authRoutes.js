@@ -35,4 +35,49 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// POST /api/reset-password
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Faltan datos' });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Usuario no encontrado' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({ success: true, message: 'Contraseña actualizada con éxito' });
+  } catch (error) {
+    console.error('Error al actualizar contraseña:', error);
+    res.status(500).json({ success: false, message: 'Error del servidor' });
+  }
+});
+
+// POST /api/recovery-request
+router.post('/recovery-request', async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ success: false, message: 'Correo requerido' });
+  }
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'Este correo no está asociado a ninguna cuenta.' });
+  }
+
+  // Simulación de éxito (sin token/email real)
+  return res.json({ success: true, message: 'Correo válido. Puedes continuar.' });
+});
+
+
 module.exports = router;

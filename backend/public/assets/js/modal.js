@@ -19,6 +19,7 @@ function openModal() {
         document.getElementById('authModal').style.display = 'block';
     }
 }
+window.openModal = openModal;
 
 function userPerfil() {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -34,14 +35,14 @@ function userPerfil() {
     });
   }
 }
-
+window.userPerfil = userPerfil;
 
 
 // Función para cerrar el modal
 function closeModal() {
     document.getElementById('authModal').style.display = 'none';
 }
-
+window.closeModal = closeModal;
 // Función para cambiar entre pestañas
 function switchTab(tabName) {
     // Ocultar todos los contenidos de pestañas
@@ -176,11 +177,13 @@ function showUserInfoModal(user) {
     document.getElementById('user-email').textContent = user.email;
     document.getElementById('userInfoModal').style.display = 'block';
 }
+window.showUserInfoModal = showUserInfoModal;
 
 // Cerrar modal de info de usuario
 function closeUserInfoModal() {
     document.getElementById('userInfoModal').style.display = 'none';
 }
+window.closeUserInfoModal = closeUserInfoModal;
 
 
 
@@ -193,6 +196,7 @@ function showUserInfo() {
         document.getElementById('userInfoModal').style.display = 'block';
     }
 }
+window.showUserInfo = showUserInfo;
 
 
 function logout() {
@@ -216,6 +220,7 @@ function logout() {
         location.reload();
     }, 1600);
 }
+window.logout = logout;
 
 // Función para abrir modal de libro desde cualquier parte
 window.openBookModal = function () {
@@ -283,8 +288,6 @@ function switchTabManually(targetId) {
 
 // Ejecutar al cargar la página
 window.openModal = openModal;
-window.userPerfil = userPerfil;
-window.showUserInfo = showUserInfo;
-window.validateRecoveryEmail = validateRecoveryEmail;
-window.checkSession = checkSession;
+window.registerUser = registerUser;
+window.switchTab = switchTab;
 window.addEventListener('DOMContentLoaded', checkSession);

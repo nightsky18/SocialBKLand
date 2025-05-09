@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Restablecer Contraseña</title>
+</head>
+<body>
+  <main>
+    <h2>Restablecer contraseña</h2>
+    <form id="reset-form">
+      <label for="new-password">Nueva contraseña:</label>
+      <input type="password" id="new-password" required />
+
+      <label for="confirm-password">Confirmar contraseña:</label>
+      <input type="password" id="confirm-password" required />
+
+      <button type="submit">Restablecer</button>
+    </form>
+    <p id="reset-message" style="margin-top: 10px;"></p>
+  </main>
+
+  <script type="module" src="/assets/js/reset.js"></script>
+
+</body>
+
+</html>
