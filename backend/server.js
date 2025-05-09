@@ -370,6 +370,7 @@ async function seedDatabase() {
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
 // Asegúrate de que esta línea exista si tus imágenes están en public/assets/images y las rutas en DB son como '/assets/images/...'
 app.use('/assets', express.static(path.join(__dirname, 'public', 'assets')));
 

@@ -1,0 +1,107 @@
+/* ===== Global Styles ===== */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif; /* Consistent font family */
+    background-color: #F5F5F5; /* Light background like in catalogo.css */
+    color: #333; /* Standard text color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* ===== Main Container for the Reset Form ===== */
+main {
+    background-color: #FFFFFF; /* White background for the form container */
+    padding: 30px 40px;
+    border-radius: 12px; /* Rounded corners like in login.css modal */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+    width: 100%;
+    max-width: 450px; /* Limiting width for better readability */
+    text-align: center;
+}
+
+main h2 {
+    font-size: 26px; /* Similar to section titles */
+    color: #1E90FF; /* Primary blue color */
+    margin-bottom: 25px;
+    border-bottom: 2px solid #3CB371; /* Accent green color for underline */
+    padding-bottom: 10px;
+}
+
+/* ===== Form Styles ===== */
+#reset-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px; /* Spacing between form elements */
+}
+
+#reset-form label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #444; /* Dark grey for labels */
+    text-align: left;
+    margin-bottom: -10px; /* Reduce space above input */
+}
+
+#reset-form input[type="password"] {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc; /* Standard border */
+    border-radius: 6px; /* Rounded corners for inputs */
+    background-color: #fff;
+    color: #333;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#reset-form input[type="password"]:focus {
+    border-color: #1E90FF; /* Highlight focus with primary blue */
+}
+
+/* ===== Button Styles ===== */
+#reset-form button[type="submit"] {
+    background-color: #1E90FF; /* Primary blue for buttons */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem; /* 16px */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 10px; /* Space above the button */
+}
+
+#reset-form button[type="submit"]:hover {
+    background-color: #1C86EE; /* Darker shade on hover */
+}
+
+#reset-form button[type="submit"]:active {
+    transform: scale(0.98); /* Slight shrink effect on click */
+}
+
+/* ===== Message Paragraph ===== */
+#reset-message {
+    margin-top: 20px;
+    font-size: 0.95rem; /* 15px */
+    color: #3CB371; /* Green for success messages, can be changed via JS */
+}
+
+/* ===== Responsive Adjustments (Optional) ===== */
+@media (max-width: 480px) {
+    main {
+        padding: 20px;
+    }
+
+    main h2 {
+        font-size: 22px;
+    }
+
+    #reset-form input[type="password"],
+    #reset-form button[type="submit"] {
+        font-size: 15px;
+    }
+}

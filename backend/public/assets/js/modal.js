@@ -19,6 +19,7 @@ function openModal() {
         document.getElementById('authModal').style.display = 'block';
     }
 }
+window.openModal = openModal;
 
 function userPerfil() {
   const user = JSON.parse(sessionStorage.getItem('user'));
@@ -34,14 +35,14 @@ function userPerfil() {
     });
   }
 }
-
+window.userPerfil = userPerfil;
 
 
 // Función para cerrar el modal
 function closeModal() {
     document.getElementById('authModal').style.display = 'none';
 }
-
+window.closeModal = closeModal;
 // Función para cambiar entre pestañas
 function switchTab(tabName) {
     // Ocultar todos los contenidos de pestañas
@@ -176,11 +177,13 @@ function showUserInfoModal(user) {
     document.getElementById('user-email').textContent = user.email;
     document.getElementById('userInfoModal').style.display = 'block';
 }
+window.showUserInfoModal = showUserInfoModal;
 
 // Cerrar modal de info de usuario
 function closeUserInfoModal() {
     document.getElementById('userInfoModal').style.display = 'none';
 }
+window.closeUserInfoModal = closeUserInfoModal;
 
 
 
@@ -193,6 +196,7 @@ function showUserInfo() {
         document.getElementById('userInfoModal').style.display = 'block';
     }
 }
+window.showUserInfo = showUserInfo;
 
 
 function logout() {
@@ -216,6 +220,7 @@ function logout() {
         location.reload();
     }, 1600);
 }
+window.logout = logout;
 
 // Función para abrir modal de libro desde cualquier parte
 window.openBookModal = function () {
@@ -230,7 +235,58 @@ window.openBookModal = function () {
     //  Emitir evento para que lo escuche gestionLibros.js
     window.dispatchEvent(new Event('modal:closed'));
   };
-  
+import { validateRecoveryEmail } from './passwordRecoveryService.js';
+
+const forgotPasswordLink = document.getElementById('forgot-password-link');
+const recoverTab = document.getElementById('recover-tab');
+const loginTab = document.getElementById('login-tab');
+const recoveryForm = document.getElementById('recovery-form');
+const recoveryMessage = document.getElementById('recovery-message');
+const returnToLogin = document.getElementById('return-to-login');
+
+if (forgotPasswordLink) {
+  forgotPasswordLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTabManually('recover-tab');
+  });
+}
+
+if (returnToLogin) {
+  returnToLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTabManually('login-tab');
+  });
+}
+
+if (recoveryForm) {
+  recoveryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('recovery-email').value;
+
+    recoveryMessage.textContent = 'Verificando correo...';
+
+    const result = await validateRecoveryEmail(email);
+    if (result.success) {
+      recoveryMessage.textContent = 'Correo válido. Redirigiendo...';
+      setTimeout(() => {
+        window.location.href = `/reset.html?email=${encodeURIComponent(email)}`;
+      }, 3000);
+    } else {
+      recoveryMessage.textContent = result.message;
+    }
+  });
+}
+
+function switchTabManually(targetId) {
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.style.display = 'none';
+  });
+  const target = document.getElementById(targetId);
+  if (target) target.style.display = 'block';
+}
+
 
 // Ejecutar al cargar la página
+window.openModal = openModal;
+window.switchTab = switchTab;
 window.addEventListener('DOMContentLoaded', checkSession);

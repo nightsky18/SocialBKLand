@@ -28,34 +28,78 @@
             <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
 
             <div id="authModal" class="modal">
-                 <div class="modal-content">
-                     <span class="close-btn" onclick="closeModal()">&times;</span>
-                     <div class="tab-container">
-                         <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
-                         <div class="tab" onclick="switchTab('register')">Registrarse</div>
-                     </div>
-                     <div id="login-tab" class="tab-content active">
-                         <h2>Iniciar Sesión</h2>
-                         <form id="login-form">
-                             <input type="email" placeholder="Correo electrónico" required>
-                             <input type="password" placeholder="Contraseña" required>
-                             <button type="submit" class="submit-btn">Ingresar</button>
-                         </form>
-                     </div>
-                     <div id="register-tab" class="tab-content">
-                         <h2>Registrarse</h2>
-                         <form id="register-form">
-                             <input type="text" placeholder="Nombre completo" required>
-                             <input type="email" placeholder="Correo electrónico" required>
-                             <input type="password" placeholder="Contraseña" required>
-                             <input type="password" placeholder="Confirmar contraseña" required>
-                             <button type="submit" class="submit-btn">Registrarse</button>
-                         </form>
-                     </div>
-                 </div>
-             </div>
-             <div id="userInfoModal" class="modal">
-                 <div class="modal-content">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <div class="tab-container">
+                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                    </div>
+                    <div id="login-tab" class="tab-content active">
+                        <h2>Iniciar Sesión</h2>
+                        <form id="login-form">
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <button type="submit" class="submit-btn">Ingresar</button>
+                            <p class="forgot-password" style="text-align: center; margin-top: 10px;">
+                            <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
+                            </p>
+                        </form>
+                    </div>
+                    <div id="register-tab" class="tab-content">
+                        <h2>Registrarse</h2>
+                        <form id="register-form">
+                            <input type="text" placeholder="Nombre completo" required>
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <input type="password" placeholder="Confirmar contraseña" required>
+                            <button type="submit" class="submit-btn">Registrarse</button>
+                        </form>
+                    </div>
+                    <div class="tab-content" id="recover-tab" style="display: none;">
+                        <h2>Recuperar contraseña</h2>
+                        <form id="recovery-form">
+                            <label for="recovery-email">Correo electrónico:</label>
+                            <input type="email" id="recovery-email" required placeholder="tuemail@ejemplo.com">
+                            <button type="submit">Validar</button>
+                            <p id="recovery-message" style="margin-top: 10px;"></p>
+                            <p style="margin-top: 10px;"><a href="#" id="return-to-login">← Volver al login</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+            <div id="authModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" onclick="closeModal()">&times;</span>
+                    <div class="tab-container">
+                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                    </div>
+                    <div id="login-tab" class="tab-content active">
+                        <h2>Iniciar Sesión</h2>
+                        <form id="login-form">
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <button type="submit" class="submit-btn">Ingresar</button>
+                        </form>
+                    </div>
+                    <div id="register-tab" class="tab-content">
+                        <h2>Registrarse</h2>
+                        <form id="register-form">
+                            <input type="text" placeholder="Nombre completo" required>
+                            <input type="email" placeholder="Correo electrónico" required>
+                            <input type="password" placeholder="Contraseña" required>
+                            <input type="password" placeholder="Confirmar contraseña" required>
+                            <button type="submit" class="submit-btn">Registrarse</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="userInfoModal" class="modal">
+                <div class="modal-content">
                     <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
                     <h2>Información del Usuario</h2>
                     <p><strong>Nombre:</strong> <span id="user-name"></span></p>
@@ -111,5 +155,5 @@
 <script type="module" src="/assets/js/CartManager.js"></script>
 <script type="module" src="/assets/js/CartUIController.js"></script>
 <script type="module" src="/assets/js/carrito.js"></script>
-<script src="/assets/js/modal.js"></script>
+<script type="module" src="/assets/js/modal.js"></script>
 </html>
