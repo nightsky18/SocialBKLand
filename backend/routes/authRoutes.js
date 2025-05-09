@@ -2,6 +2,12 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const router = express.Router();
+const authController = require('../controllers/authController');
+
+router.post('/register', authController.register);
+router.get('/verify-email/:token', authController.verifyEmail);
+
+
 
 
 // Registro
@@ -13,7 +19,7 @@ router.post('/register', async (req, res) => {
     await user.save();
     res.status(201).json({ message: 'Usuario registrado con éxito' });
   } catch (err) {
-    res.status(400).json({ error: 'Error al registrar' });
+    res.status(400).json({ error: 'Error al registrar correo ya registrado' });
   }
 });
 
