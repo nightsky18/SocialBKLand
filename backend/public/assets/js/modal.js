@@ -288,6 +288,5 @@ function switchTabManually(targetId) {
 
 // Ejecutar al cargar la página
 window.openModal = openModal;
-window.registerUser = registerUser;
 window.switchTab = switchTab;
 window.addEventListener('DOMContentLoaded', checkSession);
