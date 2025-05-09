@@ -20,6 +20,22 @@ function openModal() {
     }
 }
 
+function userPerfil() {
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
+  if (user) {
+    // Redirigir al perfil
+    window.location.href = "usuario.html";
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Ingresa a tu cuenta',
+      text: 'Debes iniciar sesión para acceder al perfil.'
+    });
+  }
+}
+
+
 
 // Función para cerrar el modal
 function closeModal() {
@@ -55,87 +71,104 @@ window.onclick = function (event) {
 
 // Manejar el envío de formularios
 // LOGIN
-document.getElementById('login-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const email = this.querySelector('input[type="email"]').value;
-    const password = this.querySelector('input[type="password"]').value;
+const loginForm = document.getElementById('login-form');
 
-    const res = await fetch('/api/login', {
+if (loginForm) {
+  loginForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const email = loginForm.querySelector('input[type="email"]').value;
+    const password = loginForm.querySelector('input[type="password"]').value;
+
+    try {
+      const res = await fetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
-    });
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
+      if (res.ok) {
         sessionStorage.setItem('user', JSON.stringify(data.user));
         closeModal();
 
         if (email === "admin@example.com") {
-            localStorage.setItem('isAdmin', 'true');
-            window.location.href = "usuario.html";
+          localStorage.setItem('isAdmin', 'true');
+          window.location.href = "usuario.html";
         } else {
-            localStorage.setItem('isAdmin', 'false');
-            Swal.fire({
-                icon: 'success',
-                title: 'Bienvenido',
-                text: 'Has iniciado sesión como usuario normal',
-                timer: 2000,
-                showConfirmButton: false
-            });
+          localStorage.setItem('isAdmin', 'false');
+          Swal.fire({
+            icon: 'success',
+            title: 'Bienvenido',
+            text: 'Has iniciado sesión como usuario normal',
+            timer: 2000,
+            showConfirmButton: false
+          });
         }
-    } else {
+      } else {
         Swal.fire({
-            icon: 'error',
-            title: 'Error de autenticación',
-            text: data.message || data.error
+          icon: 'error',
+          title: 'Error de autenticación',
+          text: data.message || data.error
         });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'No se pudo conectar con el servidor'
+      });
     }
-});
+  });
+}
 
 // REGISTRO
-document.getElementById('register-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
+const registerForm = document.getElementById('register-form');
 
-    const name = document.querySelector('#register-form input[placeholder="Nombre completo"]').value;
-    const email = document.querySelector('#register-form input[placeholder="Correo electrónico"]').value;
-    const password = document.querySelector('#register-form input[placeholder="Contraseña"]').value;
-
-    try {
+if (registerForm) {
+    registerForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+  
+      const name = registerForm.querySelector('input[placeholder="Nombre completo"]').value;
+      const email = registerForm.querySelector('input[placeholder="Correo electrónico"]').value;
+      const password = registerForm.querySelector('input[placeholder="Contraseña"]').value;
+  
+      try {
         const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email, password })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password })
         });
-
+  
         const data = await response.json();
-
+  
         if (response.ok) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Registro exitoso',
-                text: '¡Ahora puedes iniciar sesión!',
-                timer: 2000,
-                showConfirmButton: false
-            });
-            closeModal();
+          Swal.fire({
+            icon: 'success',
+            title: 'Registro exitoso',
+            text: '¡Ahora puedes iniciar sesión!',
+            timer: 2000,
+            showConfirmButton: false
+          });
+          closeModal();
         } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error en el registro',
-                text: data.error || 'Intenta de nuevo'
-            });
-        }
-    } catch (error) {
-        Swal.fire({
+          Swal.fire({
             icon: 'error',
-            title: 'Error de conexión',
-            text: 'No se pudo conectar con el servidor'
+            title: 'Error en el registro',
+            text: data.error || 'Intenta de nuevo'
+          });
+        }
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de conexión',
+          text: 'No se pudo conectar con el servidor'
         });
-    }
-});
-
+      }
+    });
+  }
+  
 
 // Mostrar modal con info de usuario
 function showUserInfoModal(user) {
@@ -164,6 +197,7 @@ function showUserInfo() {
 
 function logout() {
     sessionStorage.removeItem('user');
+    window.location.href = "catalogo.html"
     closeUserInfoModal();
 
     Swal.fire({
@@ -182,6 +216,21 @@ function logout() {
         location.reload();
     }, 1600);
 }
+
+// Función para abrir modal de libro desde cualquier parte
+window.openBookModal = function () {
+    const modal = document.getElementById('bookModal');
+    if (modal) modal.style.display = 'block';
+  };
+  // Cerrar modal de libro
+  window.closeBookModal = function () {
+    const modal = document.getElementById('bookModal');
+    if (modal) modal.style.display = 'none';
+  
+    //  Emitir evento para que lo escuche gestionLibros.js
+    window.dispatchEvent(new Event('modal:closed'));
+  };
+  
 
 // Ejecutar al cargar la página
 window.addEventListener('DOMContentLoaded', checkSession);

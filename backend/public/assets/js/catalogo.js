@@ -53,6 +53,7 @@ document.querySelector('.cart-btn').addEventListener('click', function() {
     window.location.href = "./carrito.html";
 });
 
+
 // BookCollection implementa el patrón Iterator
 class BookCollection {
     constructor(books) {
@@ -117,9 +118,9 @@ function BookFactory({ id, title, price, originalPrice, category, image, isDisco
             <img src="${image}" alt="${title}">
             <h3>${title}</h3>
             <p class="price">
-                ${isDiscounted ? `<span class="original-price">$${originalPrice.toFixed(2)}</span>` : ''}
-                $${price.toFixed(2)}
-            </p>
+  ${isDiscounted && typeof originalPrice === 'number' ? `<span class="original-price">$${originalPrice.toFixed(2)}</span>` : ''}
+  $${price.toFixed(2)}
+</p>
         </a>
        <button class="add-to-cart" data-id="${id}">Añadir al Carrito</button>
     `;
