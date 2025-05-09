@@ -310,7 +310,7 @@ section h2 {
     box-shadow: 0 2px 8px rgba(255,99,71,0.08);
 }
 
-/* Ejemplo para mejorar el label y select de búsqueda */
+/* label y select de búsqueda */
 .search-bar label {
     font-size: 15px;
     margin-right: 6px;
@@ -320,4 +320,79 @@ section h2 {
     border-radius: 6px;
     border: 1px solid #1E90FF;
     font-size: 15px;
+}
+
+.advanced-btn {
+    background: #3CB371;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    margin-left: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.advanced-btn:hover {
+    background: #2e8b57;
+}
+
+.filters {
+    background: #f8fafd;
+    border: 1.5px solid #1E90FF;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(30,144,255,0.08);
+    margin: 20px 0 30px 0;
+    padding: 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    align-items: center;
+}
+.filters label {
+    font-weight: 600;
+    color: #1E90FF;
+}
+.filters input[type="number"], .filters select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #b0c4de;
+    font-size: 15px;
+    min-width: 120px;
+}
+.filters input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #1E90FF;
+    margin-right: 8px;
+}
+.filter-action {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: 10px;
+    background: #1E90FF;
+    color: #fff;
+    transition: background 0.3s;
+}
+.filter-action:hover {
+    background: #1C86EE;
+}
+.filter-action.clear {
+    background: #FF6347;
+}
+.filter-action.clear:hover {
+    background: #FF4500;
 }
