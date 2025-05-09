@@ -57,6 +57,12 @@ document.querySelector('.cart-btn').addEventListener('click', function() {
 });
 
 
+// Mostrar/ocultar filtros avanzados
+document.getElementById('toggle-filters').addEventListener('click', () => {
+    const filters = document.getElementById('filters-container');
+    filters.classList.toggle('hidden');
+});
+
 // BookCollection implementa el patrón Iterator
 class BookCollection {
     constructor(books) {
@@ -276,22 +282,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// Función para buscar libros por título
-function searchBooks(query) {
+// Búsqueda por título o autor
+function searchBooks(query, type = 'title') {
     const generalBooksSection = document.querySelector('.general-books .book-list');
     generalBooksSection.innerHTML = '';
 
     const filteredIterator = bookCollection.getIterator();
     while (filteredIterator.hasNext()) {
         const book = filteredIterator.next();
-        if (book.title.toLowerCase().includes(query.toLowerCase())) {
+        if (
+            type === 'title' && book.title.toLowerCase().includes(query.toLowerCase()) ||
+            type === 'author' && book.author && book.author.toLowerCase().includes(query.toLowerCase())
+        ) {
             const bookElement = BookFactory(book, books.indexOf(book));
             generalBooksSection.appendChild(bookElement);
         }
     }
-
     handleAddToCart();
 }
+
+// Barra de búsqueda con tipo
+document.getElementById('search-bar').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const query = e.target.value;
+        const type = document.getElementById('search-type').value;
+        searchBooks(query, type);
+    }
+});
+document.getElementById('search-btn').addEventListener('click', () => {
+    const query = document.getElementById('search-bar').value;
+    const type = document.getElementById('search-type').value;
+    searchBooks(query, type);
+});
 
 // Función para manejar la búsqueda
 function handleSearch(query) {
@@ -299,19 +321,6 @@ function handleSearch(query) {
         window.location.href = `/catalogo.html?search=${encodeURIComponent(query)}`;
     }
 }
-
-// Barra de busqueda
-document.getElementById('search-bar').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        const query = e.target.value;
-        searchBooks(query);
-    }
-});
-
-document.getElementById('search-btn').addEventListener('click', () => {
-    const query = document.getElementById('search-bar').value;
-    handleSearch(query);
-});
 
 // En la función handleAddToCart:
 function handleAddToCart() {

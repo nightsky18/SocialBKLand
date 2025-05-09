@@ -82,7 +82,12 @@
         <section class="catalogo-header">
             <h2>Catálogo de Libros</h2>
             <div class="search-bar">
-                <input type="text" id="search-bar" placeholder="Buscar por título...">
+            
+                <input type="text" id="search-bar" placeholder="Buscar...">
+                <select id="search-type">
+                    <option value="title">Título</option>
+                    <option value="author">Autor</option>
+                </select>
                 <button id="search-btn" class="search-btn">🔍</button>
             </div>
             <button id="toggle-filters">Búsqueda Avanzada</button>

@@ -295,7 +295,7 @@ section h2 {
     background-color: #1C86EE;
 }
 
-/* Mensaje "No hay coincidencias" llamativo y centrado */
+/* Mensaje "No hay coincidencias"*/
 .no-books-message {
     font-size: 1.5rem;
     color: #FF6347;
@@ -308,4 +308,16 @@ section h2 {
     padding: 18px 0;
     max-width: 400px;
     box-shadow: 0 2px 8px rgba(255,99,71,0.08);
+}
+
+/* Ejemplo para mejorar el label y select de búsqueda */
+.search-bar label {
+    font-size: 15px;
+    margin-right: 6px;
+}
+#search-type {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #1E90FF;
+    font-size: 15px;
 }
