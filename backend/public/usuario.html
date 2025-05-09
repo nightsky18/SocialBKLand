@@ -10,11 +10,8 @@
 </head>
 <body>
   <header class="header">
-    <button id="imageButton" onclick="window.location.href='/home.html'">
-      <img src="/assets/images/Logo-1.png" alt="Ir a Home" />
-    </button>
-
-    <nav class="navigation">
+             <img src="/assets/images/Logo-1.png" alt="Ir a Home" style="display: block; width: 180px; height: auto; border-radius: 8px;" />
+         <nav class="navigation">
       <ul>
         <li><a href="/catalogo.html">Biblioteca</a></li>
         <li><a href="/comunidades.html">Comunidades</a></li>
@@ -35,23 +32,28 @@
       <div class="avatar-container">
         <i class="fas fa-user-circle avatar-icon"></i>
       </div>
-      <div class="perfil-info">
-        <h2>Usuario</h2>
-        <p class="registro-fecha">📅 Registrado el: <span id="registroFecha">31-03-2023</span></p>
-        <div class="perfil-botones">
-          <button class="btn editar"><i class="fas fa-pen"></i> Editar mi perfil</button>
-          <button class="btn crear-comunidad"><i class="fas fa-users"></i> Crear Comunidad</button>
-        </div>
+          <div class="perfil-info">
+      <h2 id="perfil-nombre"></h2> <p id="perfil-email"></p>   <p class="registro-fecha">📅 Registrado el: <span id="registroFecha"></span></p> <div class="perfil-botones">
+        <button class="btn editar" id="btnEditarPerfil"><i class="fas fa-pen"></i> Editar mi perfil</button> <button class="btn crear-comunidad"><i class="fas fa-users"></i> Crear Comunidad</button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="perfil-estadisticas">
-      <div class="stat"><span id="seguidores">120</span><p>Seguidores</p></div>
-      <div class="stat"><span id="libros-compartidos">45</span><p>Libros compartidos</p></div>
-      <div class="stat"><span id="publicaciones">85</span><p>Publicaciones</p></div>
-      <div class="stat"><span id="libros-agregados">30</span><p>Libros agregados</p></div>
-    </section>
+  <div id="editProfileModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeEditProfileModal()">&times;</span>
+      <h2>Editar Perfil</h2>
+      <form id="editProfileForm">
+        <label for="editName">Nombre:</label>
+        <input type="text" id="editName" name="name" required>
 
+        <label for="editEmail">Correo electrónico:</label>
+        <input type="email" id="editEmail" name="email" required>
+
+        <button type="submit" class="submit-btn">Guardar Cambios</button>
+      </form>
+    </div>
+  </div>
     <section class="admin-seccion" id="adminSeccion" style="display: none;">
       <h2>Gestión de contenido</h2>
       <div class="grid-admin">

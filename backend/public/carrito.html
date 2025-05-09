@@ -12,24 +12,21 @@
 </head>
 <body>
     <header class="header">
-        <div class="logo">
-            <ul>
-                <li><a href="/home.html" id="imageButton"></a></li>
-            </ul>
-        </div>
-        <nav class="navigation">
-            <ul>
-                <li><a href="/catalogo.html">Biblioteca</a></li>
-                <li><a href="/comunidades.html">Comunidades</a></li>
-                <li><a href="/mis-libros.html">Mis libros</a></li>
-            </ul>
-        </nav>
-        <div class="user-actions">
+             <img src="/assets/images/Logo-1.png" alt="Ir a Home" style="display: block; width: 180px; height: auto; border-radius: 8px;" />
+
+         <nav class="navigation">
+             <ul>
+                 <li><a href="/catalogo.html">Biblioteca</a></li>
+                 <li><a href="/comunidades.html">Comunidades</a></li>
+                 <li><a href="/mis-libros.html">Mis libros</a></li>
+             </ul>
+         </nav>
+         <div class="user-actions">
             <button class="notification-btn">🔔</button>
-            <button class="cart-btn">🛒</button>
+            <button class="cart-btn" onclick="window.location.href='/carrito.html'">🛒</button>
             <button class="user-btn" onclick="userPerfil()">👤</button>
             <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
-    
+
             <div id="authModal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -109,9 +106,8 @@
                     <p><strong>Correo:</strong> <span id="user-email"></span></p>
                     <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
                 </div>
-            </div>
-            
-        </div>
+             </div>
+         </div>
     </header>
 
 
