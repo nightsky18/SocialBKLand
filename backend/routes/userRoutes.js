@@ -1,28 +1,8 @@
 // routes/userRoutes.js
 const express = require("express");
-const User = require("../models/User"); // Asegúrate de que la ruta a tu modelo User sea correcta
-// No necesitamos bcrypt aquí
-
+const User = require("../models/user"); 
 const router = express.Router();
 
-// ===================================================================
-// ADVERTENCIA DE SEGURIDAD:
-// Estas rutas NO TIENEN AUTENTICACIÓN NI AUTORIZACIÓN EN EL SERVIDOR.
-// SON EXTREMADAMENTE INSEGURAS PARA PRODUCCIÓN.
-// SE ELIMINARON LOS MIDDLEWARES 'authenticate' y 'authorizeOwner'
-// POR SOLICITUD EXPLÍCITA DEL USUARIO PARA UN ENTORNO DE PRUEBA.
-// ===================================================================
-
-// Middleware de Autenticación (ELIMINADO/IGNORADO)
-// const authenticate = (req, res, next) => { ... };
-
-// Middleware de Autorización (ELIMINADO/IGNORADO)
-// const authorizeOwner = (req, res, next) => { ... };
-
-
-// ===================================================================
-// RUTAS (SIN PROTECCIÓN - INSEGURO)
-// ===================================================================
 
 // Ruta para obtener todos los usuarios (AHORA SIN PROTECCIÓN - INSEGURO)
 // En producción, PROTEGER: solo para administradores.

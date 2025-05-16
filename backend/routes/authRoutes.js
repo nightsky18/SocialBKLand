@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const User = require('../models/User');
+const User = require('../models/user');
 const router = express.Router();
 
 
@@ -8,17 +8,59 @@ const router = express.Router();
 
 
 // Registro
+
 router.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
+
+  // 1. Validación de campos obligatorios
+  if (!name || !email || !password || !confirmPassword) {
+    return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+  }
+
+  // 2. Validar que el nombre sea completo (al menos dos palabras)
+  if (name.trim().split(' ').length < 2) {
+    return res.status(400).json({ error: 'Por favor ingresa tu nombre completo (nombre y apellido)' });
+  }
+
+  // 3. Validar formato de correo electrónico
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Correo electrónico inválido' });
+  }
+
+  // 4. Validar que las contraseñas coincidan
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: 'Las contraseñas no coinciden' });
+  }
+
+  // 5. Validar fortaleza de contraseña
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+  if (!passwordRegex.test(password)) {
+    return res.status(400).json({
+      error: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una minúscula y un número'
+    });
+  }
+
   try {
+    // 6. Verificar si ya existe el correo
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Este correo ya está registrado' });
+    }
+
+    // 7. Crear y guardar el nuevo usuario
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
+
     res.status(201).json({ message: 'Usuario registrado con éxito' });
   } catch (err) {
-    res.status(400).json({ error: 'Error al registrar correo ya registrado' });
+    console.error('❌ Error en el registro:', err);
+    res.status(500).json({ error: 'Error del servidor al registrar el usuario' });
   }
 });
+
+
 
 // Login
 router.post('/login', async (req, res) => {
@@ -29,10 +71,18 @@ router.post('/login', async (req, res) => {
 
     const match = await bcrypt.compare(password, user.password);
     if (!match) return res.status(401).json({ error: 'Contraseña incorrecta' });
-    res.status(200).json({ 
-      message: 'Inicio de sesión exitoso',
-      user: { _id: user._id, name: user.name, email: user.email }
-    });
+   res.status(200).json({
+    message: 'Inicio de sesión exitoso',
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      image: user.image || null,
+      createdAt: user.createdAt,
+      address: user.address || null,
+    }
+  });
   } catch (err) {
     res.status(500).json({ error: 'Error del servidor' });
   }

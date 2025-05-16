@@ -91,18 +91,18 @@ if (loginForm) {
       const data = await res.json();
 
       if (res.ok) {
-        sessionStorage.setItem('user', JSON.stringify(data.user));
+        const user = data.user;
+        sessionStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('isAdmin', user.isAdmin ? 'true' : 'false');
         closeModal();
 
-        if (email === "admin@example.com") {
-          localStorage.setItem('isAdmin', 'true');
+        if (user.isAdmin) {
           window.location.href = "usuario.html";
         } else {
-          localStorage.setItem('isAdmin', 'false');
           Swal.fire({
             icon: 'success',
             title: 'Bienvenido',
-            text: 'Has iniciado sesión como usuario normal',
+            text: 'Has iniciado sesión exitosamente',
             timer: 2000,
             showConfirmButton: false
           });
@@ -128,48 +128,49 @@ if (loginForm) {
 const registerForm = document.getElementById('register-form');
 
 if (registerForm) {
-    registerForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-  
-      const name = registerForm.querySelector('input[placeholder="Nombre completo"]').value;
-      const email = registerForm.querySelector('input[placeholder="Correo electrónico"]').value;
-      const password = registerForm.querySelector('input[placeholder="Contraseña"]').value;
-  
-      try {
-        const response = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password })
+  registerForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = registerForm.querySelector('input[placeholder="Nombre completo"]').value;
+    const email = registerForm.querySelector('input[placeholder="Correo electrónico"]').value;
+    const password = registerForm.querySelector('input[placeholder="Contraseña"]').value;
+    const confirmPassword = registerForm.querySelector('input[placeholder="Confirmar contraseña"]').value;
+
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, confirmPassword })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro exitoso',
+          text: '¡Ahora puedes iniciar sesión!',
+          timer: 2000,
+          showConfirmButton: false
         });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Registro exitoso',
-            text: '¡Ahora puedes iniciar sesión!',
-            timer: 2000,
-            showConfirmButton: false
-          });
-          closeModal();
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error en el registro',
-            text: data.error || 'Intenta de nuevo'
-          });
-        }
-      } catch (error) {
+        closeModal();
+      } else {
         Swal.fire({
           icon: 'error',
-          title: 'Error de conexión',
-          text: 'No se pudo conectar con el servidor'
+          title: 'Error en el registro',
+          text: data.error || 'Intenta de nuevo'
         });
       }
-    });
-  }
-  
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'No se pudo conectar con el servidor'
+      });
+    }
+  });
+}
+
 
 // Mostrar modal con info de usuario
 function showUserInfoModal(user) {

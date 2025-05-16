@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const isAdmin = localStorage.getItem('isAdmin') === 'true';
-  window.user = { isAdmin };
+  const userData = sessionStorage.getItem('user');
+  let isAdmin = false;
+
+  if (userData) {
+    try {
+      const user = JSON.parse(userData);
+      isAdmin = user.isAdmin === true;
+    } catch (e) {
+      console.error("Error parsing user data:", e);
+    }
+  }
 
   const adminBtn = document.getElementById("openBookModal");
   const adminSeccion = document.getElementById("adminSeccion");
@@ -11,9 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (adminSeccion) adminSeccion.style.display = "block";
     if (librosStat) librosStat.closest(".stat").style.display = "block";
 
-    // Navegar a gestión de libros
     adminBtn?.addEventListener("click", () => {
-      window.location.href = "/gestionLibros.html"; 
+      window.location.href = "/gestionLibros.html";
     });
   }
 });

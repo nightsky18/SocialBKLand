@@ -1,18 +1,89 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
+const userSchema = new Schema({
+
+  // Datos personales
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true
+  },
+
+  password: {
+    type: String,
+    required: true
+  },
+
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+
+  // Imagen de perfil 
+  image: {
+    type: String 
+  },
+
+  // Dirección estructurada
+  address: {
+    street: { type: String },
+    city: { type: String },
+    postalCode: { type: String },
+    country: { type: String }
+  },
+
+  // Métodos de pago
+  paymentMethods: [
+    {
+      type: {
+        type: String,
+        enum: ['Tarjeta', 'PayPal', 'Criptomoneda'],
+        required: true
+      },
+      details: {
+        type: String,
+        required: true
+      },
+      lastUsed: {
+        type: Date
+      }
+    }
+  ],
+
+  // Historial de compras (pagos)
+  purchaseHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Payment'
+    }
+  ],
+
+  // Relaciones directas
+  communities: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Community'
+    }
+  ],
+
+  cart: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Cart'
+  }
+
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('User', userSchema);
-
-
-
-
-
-
 
 
 
