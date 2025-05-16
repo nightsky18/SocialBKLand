@@ -12,8 +12,8 @@ function openModal() {
     const user = JSON.parse(sessionStorage.getItem('user'));
 
     if (user) {
-        // Si hay usuario en sesión, mostrar modal de información
-        showUserInfo();
+        window.location.href = "usuario.html";
+       
     } else {
         // Si no hay sesión, mostrar modal de login/registro
         document.getElementById('authModal').style.display = 'block';
@@ -72,6 +72,7 @@ window.onclick = function (event) {
 
 // Manejar el envío de formularios
 // LOGIN
+// LOGIN
 const loginForm = document.getElementById('login-form');
 
 if (loginForm) {
@@ -97,15 +98,29 @@ if (loginForm) {
         closeModal();
 
         if (user.isAdmin) {
-          window.location.href = "usuario.html";
+          Swal.fire({
+            icon: 'success',
+            title: 'Bienvenido',
+            text: 'Has iniciado sesión como administrador',
+            timer: 1200,
+            showConfirmButton: false
+          });
+
+          setTimeout(() => {
+            window.location.href = "usuario.html";
+          }, 1000);
         } else {
           Swal.fire({
             icon: 'success',
             title: 'Bienvenido',
             text: 'Has iniciado sesión exitosamente',
-            timer: 2000,
+            timer: 1200,
             showConfirmButton: false
           });
+
+          setTimeout(() => {
+            window.location.href = "usuario.html";
+          }, 1000);
         }
       } else {
         Swal.fire({

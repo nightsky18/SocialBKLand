@@ -1,70 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestión de Libros | SocialBKLand</title>
+  <link rel="stylesheet" href="/assets/css/mi-cuenta.css" />
   <link rel="stylesheet" href="/assets/css/header-footer.css" />
   <link rel="stylesheet" href="/assets/css/libros.css" />
   <link rel="stylesheet" href="/assets/css/book-form.css" />
   <link rel="stylesheet" href="/assets/css/gestion-libros.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
+
 <body>
   <!-- Header -->
   <header class="header">
-             <img src="/assets/images/Logo-1.png" alt="Ir a Home" style="display: block; width: 180px; height: auto; border-radius: 8px;" />
-         <nav class="navigation">
-        <ul>
-            <li><a href="/catalogo.html">Biblioteca</a></li>
-            <li><a href="/comunidades.html">Comunidades</a></li>
-            <li><a href="/mis-libros.html">Mis libros</a></li>
-        </ul>
+    <img src="/assets/images/Logo-1.png" alt="Ir a Home"
+      style="display: block; width: 180px; height: auto; border-radius: 8px;" />
+    <nav class="navigation">
+      <ul>
+        <li><a href="/catalogo.html">Biblioteca</a></li>
+        <li><a href="/comunidades.html">Comunidades</a></li>
+        <li><a href="/mis-libros.html">Mis libros</a></li>
+      </ul>
     </nav>
     <div class="user-actions">
-        <button class="notification-btn">🔔</button>
-        <button class="cart-btn">🛒</button>
-        <button class="user-btn" onclick="userPerfil()">👤</button>
-        <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
-
-        <div id="authModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()">&times;</span>
-                <div class="tab-container">
-                    <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
-                    <div class="tab" onclick="switchTab('register')">Registrarse</div>
-                </div>
-                <div id="login-tab" class="tab-content active">
-                    <h2>Iniciar Sesión</h2>
-                    <form id="login-form">
-                        <input type="email" placeholder="Correo electrónico" required>
-                        <input type="password" placeholder="Contraseña" required>
-                        <button type="submit" class="submit-btn">Ingresar</button>
-                    </form>
-                </div>
-                <div id="register-tab" class="tab-content">
-                    <h2>Registrarse</h2>
-                    <form id="register-form">
-                        <input type="text" placeholder="Nombre completo" required>
-                        <input type="email" placeholder="Correo electrónico" required>
-                        <input type="password" placeholder="Contraseña" required>
-                        <input type="password" placeholder="Confirmar contraseña" required>
-                        <button type="submit" class="submit-btn">Registrarse</button>
-                    </form>
-                </div>
-            </div>
+      <button class="notification-btn">🔔</button>
+      <button class="cart-btn">🛒</button>
+      <div class="user-menu">
+        <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
+          👤 <span id="userGreeting">Mi Cuenta</span>
+          <i class="arrow-down"></i>
+        </button>
+        <div id="userDropdown" class="dropdown-content">
+          <a href="/usuario.html">Mi Cuenta</a>
+          <a href="">Seguimiento de Pedido</a>
+          <a href="#" onclick="logout()">Cerrar Sesión</a>
         </div>
-        <div id="userInfoModal" class="modal">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
-                <h2>Información del Usuario</h2>
-                <p><strong>Nombre:</strong> <span id="user-name"></span></p>
-                <p><strong>Correo:</strong> <span id="user-email"></span></p>
-                <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
-            </div>
-        </div>
+      </div>
     </div>
-</header>
+
+    <div id="authModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="tab-container">
+          <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+          <div class="tab" onclick="switchTab('register')">Registrarse</div>
+        </div>
+        <div id="login-tab" class="tab-content active">
+          <h2>Iniciar Sesión</h2>
+          <form id="login-form">
+            <input type="email" placeholder="Correo electrónico" required>
+            <input type="password" placeholder="Contraseña" required>
+            <button type="submit" class="submit-btn">Ingresar</button>
+          </form>
+        </div>
+        <div id="register-tab" class="tab-content">
+          <h2>Registrarse</h2>
+          <form id="register-form">
+            <input type="text" placeholder="Nombre completo" required>
+            <input type="email" placeholder="Correo electrónico" required>
+            <input type="password" placeholder="Contraseña" required>
+            <input type="password" placeholder="Confirmar contraseña" required>
+            <button type="submit" class="submit-btn">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="userInfoModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+        <h2>Información del Usuario</h2>
+        <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+        <p><strong>Correo:</strong> <span id="user-email"></span></p>
+        <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+      </div>
+    </div>
+    </div>
+  </header>
 
   <main class="admin-libros-page">
     <section class="libros-header">
@@ -150,74 +164,74 @@
       <!-- Aquí se inserta el formulario dinámicamente vía JS -->
     </section>
     <!-- Modal para agregar libro -->
-<div id="bookModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close" id="closeBookModal">&times;</span>
-    <h2>Agregar nuevo libro</h2>
+    <div id="bookModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close" id="closeBookModal">&times;</span>
+        <h2>Agregar nuevo libro</h2>
 
-    <form id="bookForm">
-      <div class="form-group">
-        <label for="title">Título*</label>
-        <input type="text" name="title" id="title" required />
+        <form id="bookForm">
+          <div class="form-group">
+            <label for="title">Título*</label>
+            <input type="text" name="title" id="title" required />
+          </div>
+
+          <div class="form-group">
+            <label for="author">Autor*</label>
+            <input type="text" name="author" id="author" required />
+          </div>
+
+          <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" name="isbn" id="isbn" />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Categoría*</label>
+            <input type="text" name="category" id="category" list="categorias-list" required />
+            <datalist id="categorias-list"></datalist>
+
+          </div>
+
+          <div class="form-group">
+            <label for="price">Precio*</label>
+            <input type="number" name="price" id="price" step="0.01" required />
+          </div>
+
+          <div class="form-group">
+            <label for="originalPrice">Precio original</label>
+            <input type="number" name="originalPrice" id="originalPrice" step="0.01" />
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">Cantidad*</label>
+            <input type="number" name="quantity" id="quantity" required />
+          </div>
+
+          <div class="form-group">
+            <label for="imageFile">Imagen*</label>
+            <input type="file" name="imageFile" id="imageFile" accept="image/*" />
+            <img id="previewImage" src="/assets/images/default-book.jpg" class="preview-img" />
+          </div>
+
+
+          <div class="form-group">
+            <label for="description">Descripción*</label>
+            <textarea name="description" id="description" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="deliveryTime">Tiempo de entrega</label>
+            <input type="text" name="deliveryTime" id="deliveryTime" />
+          </div>
+
+          <div class="form-group">
+            <label><input type="checkbox" name="isDiscounted" /> ¿Tiene descuento?</label>
+          </div>
+
+          <button type="submit" class="submit-btn">Guardar libro</button>
+        </form>
       </div>
-
-      <div class="form-group">
-        <label for="author">Autor*</label>
-        <input type="text" name="author" id="author" required />
-      </div>
-
-      <div class="form-group">
-        <label for="isbn">ISBN</label>
-        <input type="text" name="isbn" id="isbn" />
-      </div>
-
-      <div class="form-group">
-        <label for="category">Categoría*</label>
-        <input type="text" name="category" id="category" list="categorias-list" required />
-        <datalist id="categorias-list"></datalist>
-
-      </div>
-
-      <div class="form-group">
-        <label for="price">Precio*</label>
-        <input type="number" name="price" id="price" step="0.01" required />
-      </div>
-
-      <div class="form-group">
-        <label for="originalPrice">Precio original</label>
-        <input type="number" name="originalPrice" id="originalPrice" step="0.01" />
-      </div>
-
-      <div class="form-group">
-        <label for="quantity">Cantidad*</label>
-        <input type="number" name="quantity" id="quantity" required />
-      </div>
-
-      <div class="form-group">
-        <label for="imageFile">Imagen*</label>
-        <input type="file" name="imageFile" id="imageFile" accept="image/*" />
-        <img id="previewImage" src="/assets/images/default-book.jpg" class="preview-img" />
-      </div>
-      
-
-      <div class="form-group">
-        <label for="description">Descripción*</label>
-        <textarea name="description" id="description" required></textarea>
-      </div>
-
-      <div class="form-group">
-        <label for="deliveryTime">Tiempo de entrega</label>
-        <input type="text" name="deliveryTime" id="deliveryTime" />
-      </div>
-
-      <div class="form-group">
-        <label><input type="checkbox" name="isDiscounted" /> ¿Tiene descuento?</label>
-      </div>
-
-      <button type="submit" class="submit-btn">Guardar libro</button>
-    </form>
-  </div>
-</div>
+    </div>
 
   </main>
 
@@ -236,7 +250,9 @@
   <script type="module" src="/assets/js/chat/SupportChat.js"></script>
   <support-chat></support-chat>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/assets/js/Micuenta.js"></script>
   <script type="module" src="/assets/js/modal.js"></script>
-  <script src="/assets/js/gestionLibros.js"></script>  
+  <script src="/assets/js/gestionLibros.js"></script>
 </body>
+
 </html>

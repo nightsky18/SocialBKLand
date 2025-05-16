@@ -272,6 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+
+
+
 // Define openEditProfileModal y closeEditProfileModal globalmente si no estás usando módulos
 // Si estás usando modules (type="module"), puedes exportarlas o asegurarte de que el DOMContentLoaded las defina en el ámbito correcto
 // window.openEditProfileModal = openEditProfileModal;

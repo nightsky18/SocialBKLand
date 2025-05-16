@@ -45,7 +45,7 @@ const userSchema = new Schema({
     {
       type: {
         type: String,
-        enum: ['Tarjeta', 'PayPal', 'Criptomoneda'],
+        enum: ['Tarjeta', 'Transferencia'],
         required: true
       },
       details: {

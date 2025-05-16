@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialBKLand - Preguntas frecuentes</title>
     <link rel="stylesheet" href="/assets/css/catalogo.css">
+    <link rel="stylesheet" href="/assets/css/mi-cuenta.css">
     <link rel="stylesheet" href="/assets/css/header-footer.css">
     <link rel="stylesheet" href="/assets/css/login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -23,9 +24,18 @@
         <div class="user-actions">
     <button class="notification-btn">🔔</button>
     <button class="cart-btn">🛒</button>
-<button class="user-btn" onclick="userPerfil()">👤</button>
-      <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
-      
+         <div class="user-menu">
+        <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
+        👤 <span id="userGreeting">Mi Cuenta</span>
+        <i class="arrow-down"></i>
+    </button>
+  <div id="userDropdown" class="dropdown-content">
+    <a href="/usuario.html">Mi Cuenta</a>
+    <a href="">Seguimiento de Pedido</a>
+    <a href="#" onclick="logout()">Cerrar Sesión</a>
+  </div>
+</div>
+    </div>
     
 
     <div id="userInfo" style="display: none;">
@@ -132,4 +142,5 @@
 </body>
 <script src=""></script>
 <script type="module" src="/assets/js/modal.js"></script>
+<script src="/assets/js/Micuenta.js"></script>
 </html>
