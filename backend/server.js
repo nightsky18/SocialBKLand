@@ -380,14 +380,13 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "catalogo.html"));
 });
 
-// Rutas API (ya existentes, solo nos aseguramos de que 'bookRoutes' tenga la ruta :id)
+
 app.use("/api/admins", require("./routes/adminRoutes"));
 // Asumiendo que uploadRoutes requiere el objeto upload
 app.use("/api/upload", require("./routes/uploadRoutes")(upload));
 // Asegúrate de que './routes/bookRoutes' contenga la ruta GET /:id
 app.use("/api/books", require("./routes/bookRoutes"));
-app.use("/api/cart", require("./routes/cartRoutes")); // Asumimos que este maneja la lógica del carrito (¿backend?)
-app.use("/api/clients", require("./routes/clientRoutes"));
+app.use("/api/cart", require("./routes/cartRoutes")); // Asumimos que este maneja la lógica del carrito 
 app.use("/api/community", require("./routes/communityRoutes"));
 app.use("/api/payments", require("./routes/paymentRoutes"));
 app.use("/api/payment-methods", require("./routes/paymentMethodRoutes"));

@@ -7,8 +7,7 @@ import { requireUserSession } from './sessionService.js';
 // Asumiendo SweetAlert2 está disponible globalmente (incluido en HTML o otro script)
 // import Swal from 'sweetalert2';
 
-// NOTA IMPORTANTE: El array 'books' hardcodeado HA SIDO ELIMINADO de este archivo.
-// La data del libro se obtendrá del back-end a través del endpoint /api/books/:id
+
 
 // Función asíncrona para obtener los detalles del libro desde la API del back-end y renderizarlos
 async function fetchAndRenderBookDetails() {

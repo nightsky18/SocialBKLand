@@ -12,8 +12,8 @@ function openModal() {
     const user = JSON.parse(sessionStorage.getItem('user'));
 
     if (user) {
-        // Si hay usuario en sesión, mostrar modal de información
-        showUserInfo();
+        window.location.href = "usuario.html";
+       
     } else {
         // Si no hay sesión, mostrar modal de login/registro
         document.getElementById('authModal').style.display = 'block';
@@ -72,6 +72,7 @@ window.onclick = function (event) {
 
 // Manejar el envío de formularios
 // LOGIN
+// LOGIN
 const loginForm = document.getElementById('login-form');
 
 if (loginForm) {
@@ -91,21 +92,35 @@ if (loginForm) {
       const data = await res.json();
 
       if (res.ok) {
-        sessionStorage.setItem('user', JSON.stringify(data.user));
+        const user = data.user;
+        sessionStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('isAdmin', user.isAdmin ? 'true' : 'false');
         closeModal();
 
-        if (email === "admin@example.com") {
-          localStorage.setItem('isAdmin', 'true');
-          window.location.href = "usuario.html";
-        } else {
-          localStorage.setItem('isAdmin', 'false');
+        if (user.isAdmin) {
           Swal.fire({
             icon: 'success',
             title: 'Bienvenido',
-            text: 'Has iniciado sesión como usuario normal',
-            timer: 2000,
+            text: 'Has iniciado sesión como administrador',
+            timer: 1200,
             showConfirmButton: false
           });
+
+          setTimeout(() => {
+            window.location.href = "usuario.html";
+          }, 1000);
+        } else {
+          Swal.fire({
+            icon: 'success',
+            title: 'Bienvenido',
+            text: 'Has iniciado sesión exitosamente',
+            timer: 1200,
+            showConfirmButton: false
+          });
+
+          setTimeout(() => {
+            window.location.href = "usuario.html";
+          }, 1000);
         }
       } else {
         Swal.fire({
@@ -128,48 +143,49 @@ if (loginForm) {
 const registerForm = document.getElementById('register-form');
 
 if (registerForm) {
-    registerForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-  
-      const name = registerForm.querySelector('input[placeholder="Nombre completo"]').value;
-      const email = registerForm.querySelector('input[placeholder="Correo electrónico"]').value;
-      const password = registerForm.querySelector('input[placeholder="Contraseña"]').value;
-  
-      try {
-        const response = await fetch('/api/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password })
+  registerForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = registerForm.querySelector('input[placeholder="Nombre completo"]').value;
+    const email = registerForm.querySelector('input[placeholder="Correo electrónico"]').value;
+    const password = registerForm.querySelector('input[placeholder="Contraseña"]').value;
+    const confirmPassword = registerForm.querySelector('input[placeholder="Confirmar contraseña"]').value;
+
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, confirmPassword })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro exitoso',
+          text: '¡Ahora puedes iniciar sesión!',
+          timer: 2000,
+          showConfirmButton: false
         });
-  
-        const data = await response.json();
-  
-        if (response.ok) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Registro exitoso',
-            text: '¡Ahora puedes iniciar sesión!',
-            timer: 2000,
-            showConfirmButton: false
-          });
-          closeModal();
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error en el registro',
-            text: data.error || 'Intenta de nuevo'
-          });
-        }
-      } catch (error) {
+        closeModal();
+      } else {
         Swal.fire({
           icon: 'error',
-          title: 'Error de conexión',
-          text: 'No se pudo conectar con el servidor'
+          title: 'Error en el registro',
+          text: data.error || 'Intenta de nuevo'
         });
       }
-    });
-  }
-  
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'No se pudo conectar con el servidor'
+      });
+    }
+  });
+}
+
 
 // Mostrar modal con info de usuario
 function showUserInfoModal(user) {

@@ -407,8 +407,8 @@ async function editarLibro(id) {
     if (book.quantity <= 0) {
       errors.push('La cantidad debe ser mayor que 0');
     }
-    if (book.isDiscounted && book.originalPrice < book.price) {
-      errors.push('El precio original no puede ser menor al precio con descuento');
+    if (book.isDiscounted && book.originalPrice <= book.price) {
+      errors.push('El precio original no puede ser menor o igual al precio con descuento');
     } else if (!book.isDiscounted && book.originalPrice !== book.price) {
       errors.push('El precio original debe ser igual al precio si no hay descuento');
     }

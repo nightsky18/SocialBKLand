@@ -1,79 +1,92 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialBKLand - Comunidades</title>
+    <link rel="stylesheet" href="/assets/css/mi-cuenta.css">
     <link rel="stylesheet" href="/assets/css/header-footer.css">
     <link rel="stylesheet" href="/assets/css/login.css">
-    <link rel="stylesheet" href="/assets/css/comunidades.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/comunidades.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
+
 <body>
     <header class="header">
-             <img src="/assets/images/Logo-1.png" alt="Ir a Home" style="display: block; width: 180px; height: auto; border-radius: 8px;" />
-         <nav class="navigation">
-             <ul>
-                 <li><a href="/catalogo.html">Biblioteca</a></li>
-                 <li><a href="/comunidades.html">Comunidades</a></li>
-                 <li><a href="/mis-libros.html">Mis libros</a></li>
-             </ul>
-         </nav>
-         <div class="user-actions">
+        <img src="/assets/images/Logo-1.png" alt="Ir a Home"
+            style="display: block; width: 180px; height: auto; border-radius: 8px;" />
+        <nav class="navigation">
+            <ul>
+                <li><a href="/catalogo.html">Biblioteca</a></li>
+                <li><a href="/comunidades.html">Comunidades</a></li>
+                <li><a href="/mis-libros.html">Mis libros</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
             <button class="notification-btn">🔔</button>
             <button class="cart-btn" onclick="window.location.href='/carrito.html'">🛒</button>
-            <button class="user-btn" onclick="userPerfil()">👤</button>
-            <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
-
-            <div id="authModal" class="modal">
-                 <div class="modal-content">
-                     <span class="close-btn" onclick="closeModal()">&times;</span>
-                     <div class="tab-container">
-                         <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
-                         <div class="tab" onclick="switchTab('register')">Registrarse</div>
-                     </div>
-                     <div id="login-tab" class="tab-content active">
-                         <h2>Iniciar Sesión</h2>
-                         <form id="login-form">
-                            <input type="email" placeholder="Correo electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <button type="submit" class="submit-btn">Ingresar</button>
-                            <p class="forgot-password" style="text-align: center; margin-top: 10px;">
-                            <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
-                            </p>
-                         </form>
-                     </div>
-                     <div id="register-tab" class="tab-content">
-                         <h2>Registrarse</h2>
-                         <form id="register-form">
-                             <input type="text" placeholder="Nombre completo" required>
-                             <input type="email" placeholder="Correo electrónico" required>
-                             <input type="password" placeholder="Contraseña" required>
-                             <input type="password" placeholder="Confirmar contraseña" required>
-                             <button type="submit" class="submit-btn">Registrarse</button>
-                         </form>
-                     </div>
-                     <div class="tab-content" id="recover-tab" style="display: none;">
-                        <h2>Recuperar contraseña</h2>
-                        <form id="recovery-form">
-                            <label for="recovery-email">Correo electrónico:</label>
-                            <input type="email" id="recovery-email" required placeholder="tuemail@ejemplo.com">
-                            <button type="submit">Validar</button>
-                            <p id="recovery-message" style="margin-top: 10px;"></p>
-                            <p style="margin-top: 10px;"><a href="#" id="return-to-login">← Volver al login</a></p>
-                        </form>
-                    </div>
-                 </div>
-             </div>
-             <div id="userInfoModal" class="modal">
-                 <div class="modal-content">
-                    <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
-                    <h2>Información del Usuario</h2>
-                    <p><strong>Nombre:</strong> <span id="user-name"></span></p>
-                    <p><strong>Correo:</strong> <span id="user-email"></span></p>
-                    <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+            <div class="user-menu">
+                <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
+                    👤 <span id="userGreeting">Mi Cuenta</span>
+                    <i class="arrow-down"></i>
+                </button>
+                <div id="userDropdown" class="dropdown-content">
+                    <a href="/usuario.html">Mi Cuenta</a>
+                    <a href="">Seguimiento de Pedido</a>
+                    <a href="#" onclick="logout()">Cerrar Sesión</a>
                 </div>
-             </div>
-         </div>
+
+                <div id="authModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeModal()">&times;</span>
+                        <div class="tab-container">
+                            <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                            <div class="tab" onclick="switchTab('register')">Registrarse</div>
+                        </div>
+                        <div id="login-tab" class="tab-content active">
+                            <h2>Iniciar Sesión</h2>
+                            <form id="login-form">
+                                <input type="email" placeholder="Correo electrónico" required>
+                                <input type="password" placeholder="Contraseña" required>
+                                <button type="submit" class="submit-btn">Ingresar</button>
+                                <p class="forgot-password" style="text-align: center; margin-top: 10px;">
+                                    <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
+                                </p>
+                            </form>
+                        </div>
+                        <div id="register-tab" class="tab-content">
+                            <h2>Registrarse</h2>
+                            <form id="register-form">
+                                <input type="text" placeholder="Nombre completo" required>
+                                <input type="email" placeholder="Correo electrónico" required>
+                                <input type="password" placeholder="Contraseña" required>
+                                <input type="password" placeholder="Confirmar contraseña" required>
+                                <button type="submit" class="submit-btn">Registrarse</button>
+                            </form>
+                        </div>
+                        <div class="tab-content" id="recover-tab" style="display: none;">
+                            <h2>Recuperar contraseña</h2>
+                            <form id="recovery-form">
+                                <label for="recovery-email">Correo electrónico:</label>
+                                <input type="email" id="recovery-email" required placeholder="tuemail@ejemplo.com">
+                                <button type="submit">Validar</button>
+                                <p id="recovery-message" style="margin-top: 10px;"></p>
+                                <p style="margin-top: 10px;"><a href="#" id="return-to-login">← Volver al login</a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="userInfoModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+                        <h2>Información del Usuario</h2>
+                        <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+                        <p><strong>Correo:</strong> <span id="user-email"></span></p>
+                        <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+                    </div>
+                </div>
+            </div>
     </header>
 
     <main class="communities-page">
@@ -81,31 +94,38 @@
         <p class="page-description">Conéctate con otros lectores, comparte tus opiniones y descubre nuevos libros.</p>
 
         <div id="communities-grid" class="communities-grid">
-            <p id="loading-message" style="grid-column: 1 / -1; text-align: center; color: #888;">Cargando comunidades...</p>
-             <p id="no-communities-message" style="display: none; grid-column: 1 / -1; text-align: center; color: #888;">No se encontraron comunidades.</p>
+            <p id="loading-message" style="grid-column: 1 / -1; text-align: center; color: #888;">Cargando
+                comunidades...</p>
+            <p id="no-communities-message" style="display: none; grid-column: 1 / -1; text-align: center; color: #888;">
+                No se encontraron comunidades.</p>
         </div>
     </main>
 
     <footer>
-       <div class="footer-content">
-            <div class="footer-logo" style="width: 180px; height: 60px; background-image: url('/assets/images/Logo-1.png'); background-size: contain; background-repeat: no-repeat; background-position: center;">
+        <div class="footer-content">
+            <div class="footer-logo"
+                style="width: 180px; height: 60px; background-image: url('/assets/images/Logo-1.png'); background-size: contain; background-repeat: no-repeat; background-position: center;">
             </div>
             <div class="footer-social">
-                 <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                 <a href="https://t.me" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                 <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                 <a href="mailto:support@socialbkland.com" aria-label="Gmail"><i class="fas fa-envelope"></i></a>
-             </div>
-         </div>
+                <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://t.me" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i
+                        class="fab fa-instagram"></i></a>
+                <a href="mailto:support@socialbkland.com" aria-label="Gmail"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
     </footer>
 
-    <script type="module" src="./assets/js/modal.js"></script> 
-    <script src="./assets/js/comunidades.js"></script> 
-    <script type="module" src="/assets/js/chat/SupportChat.js"></script> <support-chat></support-chat>
+    <script type="module" src="./assets/js/modal.js"></script>
+    <script src="./assets/js/comunidades.js"></script>
+    <script src="/assets/js/Micuenta.js"></script>
+    <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+    <support-chat></support-chat>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <support-chat></support-chat>
     <a href="/preguntas.html" class="floating-faq-btn" title="Soporte y Preguntas Frecuentes">
         🔧 FAQ
     </a>
 </body>
+
 </html>

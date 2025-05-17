@@ -1,0 +1,59 @@
+
+/* Dropdown de notificaciones adaptado al diseño */
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: #262626; /* Midnight Blue */
+  color: #ffffff;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  z-index: 1000;
+  padding: 8px 0;
+}
+
+/* Mostrar el dropdown cuando es visible */
+.notification-dropdown.visible {
+  display: block;
+}
+
+/* Cada notificación */
+.notification-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: #333333; /* Black - Lightest */
+}
+
+.notification-item.unread {
+  background-color: #1E90FF20; /* Dodger Blue transparente */
+  font-weight: 600;
+}
+
+/* Fecha de la notificación */
+.notification-item .date {
+  display: block;
+  font-size: 0.75rem;
+  color: #cccccc;
+  margin-top: 4px;
+}
+
+/* Badge de cantidad */
+#notification-count {
+  color: rgba(255, 46, 4, 0.916);
+  font: 1em sans-serif;
+  font-size: 1 rem;
+  padding: 2px 6px;
+  position: relative;
+  top: -5px;
+  left: -5px;
+}

@@ -1,6 +1,6 @@
 // middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../models/user');
 
 /**
  * Middleware para verificar el token JWT de autorización.

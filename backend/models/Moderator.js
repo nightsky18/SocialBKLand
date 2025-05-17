@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./User');
+const User = require('./user');
 
 // Lista de permisos válidos
 const PERMISOS_VALIDOS = [

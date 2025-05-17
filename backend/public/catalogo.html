@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SocialBKLand - Catálogo</title>
+    <link rel="stylesheet" href="/assets/css/mi-cuenta.css">
     <link rel="stylesheet" href="/assets/css/header-footer.css">
     <link rel="stylesheet" href="/assets/css/catalogo.css">
     <link rel="stylesheet" href="/assets/css/login.css">
@@ -13,71 +14,82 @@
 
 <body>
     <header class="header">
-             <img src="/assets/images/Logo-1.png" alt="Ir a Home" style="display: block; width: 180px; height: auto; border-radius: 8px;" />
-         <nav class="navigation">
-             <ul>
-                 <li><a href="/catalogo.html">Biblioteca</a></li>
-                 <li><a href="/comunidades.html">Comunidades</a></li>
-                 <li><a href="/mis-libros.html">Mis libros</a></li>
-             </ul>
-         </nav>
-         <div class="user-actions">
+        <img src="/assets/images/Logo-1.png" alt="Ir a Home"
+            style="display: block; width: 180px; height: auto; border-radius: 8px;" />
+        <nav class="navigation">
+            <ul>
+                <li><a href="/catalogo.html">Biblioteca</a></li>
+                <li><a href="/comunidades.html">Comunidades</a></li>
+                <li><a href="/mis-libros.html">Mis libros</a></li>
+            </ul>
+        </nav>
+        <div class="user-actions">
             <button class="notification-btn">🔔</button>
             <button class="cart-btn" onclick="window.location.href='/carrito.html'">🛒</button>
-            <button class="user-btn" onclick="userPerfil()">👤</button>
-            <button class="login-btn" onclick="openModal()" id="loginBtn">🔒</button>
-
-            <div id="authModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" onclick="closeModal()">&times;</span>
-                    <div class="tab-container">
-                        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
-                        <div class="tab" onclick="switchTab('register')">Registrarse</div>
-                    </div>
-                    <div id="login-tab" class="tab-content active">
-                        <h2>Iniciar Sesión</h2>
-                        <form id="login-form">
-                            <input type="email" placeholder="Correo electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <button type="submit" class="submit-btn">Ingresar</button>
-                            <p class="forgot-password" style="text-align: center; margin-top: 10px;">
-                            <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
-                            </p>
-                        </form>
-                    </div>
-                    <div id="register-tab" class="tab-content">
-                        <h2>Registrarse</h2>
-                        <form id="register-form">
-                            <input type="text" placeholder="Nombre completo" required>
-                            <input type="email" placeholder="Correo electrónico" required>
-                            <input type="password" placeholder="Contraseña" required>
-                            <input type="password" placeholder="Confirmar contraseña" required>
-                            <button type="submit" class="submit-btn">Registrarse</button>
-                        </form>
-                    </div>
-                    <div class="tab-content" id="recover-tab" style="display: none;">
-                        <h2>Recuperar contraseña</h2>
-                        <form id="recovery-form">
-                            <label for="recovery-email">Correo electrónico:</label>
-                            <input type="email" id="recovery-email" required placeholder="tuemail@ejemplo.com">
-                            <button type="submit">Validar</button>
-                            <p id="recovery-message" style="margin-top: 10px;"></p>
-                            <p style="margin-top: 10px;"><a href="#" id="return-to-login">← Volver al login</a></p>
-                        </form>
-                    </div>
+            <div class="user-menu">
+                <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
+                    👤 <span id="userGreeting">Mi Cuenta</span>
+                    <i class="arrow-down"></i>
+                </button>
+                <div id="userDropdown" class="dropdown-content">
+                    <a href="/usuario.html">Mi Cuenta</a>
+                    <a href="">Seguimiento de Pedido</a>
+                    <a href="#" onclick="logout()">Cerrar Sesión</a>
                 </div>
             </div>
+        </div>
 
-            <div id="userInfoModal" class="modal">
-                <div class="modal-content">
-                    <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
-                    <h2>Información del Usuario</h2>
-                    <p><strong>Nombre:</strong> <span id="user-name"></span></p>
-                    <p><strong>Correo:</strong> <span id="user-email"></span></p>
-                    <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+        <div id="authModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <div class="tab-container">
+                    <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                    <div class="tab" onclick="switchTab('register')">Registrarse</div>
                 </div>
-             </div>
-         </div>
+                <div id="login-tab" class="tab-content active">
+                    <h2>Iniciar Sesión</h2>
+                    <form id="login-form">
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <button type="submit" class="submit-btn">Ingresar</button>
+                        <p class="forgot-password" style="text-align: center; margin-top: 10px;">
+                            <a href="#" id="forgot-password-link">¿Olvidaste tu contraseña?</a>
+                        </p>
+                    </form>
+                </div>
+                <div id="register-tab" class="tab-content">
+                    <h2>Registrarse</h2>
+                    <form id="register-form">
+                        <input type="text" placeholder="Nombre completo" required>
+                        <input type="email" placeholder="Correo electrónico" required>
+                        <input type="password" placeholder="Contraseña" required>
+                        <input type="password" placeholder="Confirmar contraseña" required>
+                        <button type="submit" class="submit-btn">Registrarse</button>
+                    </form>
+                </div>
+                <div class="tab-content" id="recover-tab" style="display: none;">
+                    <h2>Recuperar contraseña</h2>
+                    <form id="recovery-form">
+                        <label for="recovery-email">Correo electrónico:</label>
+                        <input type="email" id="recovery-email" required placeholder="tuemail@ejemplo.com">
+                        <button type="submit">Validar</button>
+                        <p id="recovery-message" style="margin-top: 10px;"></p>
+                        <p style="margin-top: 10px;"><a href="#" id="return-to-login">← Volver al login</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="userInfoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+                <h2>Información del Usuario</h2>
+                <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+                <p><strong>Correo:</strong> <span id="user-email"></span></p>
+                <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+            </div>
+        </div>
+        </div>
     </header>
 
     <div class="catalog">
@@ -95,41 +107,41 @@
         </section>
 
         <!-- Menú de filtros avanzado -->
-<div id="filters-container" class="filters hidden">
-    <div class="filters-row">
-        <label for="category-filter">Categorías:</label>
-        <select id="category-filter" multiple>
-            <option value="ficcion">Ficción</option>
-            <option value="no-ficcion">No Ficción</option>
-            <option value="aventura">Aventura</option>
-            <option value="ciencia">Ciencia</option>
-            <option value="terror">Terror</option>
-        </select>
+        <div id="filters-container" class="filters hidden">
+            <div class="filters-row">
+                <label for="category-filter">Categorías:</label>
+                <select id="category-filter" multiple>
+                    <option value="ficcion">Ficción</option>
+                    <option value="no-ficcion">No Ficción</option>
+                    <option value="aventura">Aventura</option>
+                    <option value="ciencia">Ciencia</option>
+                    <option value="terror">Terror</option>
+                </select>
 
-        <label for="rating-filter">Rating:</label>
-        <select id="rating-filter">
-            <option value="all">Cualquiera</option>
-            <option value="0-1.9">0 - 1.9</option>
-            <option value="2-2.9">2 - 2.9</option>
-            <option value="3-3.9">3 - 3.9</option>
-            <option value="4-4.9">4 - 4.9</option>
-            <option value="5-5">5</option>
-        </select>
+                <label for="rating-filter">Rating:</label>
+                <select id="rating-filter">
+                    <option value="all">Cualquiera</option>
+                    <option value="0-1.9">0 - 1.9</option>
+                    <option value="2-2.9">2 - 2.9</option>
+                    <option value="3-3.9">3 - 3.9</option>
+                    <option value="4-4.9">4 - 4.9</option>
+                    <option value="5-5">5</option>
+                </select>
 
-        <label for="filter-min-price">Precio Mínimo:</label>
-        <input type="number" id="filter-min-price" placeholder="Min" min="0">
-        <label for="filter-max-price">Precio Máximo:</label>
-        <input type="number" id="filter-max-price" placeholder="Max" min="0">
-    </div>
-    <div class="filters-row">
-        <label for="discount-filter">Solo con descuento:</label>
-        <input type="checkbox" id="discount-filter">
-        <label for="stock-filter">Disponibles:</label>
-        <input type="checkbox" id="stock-filter">
-        <button id="apply-filters" class="filter-action">Aplicar Filtros</button>
-        <button id="clear-filters" class="filter-action clear">Limpiar Filtros</button>
-    </div>
-</div>
+                <label for="filter-min-price">Precio Mínimo:</label>
+                <input type="number" id="filter-min-price" placeholder="Min" min="0">
+                <label for="filter-max-price">Precio Máximo:</label>
+                <input type="number" id="filter-max-price" placeholder="Max" min="0">
+            </div>
+            <div class="filters-row">
+                <label for="discount-filter">Solo con descuento:</label>
+                <input type="checkbox" id="discount-filter">
+                <label for="stock-filter">Disponibles:</label>
+                <input type="checkbox" id="stock-filter">
+                <button id="apply-filters" class="filter-action">Aplicar Filtros</button>
+                <button id="clear-filters" class="filter-action clear">Limpiar Filtros</button>
+            </div>
+        </div>
 
         <!-- Sección de libros -->
         <section class="general-books">
@@ -160,6 +172,7 @@
     <script type="module" src="/assets/js/chat/SupportChat.js"></script>
     <script type="module" src="/assets/js/CartManager.js"></script>
     <script type="module" src="/assets/js/catalogo.js"></script>
+      <script src="/assets/js/Micuenta.js"></script>
     <script type="module" src="/assets/js/modal.js"></script>
     <script type="module" src="/assets/js/chat/SupportChat.js"></script>
     <support-chat></support-chat>
