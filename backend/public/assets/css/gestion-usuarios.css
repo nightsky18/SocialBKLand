@@ -1,0 +1,37 @@
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Inter', sans-serif;
+}
+
+.users-table th, .users-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #CCC;
+}
+
+.users-table th {
+  background-color: #E6E6E6;
+  font-weight: 600;
+}
+
+.users-table tr:hover {
+  background-color: #F9F9F9;
+}
+
+
+.edit-role-btn {
+  background-color: #62B9F9;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-role-btn:hover {
+  background-color: #409dd9;
+}
