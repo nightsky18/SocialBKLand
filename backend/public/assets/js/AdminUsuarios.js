@@ -1,34 +1,43 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const tableBody = document.getElementById("usersTableBody");
+  const tableBody = document.getElementById("usersTableBody");
 
-    try {
-        const response = await fetch("/api/users"); // ENDPOINT a implementar en backend
-        const users = await response.json();
+  try {
+    const res = await fetch("/api/users"); // Ajusta si usas otro endpoint
+    const users = await res.json();
 
-        users.forEach(user => {
-            const row = document.createElement("tr");
+    users.forEach(user => {
+      const row = document.createElement("tr");
 
-            row.innerHTML = `
-  <td>${user.name}</td>
-  <td>${user.email}</td>
-  <td>${user.isAdmin ? 'Administrador' : 'Usuario general'}</td>
-  <td>${(user.permissions || []).join(', ') || '—'}</td>
-  <td>
-    <button class="btn edit-role-btn" 
-        data-id="${user._id}" 
-        data-is-admin="${user.isAdmin}" 
-        data-permissions='${JSON.stringify(user.permissions || [])}'>
-  <i class="fas fa-user-cog"></i> Editar Rol
-</button>
+      const permisos = user.permissions?.length
+        ? user.permissions.join(", ")
+        : "—";
 
-  </td>
-`;
-            tableBody.appendChild(row);
-        });
+      row.innerHTML = `
+        <td>${user.name}</td>
+        <td>${user.email}</td>
+        <td>${user.isAdmin ? 'Administrador' : 'Usuario general'}</td>
+        <td>${permisos}</td>
+        <td>
+          <button class="btn edit-role-btn"
+                  data-id="${user._id}"
+                  data-is-admin="${user.isAdmin}"
+                  data-permissions='${JSON.stringify(user.permissions || [])}'>
+            <i class="fas fa-user-cog"></i> Editar Rol
+          </button>
+        </td>
+      `;
 
-    } catch (error) {
-        console.error("Error cargando usuarios:", error);
-    }
+      tableBody.appendChild(row);
+    });
+
+  } catch (error) {
+    console.error("Error cargando usuarios:", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error de conexión',
+      text: 'No se pudieron cargar los usuarios'
+    });
+  }
 });
 
 document.addEventListener("click", (e) => {
@@ -36,7 +45,10 @@ document.addEventListener("click", (e) => {
     const btn = e.target.closest(".edit-role-btn");
     const userId = btn.getAttribute("data-id");
     const isAdmin = btn.getAttribute("data-is-admin") === "true";
+    const permissions = JSON.parse(btn.getAttribute("data-permissions") || "[]");
 
-    window.openEditRoleModal(userId, isAdmin);
+    window.openEditRoleModal(userId, isAdmin, permissions);
   }
 });
+
+

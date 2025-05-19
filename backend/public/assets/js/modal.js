@@ -301,12 +301,41 @@ function switchTabManually(targetId) {
   if (target) target.style.display = 'block';
 }
 
+// Mostrar u ocultar permisos según rol seleccionado
+const roleSelect = document.getElementById("roleSelect");
+const permissionsGroup = document.getElementById("permissionsGroup");
 
-// Abrir el modal para editar rol
-window.openEditRoleModal = function (userId, isAdmin) {
+if (roleSelect) {
+  roleSelect.addEventListener("change", () => {
+    const selectedRole = roleSelect.value;
+    if (selectedRole === "admin") {
+      permissionsGroup.style.display = "block";
+    } else {
+      permissionsGroup.style.display = "none";
+    }
+  });
+}
+
+// Abrir modal con rol y permisos actuales
+window.openEditRoleModal = function (userId, isAdmin, currentPermissions = []) {
   document.getElementById('editUserId').value = userId;
-  document.getElementById('roleSelect').value = isAdmin ? 'admin' : '';
-  document.getElementById('editRoleModal').style.display = 'block';
+  roleSelect.value = isAdmin ? 'admin' : '';
+  permissionsGroup.style.display = isAdmin ? "block" : "none";
+
+  // Desmarcar todo
+  document.querySelectorAll('#permissionsGroup input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+  });
+
+  // Si es admin, marcar los permisos actuales
+  if (isAdmin && currentPermissions.length) {
+    currentPermissions.forEach(perm => {
+      const checkbox = document.querySelector(`#permissionsGroup input[value="${perm}"]`);
+      if (checkbox) checkbox.checked = true;
+    });
+  }
+
+  document.getElementById("editRoleModal").style.display = "block";
 };
 
 // Cerrar modal
@@ -314,7 +343,7 @@ window.closeEditRoleModal = function () {
   document.getElementById('editRoleModal').style.display = 'none';
 };
 
-// Enviar cambios de rol
+// Validar y enviar cambios
 const editRoleForm = document.getElementById('editRoleForm');
 if (editRoleForm) {
   editRoleForm.addEventListener('submit', async function (e) {
@@ -324,13 +353,28 @@ if (editRoleForm) {
     const selectedRole = document.getElementById("roleSelect").value;
     const isAdmin = selectedRole === "admin";
 
+    // Obtener permisos seleccionados si es admin
+    let permissions = [];
+    if (isAdmin) {
+      permissions = Array.from(document.querySelectorAll('#permissionsGroup input[type="checkbox"]:checked'))
+                         .map(cb => cb.value);
+      if (permissions.length === 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Permisos requeridos',
+          text: 'Debes asignar al menos un permiso al rol de Administrador'
+        });
+        return;
+      }
+    }
+
     try {
       const res = await fetch(`/api/users/${userId}/role`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ isAdmin })
+        body: JSON.stringify({ isAdmin, permissions })
       });
 
       const data = await res.json();
@@ -345,7 +389,7 @@ if (editRoleForm) {
         });
 
         closeEditRoleModal();
-        location.reload(); //
+        location.reload(); // O actualizar fila
       } else {
         Swal.fire({
           icon: 'error',
@@ -363,7 +407,6 @@ if (editRoleForm) {
     }
   });
 }
-
 
 // Ejecutar al cargar la página
 window.openModal = openModal;
