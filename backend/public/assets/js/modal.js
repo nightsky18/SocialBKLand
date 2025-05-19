@@ -302,6 +302,69 @@ function switchTabManually(targetId) {
 }
 
 
+// Abrir el modal para editar rol
+window.openEditRoleModal = function (userId, isAdmin) {
+  document.getElementById('editUserId').value = userId;
+  document.getElementById('roleSelect').value = isAdmin ? 'admin' : '';
+  document.getElementById('editRoleModal').style.display = 'block';
+};
+
+// Cerrar modal
+window.closeEditRoleModal = function () {
+  document.getElementById('editRoleModal').style.display = 'none';
+};
+
+// Enviar cambios de rol
+const editRoleForm = document.getElementById('editRoleForm');
+if (editRoleForm) {
+  editRoleForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const userId = document.getElementById("editUserId").value;
+    const selectedRole = document.getElementById("roleSelect").value;
+    const isAdmin = selectedRole === "admin";
+
+    try {
+      const res = await fetch(`/api/users/${userId}/role`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ isAdmin })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Rol actualizado',
+          text: `El usuario ahora es ${isAdmin ? 'Administrador' : 'Usuario general'}`,
+          timer: 2000,
+          showConfirmButton: false
+        });
+
+        closeEditRoleModal();
+        location.reload(); //
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          text: data.message || 'No se pudo actualizar el rol'
+        });
+      }
+    } catch (error) {
+      console.error("Error actualizando rol:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'No se pudo contactar al servidor'
+      });
+    }
+  });
+}
+
+
 // Ejecutar al cargar la página
 window.openModal = openModal;
 window.switchTab = switchTab;

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gestión de Usuarios | SocialBKLand</title>
+    <link rel="stylesheet" href="/assets/css/mi-cuenta.css" />
+  <link rel="stylesheet" href="/assets/css/header-footer.css" />
+  <link rel="stylesheet" href="/assets/css/libros.css" />
+  <link rel="stylesheet" href="/assets/css/book-form.css" />
+  <link rel="stylesheet" href="/assets/css/gestion-libros.css" />
+    <link rel="stylesheet" href="/assets/css/gestion-usuarios.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+  <header class="header">
+    <img src="/assets/images/Logo-1.png" alt="Ir a Home"
+      style="display: block; width: 180px; height: auto; border-radius: 8px;" />
+    <nav class="navigation">
+      <ul>
+        <li><a href="/catalogo.html">Biblioteca</a></li>
+        <li><a href="/comunidades.html">Comunidades</a></li>
+        <li><a href="/mis-libros.html">Mis libros</a></li>
+      </ul>
+    </nav>
+    <div class="user-actions">
+      <button class="notification-btn">🔔</button>
+      <button class="cart-btn">🛒</button>
+      <div class="user-menu">
+        <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
+          👤 <span id="userGreeting">Mi Cuenta</span>
+          <i class="arrow-down"></i>
+        </button>
+        <div id="userDropdown" class="dropdown-content">
+          <a href="/usuario.html">Mi Cuenta</a>
+          <a href="">Seguimiento de Pedido</a>
+          <a href="#" onclick="logout()">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="authModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div class="tab-container">
+          <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+          <div class="tab" onclick="switchTab('register')">Registrarse</div>
+        </div>
+        <div id="login-tab" class="tab-content active">
+          <h2>Iniciar Sesión</h2>
+          <form id="login-form">
+            <input type="email" placeholder="Correo electrónico" required>
+            <input type="password" placeholder="Contraseña" required>
+            <button type="submit" class="submit-btn">Ingresar</button>
+          </form>
+        </div>
+        <div id="register-tab" class="tab-content">
+          <h2>Registrarse</h2>
+          <form id="register-form">
+            <input type="text" placeholder="Nombre completo" required>
+            <input type="email" placeholder="Correo electrónico" required>
+            <input type="password" placeholder="Contraseña" required>
+            <input type="password" placeholder="Confirmar contraseña" required>
+            <button type="submit" class="submit-btn">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="userInfoModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+        <h2>Información del Usuario</h2>
+        <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+        <p><strong>Correo:</strong> <span id="user-email"></span></p>
+        <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+      </div>
+    </div>
+    </div>
+  </header>
+
+  <main class="admin-usuarios">
+    <section class="container">
+      <h2>👥 Gestión de Usuarios</h2>
+      <div class="table-wrapper">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Rol</th>
+              <th>Permisos</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="usersTableBody">
+            <!-- Filas dinámicas con JS -->
+          </tbody>
+        </table>
+      </div>
+
+    <div id="editRoleModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeEditRoleModal()">&times;</span>
+    <h2>Editar rol y permisos</h2>
+    <form id="editRoleForm">
+      <label for="roleSelect">Rol del usuario:</label>
+      <select id="roleSelect" name="role">
+        <option value="">Usuario general</option>
+        <option value="admin">Administrador</option>
+      </select>
+
+      <fieldset>
+        <legend>Permisos:</legend>
+        <label><input type="checkbox" name="permissions" value="canViewReports"> Gestionar libros</label><br>
+        <label><input type="checkbox" name="permissions" value="canManageUsers"> Gestionar usuarios</label><br>
+        <label><input type="checkbox" name="permissions" value="canCreateBooks"> Gestionar Comunidades</label><br>
+        <!-- Puedes seguir agregando -->
+      </fieldset>
+
+      <input type="hidden" id="editUserId">
+      <button type="submit" class="submit-btn">Guardar Cambios</button>
+    </form>
+  </div>
+</div>
+
+
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo"></div>
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://t.me" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@socialbkland.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+  
+  <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+  <support-chat></support-chat>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/assets/js/Micuenta.js"></script>
+  <script type="module" src="/assets/js/modal.js"></script>
+  <script type="module" src="/assets/js/AdminUsuarios.js"></script>
+</body>
+</html>
