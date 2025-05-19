@@ -1,5 +1,5 @@
 const Community = require('../models/Community');
-const User = require('../models/User');
+const User = require('../models/user');
 
 // POST /api/communities
 exports.createCommunity = async (req, res) => {
