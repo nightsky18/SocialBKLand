@@ -46,3 +46,110 @@
 .dropdown-content.show {
   display: block;
 }
+
+/* ===== Modal Overlay para Crear Comunidad ===== */
+#modalCrearComunidad.modal {
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.3s ease;
+}
+
+/* ===== Animación ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== Contenido del Modal ===== */
+#modalCrearComunidad .modal-content {
+  background-color: #fff;
+  margin: 8% auto;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  color: #333;
+  position: relative;
+  animation: slideIn 0.3s ease;
+}
+
+/* ===== Botón Cerrar (X) ===== */
+#modalCrearComunidad .close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: #666;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+#modalCrearComunidad .close-btn:hover {
+  color: #e74c3c;
+}
+
+/* ===== Formulario de creación ===== */
+#formCrearComunidad {
+  display: flex;
+  flex-direction: column;
+}
+
+#formCrearComunidad input,
+#formCrearComunidad select {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+#formCrearComunidad input:focus,
+#formCrearComunidad select:focus {
+  border-color: #1E90FF;
+  outline: none;
+}
+
+/* ===== Botón Crear ===== */
+#formCrearComunidad button {
+  background-color: #1E90FF;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#formCrearComunidad button:hover {
+  background-color: #1C86EE;
+}
+
+#formCrearComunidad button:active {
+  transform: scale(0.97);
+}
+
+/* ===== Mensaje de resultado ===== */
+#mensajeCreacion {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #1E90FF;
+  text-align: center;
+}
