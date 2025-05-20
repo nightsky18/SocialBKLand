@@ -6,9 +6,14 @@ const authenticateUser = require('../middlewares/authenticateUser');
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    const communities = await Community.find();
-    res.json(communities);
+  const communities = await Community.find()
+    .populate("members.user", "name email") // poblamos solo campos necesarios
+    .populate("posts")
+    .sort({ createdAt: -1 });
+
+  res.json(communities);
 });
+
 
 // POST /api/communities - Crear nueva comunidad
 router.post("/", authenticateUser, createCommunity);
