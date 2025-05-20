@@ -13,6 +13,44 @@ async function fetchCommunities() {
   }
 }
 
+// 🔁 Servicio de Unión: unir a una comunidad pública
+
+async function joinCommunity(communityId, userId) {
+  try {
+    const res = await fetch(`/api/community/${communityId}/join`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userId })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Error al unirse');
+    return data;
+  } catch (err) {
+    console.error('Error al unirse a la comunidad:', err.message);
+    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo unir a la comunidad.' });
+  }
+}
+
+// 🔁 Solicitud a comunidad privada
+
+async function requestJoinCommunity(communityId, userId) {
+  try {
+    const res = await fetch(`/api/community/${communityId}/request`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Error al solicitar ingreso');
+    return data;
+  } catch (err) {
+    console.error('Error en solicitud:', err.message);
+    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo enviar la solicitud.' });
+  }
+}
 
 // Servicio de Usuario: verifica sesión y obtiene datos
 
@@ -41,16 +79,20 @@ function showError(message) {
 function createCommunityCard(community, currentUser) {
   const memberCount = community.members?.length || 0;
   const postCount = community.posts?.length || 0;
-
   const hasJoined = currentUser && community.members.some(m => m.user === currentUser._id);
-  const buttonText = hasJoined ? 'Unido' : 'Unirse';
-  const buttonAction = hasJoined ? 'joined' : 'join';
+
+  const buttonText = hasJoined
+    ? 'Unido'
+    : community.type === 'private'
+    ? 'Solicitar ingreso'
+    : 'Unirse';
+
   const buttonDisabled = hasJoined;
 
   const card = document.createElement('div');
   card.className = 'community-card';
 
-  const cardIconClass = community.tipo === 'privada' ? 'fas fa-lock' : 'fas fa-globe';
+  const cardIconClass = community.type === 'private' ? 'fas fa-lock' : 'fas fa-globe';
 
   card.innerHTML = `
     <div class="community-card-image">
@@ -63,23 +105,43 @@ function createCommunityCard(community, currentUser) {
             <span class="member-count"><i class="fas fa-user"></i> ${memberCount} Miembro${memberCount !== 1 ? 's' : ''}</span>
             <span class="post-count"><i class="fas fa-comments"></i> ${postCount} Post${postCount !== 1 ? 's' : ''}</span>
             <span class="community-type">
-            <i class="${community.type === 'privada' ? 'fas fa-eye-slash' : 'fas fa-globe'}"></i> 
-            ${(community.type || 'pública')[0].toUpperCase() + (community.type || 'pública').slice(1)}
+              <i class="${cardIconClass}"></i> 
+              ${(community.type || 'public')[0].toUpperCase() + (community.type || 'public').slice(1)}
             </span>
         </div>
         <button
             class="community-action-btn"
             data-community-id="${community._id}"
-            data-action="${buttonAction}"
+            data-community-type="${community.type}"
             ${buttonDisabled ? 'disabled' : ''}>
             ${buttonText}
         </button>
     </div>
   `;
 
+  if (!buttonDisabled && currentUser) {
+    const joinBtn = card.querySelector('.community-action-btn');
+    joinBtn.addEventListener('click', async () => {
+      if (community.type === 'public') {
+        const result = await joinCommunity(community._id, currentUser._id);
+        if (result) {
+          joinBtn.textContent = 'Unido';
+          joinBtn.disabled = true;
+          Swal.fire({ icon: 'success', title: '¡Te uniste!', text: 'Ahora eres miembro de esta comunidad.' });
+        }
+      } else if (community.type === 'private') {
+        const result = await requestJoinCommunity(community._id, currentUser._id);
+        if (result) {
+          joinBtn.textContent = 'Solicitud enviada';
+          joinBtn.disabled = true;
+          Swal.fire({ icon: 'info', title: 'Solicitud enviada', text: 'Tu solicitud está pendiente de aprobación.' });
+        }
+      }
+    });
+  }
+
   return card;
 }
-
 
 // UI: renderiza todas las comunidades
 

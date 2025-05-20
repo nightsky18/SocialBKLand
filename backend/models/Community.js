@@ -24,7 +24,7 @@ const CommunitySchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     isModerator: { type: Boolean, default: false }
   }],
-
+  joinRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   createdAt: { type: Date, default: Date.now }
 });
