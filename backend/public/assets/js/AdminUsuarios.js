@@ -2,15 +2,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tableBody = document.getElementById("usersTableBody");
 
   try {
-    const res = await fetch("/api/users"); // Ajusta si usas otro endpoint
+    const res = await fetch("/api/admins/users"); 
     const users = await res.json();
 
     users.forEach(user => {
-      const row = document.createElement("tr");
-
       const permisos = user.permissions?.length
         ? user.permissions.join(", ")
         : "—";
+
+      const row = document.createElement("tr");
 
       row.innerHTML = `
         <td>${user.name}</td>
@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 });
+
 
 document.addEventListener("click", (e) => {
   if (e.target.closest(".edit-role-btn")) {

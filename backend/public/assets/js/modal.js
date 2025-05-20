@@ -369,13 +369,15 @@ if (editRoleForm) {
     }
 
     try {
-      const res = await fetch(`/api/users/${userId}/role`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ isAdmin, permissions })
-      });
+      const res = await fetch(`/api/admins/${userId}/role`, {
+  method: "PATCH",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    isAdmin,
+    permissions
+  })
+});
+
 
       const data = await res.json();
 
@@ -411,4 +413,4 @@ if (editRoleForm) {
 // Ejecutar al cargar la página
 window.openModal = openModal;
 window.switchTab = switchTab;
-window.addEventListener('DOMContentLoaded', checkSession);
+// window.addEventListener('DOMContentLoaded', checkSession);
