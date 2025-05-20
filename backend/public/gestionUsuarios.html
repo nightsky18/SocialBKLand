@@ -118,10 +118,10 @@
       <h2>Editar rol de usuario</h2>
       <form id="editRoleForm">
         <label for="roleSelect">Selecciona un rol:</label>
-        <select id="roleSelect" name="role" required>
-          <option value="">Usuario general</option>
-          <option value="admin">Administrador</option>
-        </select>
+       <select id="roleSelect" name="role" required>
+  <option value="user">Usuario general</option> <!-- ✅ valor válido -->
+  <option value="admin">Administrador</option>
+</select>
 
         <div id="permissionsGroup" style="margin-top: 12px; display: none;">
           <p><strong>Permisos para Administrador:</strong></p>
