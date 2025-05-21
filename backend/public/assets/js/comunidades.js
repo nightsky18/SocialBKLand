@@ -19,18 +19,24 @@ async function joinCommunity(communityId, userId) {
   try {
     const res = await fetch(`/api/community/${communityId}/join`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId })
     });
-
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Error al unirse');
+
+    if (!res.ok) {
+      if (res.status === 400 && data.message?.includes('Ya eres miembro')) {
+        Swal.fire({ icon: 'info', title: 'Ya estás unido', text: data.message });
+        return null;
+      }
+      throw new Error(data.message || 'Error al unirse');
+    }
+
     return data;
   } catch (err) {
     console.error('Error al unirse a la comunidad:', err.message);
-    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo unir a la comunidad.' });
+    Swal.fire({ icon: 'error', title: 'Error', text: err.message || 'No se pudo unir a la comunidad.' });
+    return null;
   }
 }
 
@@ -44,13 +50,27 @@ async function requestJoinCommunity(communityId, userId) {
       body: JSON.stringify({ userId })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Error al solicitar ingreso');
+
+    if (!res.ok) {
+      if (res.status === 400 && data.message?.includes('Ya has solicitado')) {
+        Swal.fire({ icon: 'info', title: 'Ya solicitaste ingreso', text: data.message });
+        return null;
+      }
+      if (res.status === 400 && data.message?.includes('Ya eres miembro')) {
+        Swal.fire({ icon: 'info', title: 'Ya estás en la comunidad', text: data.message });
+        return null;
+      }
+      throw new Error(data.message || 'Error al solicitar ingreso');
+    }
+
     return data;
   } catch (err) {
     console.error('Error en solicitud:', err.message);
-    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo enviar la solicitud.' });
+    Swal.fire({ icon: 'error', title: 'Error', text: err.message || 'No se pudo enviar la solicitud.' });
+    return null;
   }
 }
+
 
 // Servicio de Usuario: verifica sesión y obtiene datos
 
@@ -119,18 +139,24 @@ function createCommunityCard(community, currentUser) {
     </div>
   `;
 
-  if (!buttonDisabled && currentUser) {
+  if (!buttonDisabled) {
     const joinBtn = card.querySelector('.community-action-btn');
     joinBtn.addEventListener('click', async () => {
+      const user = getCurrentUser();
+      if (!user) {
+        Swal.fire({ icon: 'warning', title: 'Inicia sesión', text: 'Debes iniciar sesión para unirte a comunidades.' });
+        return;
+      }
+
       if (community.type === 'public') {
-        const result = await joinCommunity(community._id, currentUser._id);
+        const result = await joinCommunity(community._id, user._id);
         if (result) {
           joinBtn.textContent = 'Unido';
           joinBtn.disabled = true;
           Swal.fire({ icon: 'success', title: '¡Te uniste!', text: 'Ahora eres miembro de esta comunidad.' });
         }
       } else if (community.type === 'private') {
-        const result = await requestJoinCommunity(community._id, currentUser._id);
+        const result = await requestJoinCommunity(community._id, user._id);
         if (result) {
           joinBtn.textContent = 'Solicitud enviada';
           joinBtn.disabled = true;
