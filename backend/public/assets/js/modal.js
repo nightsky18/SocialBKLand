@@ -21,23 +21,6 @@ function openModal() {
 }
 window.openModal = openModal;
 
-function userPerfil() {
-  const user = JSON.parse(sessionStorage.getItem('user'));
-
-  if (user) {
-    // Redirigir al perfil
-    window.location.href = "usuario.html";
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Ingresa a tu cuenta',
-      text: 'Debes iniciar sesión para acceder al perfil.'
-    });
-  }
-}
-window.userPerfil = userPerfil;
-
-
 // Función para cerrar el modal
 function closeModal() {
     document.getElementById('authModal').style.display = 'none';
@@ -71,7 +54,6 @@ window.onclick = function (event) {
 }
 
 // Manejar el envío de formularios
-// LOGIN
 // LOGIN
 const loginForm = document.getElementById('login-form');
 
@@ -301,6 +283,8 @@ function switchTabManually(targetId) {
   if (target) target.style.display = 'block';
 }
 
+
+
 // Mostrar u ocultar permisos según rol seleccionado
 const roleSelect = document.getElementById("roleSelect");
 const permissionsGroup = document.getElementById("permissionsGroup");
@@ -317,13 +301,28 @@ if (roleSelect) {
 }
 
 
-// Abrir el modal y precargar datos
+//  Abrir el modal y precargar datos
 window.openEditRoleModal = function (userId, isAdmin, currentPermissions = []) {
+  const currentUser = JSON.parse(sessionStorage.getItem("user"));
+
+  // Evitar que un admin se edite a sí mismo
+  if (currentUser && currentUser._id === userId) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Acceso restringido',
+      text: 'No puedes modificar tu propio acceso.',
+      timer: 2000,
+      showConfirmButton: false
+    });
+    return;
+  }
+
+  // Precargar datos
   document.getElementById('editUserId').value = userId;
   const roleSelect = document.getElementById('roleSelect');
   const permissionsGroup = document.getElementById('permissionsGroup');
 
-  roleSelect.value = isAdmin ? 'admin' : '';
+  roleSelect.value = isAdmin ? 'admin' : 'user';
   permissionsGroup.style.display = isAdmin ? "block" : "none";
 
   // Desmarcar todos los checkboxes
@@ -331,7 +330,7 @@ window.openEditRoleModal = function (userId, isAdmin, currentPermissions = []) {
     cb.checked = false;
   });
 
-  // Marcar los permisos actuales si es admin
+  // Marcar los permisos actuales
   if (isAdmin && currentPermissions.length) {
     currentPermissions.forEach(perm => {
       const checkbox = document.querySelector(`#permissionsGroup input[value="${perm}"]`);
@@ -339,16 +338,16 @@ window.openEditRoleModal = function (userId, isAdmin, currentPermissions = []) {
     });
   }
 
-  // Mostrar el modal
+  // Mostrar modal
   document.getElementById("editRoleModal").style.display = "block";
 };
 
-// ❌ Cerrar el modal
+//  Cerrar el modal
 window.closeEditRoleModal = function () {
   document.getElementById('editRoleModal').style.display = 'none';
 };
 
-// ✅ Listener para cambiar visibilidad de permisos al cambiar el rol
+// 👀 Mostrar u ocultar permisos al cambiar el rol
 document.getElementById("roleSelect").addEventListener("change", function () {
   const selected = this.value;
   const permissionsGroup = document.getElementById('permissionsGroup');
@@ -364,7 +363,7 @@ document.getElementById("roleSelect").addEventListener("change", function () {
   }
 });
 
-// ✅ Validar y enviar cambios
+//  Validar y enviar cambios
 const editRoleForm = document.getElementById('editRoleForm');
 
 if (editRoleForm) {
@@ -377,6 +376,7 @@ if (editRoleForm) {
 
     let permissions = [];
 
+    //  Validar que el admin tenga al menos un permiso
     if (isAdmin) {
       permissions = Array.from(document.querySelectorAll('#permissionsGroup input[type="checkbox"]:checked'))
                          .map(cb => cb.value);
@@ -390,6 +390,7 @@ if (editRoleForm) {
       }
     }
 
+    //  Confirmar si va a revocar privilegios
     if (!isAdmin) {
       const result = await Swal.fire({
         icon: 'warning',
@@ -440,7 +441,7 @@ if (editRoleForm) {
       }
 
     } catch (error) {
-      console.error("❌ Error actualizando rol:", error);
+      console.error(" Error actualizando rol:", error);
       Swal.fire({
         icon: 'error',
         title: 'Error de conexión',
@@ -451,7 +452,8 @@ if (editRoleForm) {
 }
 
 
+
 // Ejecutar al cargar la página
 window.openModal = openModal;
 window.switchTab = switchTab;
-// window.addEventListener('DOMContentLoaded', checkSession);
+ window.addEventListener('DOMContentLoaded', checkSession);
