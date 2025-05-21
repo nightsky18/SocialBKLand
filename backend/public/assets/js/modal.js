@@ -207,10 +207,9 @@ function logout() {
         icon: 'info',
         title: 'Sesión cerrada',
         text: 'Has cerrado sesión correctamente',
-        timer: 1500,
+        timer: 2000,
         showConfirmButton: false
     });
-
     localStorage.removeItem('cart'); // si lo estás guardando ahí
     sessionStorage.removeItem('cart'); // por si acaso
 

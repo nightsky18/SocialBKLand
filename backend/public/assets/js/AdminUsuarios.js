@@ -2,13 +2,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   const tableBody = document.getElementById("usersTableBody");
 
   try {
-    const res = await fetch("/api/admins/users"); 
+    const res = await fetch("/api/admins/users");
     const users = await res.json();
 
     users.forEach(user => {
-      const permisos = user.permissions?.length
-        ? user.permissions.join(", ")
-        : "—";
+      const permisos = user.permissions?.length ?
+        user.permissions.map(formatearPermiso).join(", ") :
+        "—";
+
 
       const row = document.createElement("tr");
 
@@ -53,3 +54,8 @@ document.addEventListener("click", (e) => {
 });
 
 
+function formatearPermiso(permiso) {
+  return permiso
+    .replace(/_/g, ' ') // reemplaza _ por espacio
+    .replace(/\b\w/g, l => l.toUpperCase()); // capitaliza cada palabra
+}
