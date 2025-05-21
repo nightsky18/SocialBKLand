@@ -49,7 +49,7 @@ const createAdminIfNotExists = async () => {
       if (!existingAdminEntry) {
         const admin = new Admin({
           user: user._id,
-          permisos: ["gestionar_usuarios", "gestionar_libros", "gestionar_comunidades"],
+          permisos: ["gestion_usuarios", "gestion_libros", "gestion_comunidades"],
         });
         await admin.save();
         console.log("Entrada en colección admins creada");
