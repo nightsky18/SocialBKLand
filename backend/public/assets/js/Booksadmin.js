@@ -1,30 +1,48 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const userData = sessionStorage.getItem('user');
-  let isAdmin = false;
+document.addEventListener("DOMContentLoaded", async () => {
+  const userData = sessionStorage.getItem("user");
+  let user = null;
 
-  if (userData) {
-    try {
-      const user = JSON.parse(userData);
-      isAdmin = user.isAdmin === true;
-    } catch (e) {
-      console.error("Error parsing user data:", e);
+  try {
+    if (userData) {
+      user = JSON.parse(userData);
     }
+  } catch (e) {
+    console.error("❌ Error al leer usuario:", e);
   }
 
-  const adminBtn = document.getElementById("openBookModal");
-  const adminSeccion = document.getElementById("adminSeccion");
-  const librosStat = document.querySelector("#libros-agregados");
+  const cards = {
+    libros: document.getElementById("card-libros"),
+    comunidades: document.getElementById("card-comunidades"),
+    usuarios: document.getElementById("card-usuarios")
+  };
 
-  if (isAdmin) {
-    if (adminBtn) adminBtn.style.display = "inline-block";
-    if (adminSeccion) adminSeccion.style.display = "block";
-    if (librosStat) librosStat.closest(".stat").style.display = "block";
+  // Oculta todas las tarjetas por defecto
+  Object.values(cards).forEach(card => {
+    if (card) card.style.display = "none";
+  });
 
-    adminBtn?.addEventListener("click", () => {
-      window.location.href = "/gestionLibros.html";
-    });
+  if (!user || !user.isAdmin) return;
+
+  try {
+    const res = await fetch(`/api/admins/${user._id}`);
+    const adminData = await res.json();
+    const permisos = adminData?.permisos || [];
+
+    // Mostrar solo según los permisos
+    if (permisos.includes("gestion_libros")) {
+      cards.libros.style.display = "block";
+    }
+    if (permisos.includes("gestion_comunidades")) {
+      cards.comunidades.style.display = "block";
+    }
+    if (permisos.includes("gestion_usuarios")) {
+      cards.usuarios.style.display = "block";
+    }
+  } catch (err) {
+    console.error("❌ Error al cargar permisos del admin:", err);
   }
 });
+
 
 
 document.addEventListener('DOMContentLoaded', () => {

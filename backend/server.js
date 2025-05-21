@@ -393,6 +393,7 @@ app.use("/api/payment-methods", require("./routes/paymentMethodRoutes"));
 app.use("/api/posts", require("./routes/postRoutes"));
 app.use("/api/reviews", require("./routes/reviewRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/moderators", require("./routes/moderatorRoutes"));
 app.use('/api', authRoutes);
 
