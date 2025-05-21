@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Usuarios | SocialBKLand</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/assets/css/mi-cuenta.css" />
+  <link rel="stylesheet" href="/assets/css/header-footer.css" />
+  <link rel="stylesheet" href="/assets/css/libros.css" />
+  <link rel="stylesheet" href="/assets/css/book-form.css" />
+  <link rel="stylesheet" href="/assets/css/gestion-libros.css" />
+  <link rel="stylesheet" href="/assets/css/gestion-usuarios.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <img src="/assets/images/Logo-1.png" alt="Ir a Home"
+      style="display: block; width: 180px; height: auto; border-radius: 8px;" />
+    <nav class="navigation">
+      <ul>
+        <li><a href="/catalogo.html">Biblioteca</a></li>
+        <li><a href="/comunidades.html">Comunidades</a></li>
+        <li><a href="/mis-libros.html">Mis libros</a></li>
+      </ul>
+    </nav>
+
+    <div class="user-actions">
+      <button class="notification-btn">🔔</button>
+      <button class="cart-btn">🛒</button>
+
+      <div class="user-menu">
+        <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
+          👤 <span id="userGreeting">Mi Cuenta</span>
+          <i class="arrow-down"></i>
+        </button>
+        <div id="userDropdown" class="dropdown-content">
+          <a href="/usuario.html">Mi Cuenta</a>
+          <a href="#">Seguimiento de Pedido</a>
+          <a href="#" onclick="logout()">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Modales de autenticación -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <div class="tab-container">
+        <div class="tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+        <div class="tab" onclick="switchTab('register')">Registrarse</div>
+      </div>
+      <div id="login-tab" class="tab-content active">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+          <input type="email" placeholder="Correo electrónico" required>
+          <input type="password" placeholder="Contraseña" required>
+          <button type="submit" class="submit-btn">Ingresar</button>
+        </form>
+      </div>
+      <div id="register-tab" class="tab-content">
+        <h2>Registrarse</h2>
+        <form id="register-form">
+          <input type="text" placeholder="Nombre completo" required>
+          <input type="email" placeholder="Correo electrónico" required>
+          <input type="password" placeholder="Contraseña" required>
+          <input type="password" placeholder="Confirmar contraseña" required>
+          <button type="submit" class="submit-btn">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de info de usuario -->
+  <div id="userInfoModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeUserInfoModal()">&times;</span>
+      <h2>Información del Usuario</h2>
+      <p><strong>Nombre:</strong> <span id="user-name"></span></p>
+      <p><strong>Correo:</strong> <span id="user-email"></span></p>
+      <button onclick="logout()" class="submit-btn">Cerrar Sesión</button>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="admin-usuarios-page">
+    <h2 class="titulo-gestion">👥 Gestión de Usuarios</h2>
+    <div class="search-bar">
+      <input type="text" id="search-bar" placeholder="Buscar por correo...">
+      <button id="search-btn" class="search-btn">🔍</button>
+    </div>
+    <div class="tabla-libros">
+      <table class="tabla-usuarios">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Permisos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="usersTableBody">
+          <!-- Contenido dinámico desde JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal de edición de rol -->
+  <div id="editRoleModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeEditRoleModal()">&times;</span>
+      <h2>Editar rol de usuario</h2>
+      <form id="editRoleForm">
+        <label for="roleSelect">Selecciona un rol:</label>
+        <select id="roleSelect" name="role" required>
+          <option value="user">Usuario general</option>
+          <option value="admin">Administrador</option>
+        </select>
+
+        <div id="permissionsGroup" style="margin-top: 12px; display: none;">
+          <p><strong>Permisos para Administrador:</strong></p>
+          <label><input type="checkbox" name="permissions" value="gestion_usuarios"> Gestión de usuarios</label><br>
+          <label><input type="checkbox" name="permissions" value="gestion_libros"> Gestión de libros</label><br>
+          <label><input type="checkbox" name="permissions" value="gestion_comunidades"> Gestión de
+            comunidades</label><br>
+        </div>
+
+        <input type="hidden" id="editUserId">
+        <button type="submit" class="submit-btn">Guardar Cambios</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo"></div>
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://t.me" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@socialbkland.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+  <script src="/assets/js/Micuenta.js"></script>
+  <script type="module" src="/assets/js/modal.js"></script>
+  <script type="module" src="/assets/js/AdminUsuarios.js"></script>
+  <support-chat></support-chat>
+</body>
+
+</html> 

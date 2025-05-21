@@ -21,23 +21,6 @@ function openModal() {
 }
 window.openModal = openModal;
 
-function userPerfil() {
-  const user = JSON.parse(sessionStorage.getItem('user'));
-
-  if (user) {
-    // Redirigir al perfil
-    window.location.href = "usuario.html";
-  } else {
-    Swal.fire({
-      icon: 'error',
-      title: 'Ingresa a tu cuenta',
-      text: 'Debes iniciar sesión para acceder al perfil.'
-    });
-  }
-}
-window.userPerfil = userPerfil;
-
-
 // Función para cerrar el modal
 function closeModal() {
     document.getElementById('authModal').style.display = 'none';
@@ -72,7 +55,6 @@ window.onclick = function (event) {
 
 // Manejar el envío de formularios
 // LOGIN
-// LOGIN
 const loginForm = document.getElementById('login-form');
 
 if (loginForm) {
@@ -95,6 +77,7 @@ if (loginForm) {
         const user = data.user;
         sessionStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('isAdmin', user.isAdmin ? 'true' : 'false');
+        
         closeModal();
 
         if (user.isAdmin) {
@@ -224,10 +207,9 @@ function logout() {
         icon: 'info',
         title: 'Sesión cerrada',
         text: 'Has cerrado sesión correctamente',
-        timer: 1500,
+        timer: 2000,
         showConfirmButton: false
     });
-
     localStorage.removeItem('cart'); // si lo estás guardando ahí
     sessionStorage.removeItem('cart'); // por si acaso
 
@@ -302,7 +284,179 @@ function switchTabManually(targetId) {
 }
 
 
+
+// Mostrar u ocultar permisos según rol seleccionado
+const roleSelect = document.getElementById("roleSelect");
+const permissionsGroup = document.getElementById("permissionsGroup");
+
+if (roleSelect) {
+  roleSelect.addEventListener("change", () => {
+    const selectedRole = roleSelect.value;
+    if (selectedRole === "admin") {
+      permissionsGroup.style.display = "block";
+    } else {
+      permissionsGroup.style.display = "none";
+    }
+  });
+}
+
+
+//  Abrir el modal y precargar datos
+window.openEditRoleModal = function (userId, isAdmin, currentPermissions = []) {
+  const currentUser = JSON.parse(sessionStorage.getItem("user"));
+
+  // Evitar que un admin se edite a sí mismo
+  if (currentUser && currentUser._id === userId) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Acceso restringido',
+      text: 'No puedes modificar tu propio acceso.',
+      timer: 2000,
+      showConfirmButton: false
+    });
+    return;
+  }
+
+  // Precargar datos
+  document.getElementById('editUserId').value = userId;
+  const roleSelect = document.getElementById('roleSelect');
+  const permissionsGroup = document.getElementById('permissionsGroup');
+
+  roleSelect.value = isAdmin ? 'admin' : 'user';
+  permissionsGroup.style.display = isAdmin ? "block" : "none";
+
+  // Desmarcar todos los checkboxes
+  document.querySelectorAll('#permissionsGroup input[type="checkbox"]').forEach(cb => {
+    cb.checked = false;
+  });
+
+  // Marcar los permisos actuales
+  if (isAdmin && currentPermissions.length) {
+    currentPermissions.forEach(perm => {
+      const checkbox = document.querySelector(`#permissionsGroup input[value="${perm}"]`);
+      if (checkbox) checkbox.checked = true;
+    });
+  }
+
+  // Mostrar modal
+  document.getElementById("editRoleModal").style.display = "block";
+};
+
+//  Cerrar el modal
+window.closeEditRoleModal = function () {
+  document.getElementById('editRoleModal').style.display = 'none';
+};
+
+// Mostrar u ocultar permisos al cambiar el rol
+document.getElementById("roleSelect").addEventListener("change", function () {
+  const selected = this.value;
+  const permissionsGroup = document.getElementById('permissionsGroup');
+
+  if (selected === "admin") {
+    permissionsGroup.style.display = "block";
+  } else {
+    permissionsGroup.style.display = "none";
+    // Limpiar checkboxes
+    document.querySelectorAll('#permissionsGroup input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+    });
+  }
+});
+
+//  Validar y enviar cambios
+const editRoleForm = document.getElementById('editRoleForm');
+
+if (editRoleForm) {
+  editRoleForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const userId = document.getElementById("editUserId").value;
+    const selectedRole = document.getElementById("roleSelect").value;
+    const isAdmin = selectedRole === "admin";
+    const currentUser = JSON.parse(sessionStorage.getItem("user"));
+    const adminId = currentUser._id;
+
+    let permissions = [];
+
+    //  Validar que el admin tenga al menos un permiso
+    if (isAdmin) {
+      permissions = Array.from(document.querySelectorAll('#permissionsGroup input[type="checkbox"]:checked'))
+                         .map(cb => cb.value);
+
+      if (permissions.length === 0) {
+        return Swal.fire({
+          icon: 'warning',
+          title: 'Permisos requeridos',
+          text: 'Debes asignar al menos un permiso al rol de Administrador.'
+        });
+      }
+    }
+
+    //  Confirmar si va a revocar privilegios
+    if (!isAdmin) {
+      const result = await Swal.fire({
+        icon: 'warning',
+        title: '¿Revocar privilegios?',
+        text: 'Esto convertirá al usuario en Usuario general y se eliminarán sus permisos.',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, continuar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (!result.isConfirmed) return;
+    }
+
+    try {
+      const res = await fetch(`/api/admins/${userId}/role`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          isAdmin,
+          permissions: isAdmin ? permissions : [],
+          adminId    
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Rol actualizado',
+          text: isAdmin
+            ? 'El usuario ahora es Administrador con sus permisos asignados.'
+            : 'El usuario ha sido convertido en Usuario general y sus privilegios han sido revocados.',
+          timer: 1800,
+          showConfirmButton: false
+        });
+
+        setTimeout(() => {
+          closeEditRoleModal();
+          location.reload();
+        }, 2000);
+
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          text: data.message || 'No se pudo actualizar el rol'
+        });
+      }
+
+    } catch (error) {
+      console.error(" Error actualizando rol:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de conexión',
+        text: 'No se pudo contactar al servidor'
+      });
+    }
+  });
+}
+
+
+
 // Ejecutar al cargar la página
 window.openModal = openModal;
 window.switchTab = switchTab;
-window.addEventListener('DOMContentLoaded', checkSession);
+ window.addEventListener('DOMContentLoaded', checkSession);

@@ -1,8 +1,8 @@
 // routes/userRoutes.js
 const express = require("express");
 const User = require("../models/user"); 
+const Admin = require('../models/admin');
 const router = express.Router();
-
 
 // Ruta para obtener todos los usuarios (AHORA SIN PROTECCIÓN - INSEGURO)
 // En producción, PROTEGER: solo para administradores.
@@ -122,5 +122,8 @@ router.delete("/:id", async (req, res) => {
         res.status(500).json({ message: 'Error al eliminar usuario' });
     }
 });
+
+
+
 
 module.exports = router;
