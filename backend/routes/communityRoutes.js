@@ -121,4 +121,133 @@ router.post('/:id/request', async (req, res) => {
   }
 });
 
+// Obtener las solicitudes pendientes de una comunidad GET /api/community/:id/request
+router.get('/:id/requests', async (req, res) => {
+  try {
+    const communityId = req.params.id;
+    const userId = req.query.userId;
+
+    if (!userId) {
+      return res.status(400).json({ message: 'Falta el ID del usuario autenticado' });
+    }
+
+    const community = await Community.findById(communityId).populate('joinRequests', 'name email');
+    if (!community) {
+      return res.status(404).json({ message: 'Comunidad no encontrada' });
+    }
+
+    // Verificar si el usuario es moderador de esta comunidad
+    const esModerador = community.members.some(
+      m => m.user.toString() === userId && m.isModerator
+    );
+
+    if (!esModerador) {
+      return res.status(403).json({ message: 'No tienes permisos para ver las solicitudes' });
+    }
+
+    res.status(200).json({ joinRequests: community.joinRequests });
+  } catch (err) {
+    console.error('Error al obtener solicitudes:', err);
+    res.status(500).json({ message: 'Error en el servidor' });
+  }
+});
+
+// POST /api/community/:id/approve
+router.post('/:id/approve', async (req, res) => {
+  try {
+    const communityId = req.params.id;
+    const { userId, moderatorId } = req.body;
+
+    if (!userId || !moderatorId) {
+      return res.status(400).json({ message: 'Faltan datos obligatorios' });
+    }
+
+    const community = await Community.findById(communityId);
+    if (!community) {
+      return res.status(404).json({ message: 'Comunidad no encontrada' });
+    }
+
+    // Verificar si quien aprueba es moderador
+    const isModerator = community.members.some(
+      m => m.user.toString() === moderatorId && m.isModerator
+    );
+    if (!isModerator) {
+      return res.status(403).json({ message: 'No tienes permisos para aprobar solicitudes' });
+    }
+
+    // Verificar si el usuario está en solicitudes
+    const wasRequested = community.joinRequests.includes(userId);
+    if (!wasRequested) {
+      return res.status(400).json({ message: 'El usuario no tiene una solicitud pendiente' });
+    }
+
+    // Agregar al usuario como miembro no moderador
+    community.members.push({ user: userId, isModerator: false });
+
+    // Eliminar de joinRequests
+    community.joinRequests = community.joinRequests.filter(
+      id => id.toString() !== userId
+    );
+
+    await community.save();
+
+    // Agregar la comunidad al array de comunidades del usuario
+    const user = await User.findById(userId);
+    if (user && !user.communities.includes(communityId)) {
+      user.communities.push(communityId);
+      await user.save();
+    }
+
+    res.status(200).json({ message: 'Usuario aprobado correctamente' });
+
+  } catch (err) {
+    console.error('Error al aprobar usuario:', err);
+    res.status(500).json({ message: 'Error en el servidor' });
+  }
+});
+
+//POST /api/community/:id/reject
+router.post('/:id/reject', async (req, res) => {
+  try {
+    const communityId = req.params.id;
+    const { userId, moderatorId } = req.body;
+
+    if (!userId || !moderatorId) {
+      return res.status(400).json({ message: 'Faltan datos obligatorios' });
+    }
+
+    const community = await Community.findById(communityId);
+    if (!community) {
+      return res.status(404).json({ message: 'Comunidad no encontrada' });
+    }
+
+    // Verifica si quien rechaza es moderador
+    const isModerator = community.members.some(
+      m => m.user.toString() === moderatorId && m.isModerator
+    );
+    if (!isModerator) {
+      return res.status(403).json({ message: 'No tienes permisos para rechazar solicitudes' });
+    }
+
+    // Verifica si el usuario tiene una solicitud pendiente
+    const wasRequested = community.joinRequests.includes(userId);
+    if (!wasRequested) {
+      return res.status(400).json({ message: 'El usuario no tiene una solicitud pendiente' });
+    }
+
+    // Eliminar la solicitud
+    community.joinRequests = community.joinRequests.filter(
+      id => id.toString() !== userId
+    );
+
+    await community.save();
+
+    res.status(200).json({ message: 'Solicitud rechazada correctamente' });
+
+  } catch (err) {
+    console.error('Error al rechazar solicitud:', err);
+    res.status(500).json({ message: 'Error en el servidor' });
+  }
+});
+
 module.exports = router;
