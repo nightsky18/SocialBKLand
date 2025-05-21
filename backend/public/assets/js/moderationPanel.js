@@ -110,27 +110,33 @@ async function renderModerationPanel() {
 
   for (const community of communities) {
     const requests = await fetchJoinRequests(community._id, user._id);
-    if (requests.length === 0) continue;
 
     const container = document.createElement('div');
     container.classList.add('community-request-box');
     container.innerHTML = `<h3>${community.name}</h3>`;
 
-    requests.forEach(r => {
-      const div = document.createElement('div');
-      div.classList.add('moderation-request');
-      div.innerHTML = `
-        <p><strong>${r.name}</strong> (${r.email})</p>
-        <button class="approve-btn">Aprobar</button>
-        <button class="reject-btn">Rechazar</button>
-      `;
+    if (requests.length === 0) {
+        const emptyMsg = document.createElement('p');
+        emptyMsg.textContent = 'No hay solicitudes pendientes.';
+        emptyMsg.style.color = '#666';
+        emptyMsg.style.fontStyle = 'italic';
+        container.appendChild(emptyMsg);
+    } else {
+        requests.forEach(r => {
+            const div = document.createElement('div');
+            div.classList.add('moderation-request');
+            div.innerHTML = `
+                <p><strong>${r.name}</strong> (${r.email})</p>
+                <button class="approve-btn">Aprobar</button>
+                <button class="reject-btn">Rechazar</button>
+            `;
 
-      div.querySelector('.approve-btn').onclick = () => approveRequest(community._id, r._id, user._id, div);
-      div.querySelector('.reject-btn').onclick = () => rejectRequest(community._id, r._id, user._id, div);
+            div.querySelector('.approve-btn').onclick = () => approveRequest(community._id, r._id, user._id, div);
+            div.querySelector('.reject-btn').onclick = () => rejectRequest(community._id, r._id, user._id, div);
 
-      container.appendChild(div);
-    });
-
+            container.appendChild(div);
+        });
+    }  
     section.appendChild(container);
   }
 }
