@@ -1,18 +1,22 @@
 const express = require("express");
 const Community = require("../models/Community");
+const { createCommunity } = require('../Controllers/communityController.js');
+const authenticateUser = require('../middlewares/authenticateUser');
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-    const communities = await Community.find();
-    res.json(communities);
+  const communities = await Community.find()
+    .populate("members.user", "name email") // poblamos solo campos necesarios
+    .populate("posts")
+    .sort({ createdAt: -1 });
+
+  res.json(communities);
 });
 
-router.post("/", async (req, res) => {
-    const newCommunity = new Community(req.body);
-    await newCommunity.save();
-    res.status(201).json(newCommunity);
-});
+
+// POST /api/communities - Crear nueva comunidad
+router.post("/", authenticateUser, createCommunity);
 
 router.get("/:id", async (req, res) => {
     const community = await Community.findById(req.params.id);
