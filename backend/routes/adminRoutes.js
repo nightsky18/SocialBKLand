@@ -2,6 +2,7 @@ const express = require("express");
 const Admin = require("../models/admin");
 const User = require('../models/user');
 const router = express.Router();
+const Notification = require('../models/notification');
 
 
 
@@ -39,9 +40,18 @@ router.post("/", async (req, res) => {
 
 // Obtener un administrador por ID
 router.get("/:id", async (req, res) => {
-    const admin = await Admin.findById(req.params.id);
+  try {
+    const admin = await Admin.findOne({ user: req.params.id }); //  busca por el campo user
+    if (!admin) {
+      return res.status(404).json({ permisos: [] }); // evita el null
+    }
     res.json(admin);
+  } catch (err) {
+    console.error("Error al obtener admin:", err);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
 });
+
 
 // Actualizar administrador
 router.put("/:id", async (req, res) => {
@@ -56,37 +66,99 @@ router.delete("/:id", async (req, res) => {
 });
 
 
+// // PATCH: Asignar rol y permisos
+// router.patch('/:id/role', async (req, res) => {
+//   const { id } = req.params;
+//   const { isAdmin, permissions } = req.body;
+
+//   try {
+//     // Validar que isAdmin sea booleano
+//     if (typeof isAdmin !== 'boolean') {
+//       return res.status(400).json({ message: 'El campo "isAdmin" debe ser booleano.' });
+//     }
+
+//     // Si isAdmin es true, validar que haya al menos un permiso
+//     if (isAdmin && (!Array.isArray(permissions) || permissions.length === 0)) {
+//       return res.status(400).json({ message: 'Debes asignar al menos un permiso al administrador.' });
+//     }
+
+//     // Actualizar el campo isAdmin en el modelo User
+//     const user = await User.findByIdAndUpdate(id, { isAdmin }, { new: true });
+//     if (!user) return res.status(404).json({ message: 'Usuario no encontrado.' });
+
+//     if (isAdmin) {
+//       // Crear o actualizar el documento Admin con los permisos
+//       const admin = await Admin.findOneAndUpdate(
+//         { user: id },
+//         { permisos: permissions },
+//         { upsert: true, new: true }
+//       );
+//       return res.status(200).json({ user, admin });
+//     } else {
+//       // Si se revoca el rol de administrador, eliminar permisos asociados
+//       await Admin.deleteOne({ user: id });
+//       return res.status(200).json({ user });
+//     }
+//   } catch (error) {
+//     console.error('Error actualizando rol:', error);
+//     return res.status(500).json({ message: 'Error interno del servidor.' });
+//   }
+// });
+ 
 // PATCH: Asignar rol y permisos
 router.patch('/:id/role', async (req, res) => {
   const { id } = req.params;
-  const { isAdmin, permissions } = req.body;
+  const { isAdmin, permissions, adminId } = req.body;
 
   try {
-    // Validar que isAdmin sea booleano
     if (typeof isAdmin !== 'boolean') {
       return res.status(400).json({ message: 'El campo "isAdmin" debe ser booleano.' });
     }
 
-    // Si isAdmin es true, validar que haya al menos un permiso
     if (isAdmin && (!Array.isArray(permissions) || permissions.length === 0)) {
       return res.status(400).json({ message: 'Debes asignar al menos un permiso al administrador.' });
     }
 
-    // Actualizar el campo isAdmin en el modelo User
+    // ✅ Esta línea ahora sí está dentro del bloque async
+    const adminUser = await User.findById(adminId); // quien ejecuta la acción
+
+    // Actualizar isAdmin en User
     const user = await User.findByIdAndUpdate(id, { isAdmin }, { new: true });
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado.' });
 
     if (isAdmin) {
-      // Crear o actualizar el documento Admin con los permisos
       const admin = await Admin.findOneAndUpdate(
         { user: id },
         { permisos: permissions },
         { upsert: true, new: true }
       );
+
+      // 🟢 Notificación al usuario modificado
+      const Notification = require('../models/notification');
+      const mensaje = `Tu perfil fue actualizado por ${adminUser.name}. Nuevos permisos: ${permissions.join(", ")}.`;
+
+      await Notification.create({
+        user: id,
+        message: mensaje,
+        read: false,
+        date: new Date()
+      });
+
       return res.status(200).json({ user, admin });
     } else {
-      // Si se revoca el rol de administrador, eliminar permisos asociados
       await Admin.deleteOne({ user: id });
+
+      // 🟡 Notificación al ser revocado
+      const Notification = require('../models/notification');
+      const mensaje = `Tu perfil fue actualizado por ${adminUser.name}. Ya no eres administrador.`;
+
+      await Notification.create({
+        user: id,
+        message: mensaje,
+        read: false,
+        date: new Date()
+      });
+
       return res.status(200).json({ user });
     }
   } catch (error) {

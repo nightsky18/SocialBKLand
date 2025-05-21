@@ -77,6 +77,7 @@ if (loginForm) {
         const user = data.user;
         sessionStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('isAdmin', user.isAdmin ? 'true' : 'false');
+        
         closeModal();
 
         if (user.isAdmin) {
@@ -347,7 +348,7 @@ window.closeEditRoleModal = function () {
   document.getElementById('editRoleModal').style.display = 'none';
 };
 
-// 👀 Mostrar u ocultar permisos al cambiar el rol
+// Mostrar u ocultar permisos al cambiar el rol
 document.getElementById("roleSelect").addEventListener("change", function () {
   const selected = this.value;
   const permissionsGroup = document.getElementById('permissionsGroup');
@@ -373,6 +374,8 @@ if (editRoleForm) {
     const userId = document.getElementById("editUserId").value;
     const selectedRole = document.getElementById("roleSelect").value;
     const isAdmin = selectedRole === "admin";
+    const currentUser = JSON.parse(sessionStorage.getItem("user"));
+    const adminId = currentUser._id;
 
     let permissions = [];
 
@@ -410,7 +413,8 @@ if (editRoleForm) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           isAdmin,
-          permissions: isAdmin ? permissions : []
+          permissions: isAdmin ? permissions : [],
+          adminId    
         })
       });
 
