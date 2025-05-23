@@ -155,3 +155,16 @@ main {
     line-height: 1.4;
     color: #555555;
 }
+
+.reviews-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+}
+.review {
+  border-bottom: 1px dashed #ccc;
+  padding: 0.5rem 0;
+}
+.review strong {
+  color: #333;
+}
