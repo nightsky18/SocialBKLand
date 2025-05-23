@@ -348,7 +348,8 @@ window.closeEditRoleModal = function () {
 };
 
 // Mostrar u ocultar permisos al cambiar el rol
-document.getElementById("roleSelect").addEventListener("change", function () {
+if (roleSelect) {
+  roleSelect.addEventListener("change", function () {
   const selected = this.value;
   const permissionsGroup = document.getElementById('permissionsGroup');
 
@@ -362,6 +363,7 @@ document.getElementById("roleSelect").addEventListener("change", function () {
     });
   }
 });
+}
 
 //  Validar y enviar cambios
 const editRoleForm = document.getElementById('editRoleForm');
