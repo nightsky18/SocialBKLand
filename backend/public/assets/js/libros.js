@@ -308,16 +308,22 @@ document.getElementById('review-form').addEventListener('submit', async e => {
 });
 
 function showError(message) {
-  const errorBox = document.getElementById('review-error');
-  const errorText = document.getElementById('review-error-text');
+  const errorElement = document.getElementById("review-error");
 
-  errorText.textContent = message;
-  errorBox.style.display = 'flex';
+  // Asegúrate de que el contenedor esté visible
+  const formSection = document.getElementById("review-form-section");
+  if (formSection.style.display === "none") {
+    formSection.style.display = "block";
+  }
 
-  setTimeout(() => {
-    errorBox.style.display = 'none';
-  }, 5000);
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.style.display = "block";
+  } else {
+    console.warn("Elemento #review-error no encontrado.");
+  }
 }
+
 
 
 // Ejecutar la función para cargar y renderizar los detalles del libro cuando el DOM esté completamente cargado
