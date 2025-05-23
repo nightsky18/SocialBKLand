@@ -179,6 +179,8 @@ async function fetchAndRenderBookDetails() {
                   });
                   
              }
+             await fetchAndRenderReviews(book._id);
+
         }
 
     } catch (error) {
@@ -189,6 +191,98 @@ async function fetchAndRenderBookDetails() {
         }
     }
 }
+
+async function fetchAndRenderReviews(bookId) {
+    const reviewsContainer = document.createElement('div');
+    reviewsContainer.className = 'reviews-section';
+    const bookDetailsContainer = document.getElementById('book-details');
+
+    try {
+      const response = await fetch(`${window.location.origin}/api/reviews?libro=${bookId}`);
+
+        if (!response.ok) throw new Error('Error al obtener las reseñas');
+
+        const reviews = await response.json();
+
+        if (reviews.length === 0) {
+            reviewsContainer.innerHTML = '<p>No hay reseñas aún.</p>';
+        } else {
+            const average = (
+                reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
+            ).toFixed(1);
+
+            reviewsContainer.innerHTML = `
+                <h2>Reseñas (${reviews.length})</h2>
+                <p>Calificación promedio: ${average} ★</p>
+                ${reviews.map(r => `
+                    <div class="review">
+                        <strong>${r.user || 'Anónimo'}:</strong>
+                        <p>${r.text}</p>
+                        <p>★ ${r.rating}</p>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        if (bookDetailsContainer) bookDetailsContainer.appendChild(reviewsContainer);
+
+    } catch (error) {
+        console.error('Error al cargar reseñas:', error);
+        reviewsContainer.innerHTML = '<p>Error al cargar reseñas.</p>';
+        if (bookDetailsContainer) bookDetailsContainer.appendChild(reviewsContainer);
+    }
+}
+
+// Obtiene el ID del libro de la URL
+function getBookId() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('id');
+}
+
+// Maneja el submit del formulario
+document.getElementById('review-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const bookId = getBookId();
+  const user    = document.getElementById('review-user').value.trim();
+  const rating  = parseInt(document.getElementById('review-rating').value, 10);
+  const text    = document.getElementById('review-text').value.trim();
+
+  // Validación mínima
+  if (!rating || !text) {
+    alert('Por favor, deja un comentario y calificación.');
+    return;
+  }
+
+  const payload = {
+  libro: bookId,
+  user,
+  rating,
+  text
+};
+
+
+  try {
+    const res = await fetch(`${window.location.origin}/api/reviews`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('Error al enviar reseña');
+    
+    // Limpia el formulario
+    document.getElementById('review-user').value   = '';
+    document.getElementById('review-rating').value = '5';
+    document.getElementById('review-text').value   = '';
+
+    // Vuelve a cargar reseñas
+    await fetchAndRenderReviews(bookId);
+  } catch (err) {
+    console.error(err);
+    alert('No se pudo enviar la reseña. Intenta de nuevo.');
+  }
+});
+
+
 
 // Ejecutar la función para cargar y renderizar los detalles del libro cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', fetchAndRenderBookDetails);
@@ -203,16 +297,16 @@ if (cartButton) {
     });
 }
 
-// *** Recordatorio sobre CartManager ***
-// Asegúrate de que tu archivo public/CartManager.js maneje la lógica de carga y guardado
-// del carrito en localStorage (o interactúe con tu backend si el carrito es server-side).
-// Los métodos addItem, removeItem, etc., DEBEN llamar a un método de guardado interno.
-// Ejemplo conceptual de saveCart en CartManager:
-// saveCart() {
-//     localStorage.setItem('cart', JSON.stringify(this.cart));
-// }
-// Ejemplo conceptual de loadCart en CartManager constructor:
-// constructor() {
-//     const savedCart = localStorage.getItem('cart');
-//     this.cart = savedCart ? JSON.parse(savedCart) : [];
-// }
+  // *** Recordatorio sobre CartManager ***
+  // Asegúrate de que tu archivo public/CartManager.js maneje la lógica de carga y guardado
+  // del carrito en localStorage (o interactúe con tu backend si el carrito es server-side).
+  // Los métodos addItem, removeItem, etc., DEBEN llamar a un método de guardado interno.
+  // Ejemplo conceptual de saveCart en CartManager:
+  // saveCart() {
+  //     localStorage.setItem('cart', JSON.stringify(this.cart));
+  // }
+  // Ejemplo conceptual de loadCart en CartManager constructor:
+  // constructor() {
+  //     const savedCart = localStorage.getItem('cart');
+  //     this.cart = savedCart ? JSON.parse(savedCart) : [];
+  // }
