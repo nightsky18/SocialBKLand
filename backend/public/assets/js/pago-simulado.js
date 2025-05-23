@@ -11,10 +11,10 @@ const bankSelect = document.getElementById('bank-select');
 const savedMethodsGroup = document.getElementById('saved-methods-group');
 const savedMethodsSelect = document.getElementById('saved-methods-select');
 const saveMethodGroup = document.getElementById('save-method-group');
-const saveMethodCheckbox = document.getElementById('save-method');
+//const saveMethodCheckbox = document.getElementById('save-method');
 const payButton = document.getElementById('pay-button');
 const paymentMessage = document.getElementById('payment-message');
-const comprobanteContainer = document.getElementById('comprobante-container');
+//const comprobanteContainer = document.getElementById('comprobante-container');
 
 let savedMethods = [];
 let selectedSavedMethod = null;
@@ -247,7 +247,6 @@ paymentForm.addEventListener('submit', async (e) => {
     const stockResult = await validateStockBeforePay();
     if (!stockResult.success) {
         showMessage('Algunos productos no tienen stock suficiente. Se eliminarán del carrito.', 'error');
-        // Eliminar del carrito los productos sin stock
         stockResult.outOfStock.forEach(b => {
             const idx = cartManager.cart.findIndex(i => (i._id || i.id) === b.id);
             if (idx !== -1) cartManager.removeItem(idx);
@@ -262,13 +261,15 @@ paymentForm.addEventListener('submit', async (e) => {
     let valid = false;
     let methodData = {};
     let methodLabel = '';
+    let paymentMethod = paymentMethodSelect.value;
     if (selectedSavedMethod) {
         valid = true;
+        paymentMethod = selectedSavedMethod.type;
         methodLabel = selectedSavedMethod.type === 'tarjeta'
             ? `Tarjeta ••••${selectedSavedMethod.accountNumber.slice(-4)}`
             : `Transferencia ${selectedSavedMethod.bank} ••••${selectedSavedMethod.accountNumber.slice(-4)}`;
         methodData = selectedSavedMethod;
-    } else if (paymentMethodSelect.value === 'tarjeta') {
+    } else if (paymentMethod === 'tarjeta') {
         valid = validateTarjeta();
         methodLabel = `Tarjeta ••••${document.getElementById('card-number').value.slice(-4)}`;
         methodData = {
@@ -278,13 +279,16 @@ paymentForm.addEventListener('submit', async (e) => {
             expiry: document.getElementById('expiry-date').value.trim(),
             CVV: document.getElementById('cvv').value.trim()
         };
-    } else if (paymentMethodSelect.value === 'transferencia') {
-        valid = validateTransferencia();
-        methodLabel = `Transferencia ${bankSelect.value} ••••${document.getElementById('account-number').value.slice(-4)}`;
+    } else if (paymentMethod === 'transferencia') {
+        // Cambia a nombre de cuenta
+        const accountName = document.getElementById('account-name').value.trim();
+        const bank = bankSelect.value;
+        valid = !!bank && /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{3,}$/.test(accountName);
+        methodLabel = `Transferencia ${bank} (${accountName})`;
         methodData = {
             type: 'transferencia',
-            bank: bankSelect.value,
-            accountNumber: document.getElementById('account-number').value.trim()
+            bank: bank,
+            accountName: accountName
         };
     }
     if (!valid) {
@@ -294,78 +298,78 @@ paymentForm.addEventListener('submit', async (e) => {
         return;
     }
 
-    // Preguntar si desea guardar el método
-    if (!selectedSavedMethod && saveMethodCheckbox.checked) {
-        await guardarMetodoPago(methodData);
-        await fetchSavedMethods();
-        updateSavedMethodsUI();
-    }
-
-    // Construir comprobante
+    // Construir datos de pago para Payment.json (estructura Payment.js)
     const cartItems = cartManager.cart.map(item => ({
-        id: item._id || item.id,
         title: item.title,
-        quantity: item.quantity
+        quantity: item.quantity,
+        price: item.price
     }));
     const total = cartManager.getTotal();
-    const comprobante = buildComprobanteData(methodLabel, total, cartItems);
+    const paymentPayload = {
+        user: userId,
+        paymentMethod: paymentMethod,
+        total: total,
+        paymentStatus: 'completado',
+        transactionDetails: 'Pago procesado con éxito',
+        paymentDate: new Date().toISOString(),
+        books: cartItems // Puedes agregar este campo si lo quieres en el JSON
+    };
 
-    // Guardar comprobante en backend
-    await guardarComprobante(comprobante);
-
-    // Simulación de pago emergente
-    await simulatePaymentModal();
-
-    // Simulación de éxito/fallo
-    const pagoExitoso = Math.random() < 0.95;
-    Swal.close();
-
-    if (!pagoExitoso) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Pago fallido',
-            text: 'Ocurrió un error al procesar el pago. Intenta nuevamente.'
-        });
-        payButton.disabled = false;
-        payButton.textContent = 'Pagar';
-        return;
-    }
-
-    // Actualizar stock en backend
-    const stockRes = await fetch('/api/books/decrement-stock', {
+    // Guardar pago en backend
+    await fetch('/api/payments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(cartItems)
+        body: JSON.stringify(paymentPayload)
     });
-    const stockData = await stockRes.json();
-    if (!stockData.success) {
-        showMessage('Error al actualizar stock: ' + stockData.message, 'error');
-        payButton.disabled = false;
-        payButton.textContent = 'Pagar';
-        return;
+
+    // Simulación de pago emergente
+    if (paymentMethod === 'transferencia') {
+        // Simula redirección a portal bancario
+        Swal.fire({
+            icon: 'info',
+            title: 'Redirigiendo a tu banco',
+            html: `<p>Serás redirigido al portal bancario simulado para completar la transferencia.</p>`,
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        });
+        setTimeout(() => {
+            Swal.close();
+            finalizarPagoExitoso();
+        }, 4000);
+    } else {
+        await simulatePaymentModal();
+        finalizarPagoExitoso();
     }
 
-    // Limpiar carrito
-    cartManager.clearCart();
-    renderCartSummary();
+    function finalizarPagoExitoso() {
+        // Limpiar carrito
+        cartManager.clearCart();
+        renderCartSummary();
 
-    // Mostrar comprobante
-    comprobanteContainer.innerHTML = buildComprobante(comprobante);
-    comprobanteContainer.style.display = '';
-    showMessage('¡Pago exitoso! Aquí tienes tu comprobante.', 'success');
-    payButton.disabled = true;
-    payButton.textContent = 'Pagado';
-
-    Swal.fire({
-        icon: 'success',
-        title: '¡Gracias por tu compra!',
-        text: 'Tu pedido ha sido procesado con éxito. Serás redirigido a la biblioteca.',
-        timer: 3000,
-        showConfirmButton: false
-    });
-    setTimeout(() => {
-        window.location.href = '/catalogo.html';
-    }, 3000);
+        /*// Mostrar comprobante
+        comprobanteContainer.innerHTML = buildComprobante({
+            paymentId: paymentPayload._id || '',
+            method: methodLabel,
+            total: paymentPayload.total,
+            items: cartItems
+        });
+        comprobanteContainer.style.display = '';
+        showMessage('¡Pago exitoso! Aquí tienes tu comprobante.', 'success');
+        payButton.disabled = true;
+        payButton.textContent = 'Pagado';
+*/
+        Swal.fire({
+            icon: 'success',
+            title: '¡Gracias por tu compra!',
+            text: 'Tu pedido ha sido procesado con éxito. Serás redirigido a la biblioteca.',
+            timer: 3000,
+            showConfirmButton: false
+        });
+        setTimeout(() => {
+            window.location.href = '/catalogo.html';
+        }, 3000);
+    }
 });
 
 // Inicialización
@@ -375,3 +379,17 @@ paymentForm.addEventListener('submit', async (e) => {
     updateSavedMethodsUI();
     showFieldsFor('');
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const expiryInput = document.getElementById('expiry-date');
+    if (expiryInput) {
+        expiryInput.addEventListener('input', function (e) {
+            let value = this.value.replace(/\D/g, '');
+            if (value.length > 4) value = value.slice(0, 4);
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            }
+            this.value = value;
+        });
+    }
+});
