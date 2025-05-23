@@ -109,15 +109,21 @@
                         <select id="saved-methods-select"></select>
                     </div>
                     <div id="tarjeta-fields" style="display:none;">
-                        <div class="form-group form-row">
-                            <div style="flex:2; margin-right:8px;">
-                                <label for="card-number">Número de Tarjeta</label>
-                                <input type="text" id="card-number" maxlength="8" placeholder="12345678">
-                            </div>
-                            <div style="flex:1;">
-                                <label for="cvv">CVV</label>
-                                <input type="text" id="cvv" maxlength="3" placeholder="123">
-                            </div>
+                        <div class="form-group">
+                            <label for="card-name">Nombre en la tarjeta</label>
+                            <input type="text" id="card-name" maxlength="50" placeholder="Ej: Juan Pérez">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-number">Número de Tarjeta</label>
+                            <input type="text" id="card-number" maxlength="16" placeholder="1234567812345678">
+                        </div>
+                        <div class="form-group">
+                            <label for="expiry-date">Vencimiento (MM/AA)</label>
+                            <input type="text" id="expiry-date" maxlength="5" placeholder="MM/AA">
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" maxlength="3" placeholder="123">
                         </div>
                     </div>
                     <div id="transferencia-fields" style="display:none;">
@@ -133,13 +139,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="account-number">Número de Cuenta</label>
-                            <input type="text" id="account-number" maxlength="20" placeholder="Ej: 12345678901234567890">
+                            <label for="account-name">Nombre de la cuenta</label>
+                            <input type="text" id="account-name" maxlength="50" placeholder="Ej: Juan Pérez">
                         </div>
-                    </div>
-                    <div class="form-group" id="save-method-group" style="display:none;">
-                        <input type="checkbox" id="save-method">
-                        <label for="save-method">Guardar este método para futuras compras</label>
                     </div>
                     <button type="submit" id="pay-button" class="pay-button">Pagar</button>
                     <div id="payment-message" class="payment-message" style="display: none;"></div>
