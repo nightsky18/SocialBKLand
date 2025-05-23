@@ -30,6 +30,12 @@ async function fetchAndRenderBookDetails() {
     // Mostrar un mensaje de carga mientras se obtiene la data
     if (bookDetailsContainer) {
          bookDetailsContainer.innerHTML = '<p>Cargando detalles del libro...</p>';
+         // Mostrar el formulario solo si hay usuario logueado
+const user = JSON.parse(sessionStorage.getItem('user'));
+if (user && user.name) {
+  document.getElementById('review-form-section').style.display = 'block';
+}
+
     }
 
     try {
@@ -77,7 +83,6 @@ async function fetchAndRenderBookDetails() {
                             ${book.isDiscounted ? `<span class="original-price">$${book.originalPrice}</span>` : ''}
                             $${book.price}
                         </p>
-                        <p class="rating">Calificación: ${book.rating} ★</p>
                         <p class="delivery-time">Tiempo de entrega: ${book.deliveryTime}</p>
                         <div class="quantity">
                             <label for="quantity">Cantidad:</label>
@@ -251,23 +256,27 @@ function getBookId() {
 document.getElementById('review-form').addEventListener('submit', async e => {
   e.preventDefault();
 
-  const bookId = getBookId();
-  const user   = document.getElementById('review-user').value.trim();
-  const rating = parseInt(document.getElementById('review-rating').value, 10);
-  const text   = document.getElementById('review-text').value.trim();
-
-  const errorBox = document.getElementById('review-error');
-  errorBox.style.display = 'none';
-  errorBox.textContent = '';
-
-  // Validación mínima
-  if (!rating || !text) {
-    errorBox.textContent = 'Por favor, deja un comentario y una calificación.';
-    errorBox.style.display = 'block';
+  const userInfo = JSON.parse(sessionStorage.getItem('user'));
+  if (!userInfo || !userInfo.name) {
+    showError('Debes iniciar sesión para publicar una reseña.');
     return;
   }
 
-  const payload = { libro: bookId, user, rating, text };
+  const bookId = getBookId();
+  const rating = parseInt(document.getElementById('review-rating').value, 10);
+  const text   = document.getElementById('review-text').value.trim();
+
+  if (!rating || !text) {
+    showError('Por favor, deja un comentario y una calificación.');
+    return;
+  }
+
+  const payload = {
+    libro: bookId,
+    user: userInfo.name,
+    rating,
+    text
+  };
 
   try {
     const res = await fetch(`${window.location.origin}/api/reviews`, {
@@ -279,24 +288,29 @@ document.getElementById('review-form').addEventListener('submit', async e => {
     const result = await res.json();
 
     if (!res.ok) {
-      // Mostrar mensaje personalizado si viene del backend
-      errorBox.textContent = result.message || 'No se pudo enviar la reseña. Intenta de nuevo.';
-      errorBox.style.display = 'block';
+      showError(result.message || 'No se pudo enviar la reseña. Intenta de nuevo.');
       return;
     }
 
-    // Limpia el formulario
     document.getElementById('review-form').reset();
-
-    // Vuelve a cargar reseñas
     await fetchAndRenderReviews(bookId);
   } catch (err) {
     console.error(err);
-    errorBox.textContent = 'No se pudo enviar la reseña. Intenta de nuevo.';
-    errorBox.style.display = 'block';
+    showError('No se pudo enviar la reseña. Intenta de nuevo.');
   }
 });
 
+function showError(message) {
+  const errorBox = document.getElementById('review-error');
+  const errorText = document.getElementById('review-error-text');
+
+  errorText.textContent = message;
+  errorBox.style.display = 'flex';
+
+  setTimeout(() => {
+    errorBox.style.display = 'none';
+  }, 5000);
+}
 
 
 // Ejecutar la función para cargar y renderizar los detalles del libro cuando el DOM esté completamente cargado
