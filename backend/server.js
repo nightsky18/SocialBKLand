@@ -396,6 +396,10 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/moderators", require("./routes/moderatorRoutes"));
 app.use('/api', authRoutes);
+const receiptRoutes = require('./routes/receiptRoutes');
+app.use('/api/receipts', receiptRoutes);
+const paymentReceiptRoutes = require('./routes/paymentReceiptRoutes');
+app.use('/api/payment-receipts', paymentReceiptRoutes);
 
 
 const PORT = process.env.PORT || 5000;
