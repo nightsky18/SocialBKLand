@@ -94,35 +94,57 @@
             </div>
 
             <div class="payment-form-column">
-                <h2>Información de Pago (Simulación)</h2>
+                <h2>Información de Pago</h2>
                 <form id="payment-form">
-                    <div class="form-group">
-                        <label for="card-name">Nombre en la Tarjeta</label>
-                        <input type="text" id="card-name" required placeholder="Ej: Juan Pérez">
-                    </div>
-                    <div class="form-group">
-                        <label for="card-number">Número de Tarjeta</label>
-                        <input type="text" id="card-number" required placeholder="**** **** **** 1234">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="expiry-date">Fecha Expiración</label>
-                            <input type="text" id="expiry-date" required placeholder="MM/AA">
-                        </div>
-                        <div class="form-group">
-                            <label for="cvv">CVV</label>
-                            <input type="text" id="cvv" required placeholder="123">
-                        </div>
-                    </div>
                     <div class="form-group">
                         <label for="payment-method-select">Método de Pago</label>
                         <select id="payment-method-select" required>
+                            <option value="">Selecciona un método</option>
                             <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                            <option value="transferencia">Transferencia Bancaria</option>
                         </select>
+                    </div>
+                    <div id="saved-methods-group" class="form-group" style="display:none;">
+                        <label for="saved-methods-select">Métodos Guardados</label>
+                        <select id="saved-methods-select"></select>
+                    </div>
+                    <div id="tarjeta-fields" style="display:none;">
+                        <div class="form-group form-row">
+                            <div style="flex:2; margin-right:8px;">
+                                <label for="card-number">Número de Tarjeta</label>
+                                <input type="text" id="card-number" maxlength="8" placeholder="12345678">
+                            </div>
+                            <div style="flex:1;">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" maxlength="3" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="transferencia-fields" style="display:none;">
+                        <div class="form-group">
+                            <label for="bank-select">Banco</label>
+                            <select id="bank-select">
+                                <option value="">Selecciona un banco</option>
+                                <option value="Bancolombia">Bancolombia</option>
+                                <option value="Banco de Bogotá">Banco de Bogotá</option>
+                                <option value="Davivienda">Davivienda</option>
+                                <option value="BBVA">BBVA</option>
+                                <option value="Banco Popular">Banco Popular</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="account-number">Número de Cuenta</label>
+                            <input type="text" id="account-number" maxlength="20" placeholder="Ej: 12345678901234567890">
+                        </div>
+                    </div>
+                    <div class="form-group" id="save-method-group" style="display:none;">
+                        <input type="checkbox" id="save-method">
+                        <label for="save-method">Guardar este método para futuras compras</label>
                     </div>
                     <button type="submit" id="pay-button" class="pay-button">Pagar</button>
                     <div id="payment-message" class="payment-message" style="display: none;"></div>
                 </form>
+                <div id="comprobante-container" style="display:none; margin-top:20px;"></div>
             </div>
         </div>
     </main>
@@ -142,8 +164,8 @@
         </div>
     </footer>
 
+    <script type="module" src="/assets/js/pago-simulado.js"></script>
     <script type="module" src="/assets/js/modal.js"></script>
-    <script type="module" src="./assets/js/pago.js"></script>
     <script src="/assets/js/Micuenta.js"></script>
     <script type="module" src="/assets/js/chat/SupportChat.js"></script>
     <support-chat></support-chat>
