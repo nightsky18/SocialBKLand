@@ -193,8 +193,16 @@ async function fetchAndRenderBookDetails() {
 }
 
 async function fetchAndRenderReviews(bookId) {
-    const reviewsContainer = document.createElement('div');
-    reviewsContainer.className = 'reviews-section';
+    // Si ya existe una sección de reseñas, elimínala
+let reviewsContainer = document.querySelector('.reviews-section');
+if (reviewsContainer) {
+  reviewsContainer.remove();
+}
+
+// Crear una nueva sección
+reviewsContainer = document.createElement('div');
+reviewsContainer.className = 'reviews-section';
+
     const bookDetailsContainer = document.getElementById('book-details');
 
     try {
@@ -242,24 +250,24 @@ function getBookId() {
 // Maneja el submit del formulario
 document.getElementById('review-form').addEventListener('submit', async e => {
   e.preventDefault();
+
   const bookId = getBookId();
-  const user    = document.getElementById('review-user').value.trim();
-  const rating  = parseInt(document.getElementById('review-rating').value, 10);
-  const text    = document.getElementById('review-text').value.trim();
+  const user   = document.getElementById('review-user').value.trim();
+  const rating = parseInt(document.getElementById('review-rating').value, 10);
+  const text   = document.getElementById('review-text').value.trim();
+
+  const errorBox = document.getElementById('review-error');
+  errorBox.style.display = 'none';
+  errorBox.textContent = '';
 
   // Validación mínima
   if (!rating || !text) {
-    alert('Por favor, deja un comentario y calificación.');
+    errorBox.textContent = 'Por favor, deja un comentario y una calificación.';
+    errorBox.style.display = 'block';
     return;
   }
 
-  const payload = {
-  libro: bookId,
-  user,
-  rating,
-  text
-};
-
+  const payload = { libro: bookId, user, rating, text };
 
   try {
     const res = await fetch(`${window.location.origin}/api/reviews`, {
@@ -267,18 +275,25 @@ document.getElementById('review-form').addEventListener('submit', async e => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-    if (!res.ok) throw new Error('Error al enviar reseña');
-    
+
+    const result = await res.json();
+
+    if (!res.ok) {
+      // Mostrar mensaje personalizado si viene del backend
+      errorBox.textContent = result.message || 'No se pudo enviar la reseña. Intenta de nuevo.';
+      errorBox.style.display = 'block';
+      return;
+    }
+
     // Limpia el formulario
-    document.getElementById('review-user').value   = '';
-    document.getElementById('review-rating').value = '5';
-    document.getElementById('review-text').value   = '';
+    document.getElementById('review-form').reset();
 
     // Vuelve a cargar reseñas
     await fetchAndRenderReviews(bookId);
   } catch (err) {
     console.error(err);
-    alert('No se pudo enviar la reseña. Intenta de nuevo.');
+    errorBox.textContent = 'No se pudo enviar la reseña. Intenta de nuevo.';
+    errorBox.style.display = 'block';
   }
 });
 

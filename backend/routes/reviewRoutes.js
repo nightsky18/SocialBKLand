@@ -23,6 +23,12 @@ router.post("/", async (req, res) => {
   try {
     const { libro, user, rating, text } = req.body;
 
+    // Verifica si ya existe una reseña de este usuario para este libro
+    const existingReview = await Review.findOne({ libro, user });
+    if (existingReview) {
+      return res.status(400).json({ message: 'Ya has enviado una reseña para este libro con ese nombre.' });
+    }
+
     const review = new Review({
       libro,
       user,
@@ -37,6 +43,7 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: 'Error al guardar la reseña' });
   }
 });
+
 
 
 router.get("/:id", async (req, res) => {

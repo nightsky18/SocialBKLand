@@ -318,3 +318,17 @@ main {
 .star.empty {
     color: #ddd;
 }
+
+.error-alert {
+  background-color: #fdecea;
+  color: #b71c1c;
+  padding: 0.75rem 1rem;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
