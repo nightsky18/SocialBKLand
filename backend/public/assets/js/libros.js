@@ -224,17 +224,24 @@ reviewsContainer.className = 'reviews-section';
                 reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
             ).toFixed(1);
 
-            reviewsContainer.innerHTML = `
-                <h2>Reseñas (${reviews.length})</h2>
-                <p>Calificación promedio: ${average} ★</p>
-                ${reviews.map(r => `
-                    <div class="review">
-                        <strong>${r.user || 'Anónimo'}:</strong>
-                        <p>${r.text}</p>
-                        <p>★ ${r.rating}</p>
-                    </div>
-                `).join('')}
-            `;
+       reviewsContainer.innerHTML = `
+  <h2>Reseñas (${reviews.length})</h2>
+  <p>Calificación promedio: ${average} ★</p>
+  ${reviews.map(r => {
+    const date = new Date(r.createdAt).toLocaleDateString('es-ES', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    return `
+      <div class="review">
+        <strong>${r.user || 'Anónimo'}</strong> - <span style="font-size: 0.9em; color: #777;">${date}</span>
+        <p>${r.text}</p>
+        <p>★ ${r.rating}</p>
+      </div>
+    `;
+  }).join('')}
+`;
+
         }
 
         if (bookDetailsContainer) bookDetailsContainer.appendChild(reviewsContainer);
