@@ -1,42 +1,33 @@
-[
-  {
-    "usuario": "660a1f2b5f1a2c3d4e5f6789",
-    "metodoDePago": "tarjeta",
-    "total": 50.99,
-    "estadoPago": "completado",
-    "detallesTransaccion": "Pago procesado con éxito",
-    "fechaPago": "2024-03-28T10:15:30.000Z"
-  },
-  {
-    "usuario": "660a1f2b5f1a2c3d4e5f6790",
-    "metodoDePago": "transferencia",
-    "total": 120.50,
-    "estadoPago": "pendiente",
-    "detallesTransaccion": "En espera de confirmación bancaria",
-    "fechaPago": "2024-03-27T14:25:00.000Z"
-  },
-  {
-    "usuario": "660a1f2b5f1a2c3d4e5f6791",
-    "metodoDePago": "tarjeta",
-    "total": 75.00,
-    "estadoPago": "completado",
-    "detallesTransaccion": "Pago aprobado por el banco",
-    "fechaPago": "2024-03-26T08:45:15.000Z"
-  },
-  {
-    "usuario": "660a1f2b5f1a2c3d4e5f6792",
-    "metodoDePago": "transferencia",
-    "total": 200.00,
-    "estadoPago": "completado",
-    "detallesTransaccion": "Pago recibido correctamente",
-    "fechaPago": "2024-03-25T16:30:45.000Z"
-  },
-  {
-    "usuario": "660a1f2b5f1a2c3d4e5f6793",
-    "metodoDePago": "tarjeta",
-    "total": 35.75,
-    "estadoPago": "pendiente",
-    "detallesTransaccion": "Esperando validación del banco",
-    "fechaPago": "2024-03-24T12:00:00.000Z"
+[  {
+    "paymentId": "PAY-20240522-123456",
+    "userId": "660a1f2b5f1a2c3d4e5f6789",
+    "books": [
+      { "title": "Cien años de soledad", "quantity": 1, "price": 35.00 },
+      { "title": "El amor en los tiempos del cólera", "quantity": 2, "price": 25.00 }
+    ],
+    "total": 85.00,
+    "paymentMethod": "tarjeta",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-22T16:30:00.000Z"
   }
 ]
+
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const router = express.Router();
+
+const PAYMENT_PATH = path.join(__dirname, '../cache/Payment.json');
+
+router.post('/', (req, res) => {
+    let payments = [];
+    if (fs.existsSync(PAYMENT_PATH)) {
+        payments = JSON.parse(fs.readFileSync(PAYMENT_PATH, 'utf-8'));
+    }
+    payments.push(req.body);
+    fs.writeFileSync(PAYMENT_PATH, JSON.stringify(payments, null, 2));
+    res.status(201).json({ message: 'Comprobante guardado', id: req.body.paymentId });
+});
+
+module.exports = router;
