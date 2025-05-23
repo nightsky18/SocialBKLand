@@ -224,17 +224,24 @@ reviewsContainer.className = 'reviews-section';
                 reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
             ).toFixed(1);
 
-            reviewsContainer.innerHTML = `
-                <h2>Reseñas (${reviews.length})</h2>
-                <p>Calificación promedio: ${average} ★</p>
-                ${reviews.map(r => `
-                    <div class="review">
-                        <strong>${r.user || 'Anónimo'}:</strong>
-                        <p>${r.text}</p>
-                        <p>★ ${r.rating}</p>
-                    </div>
-                `).join('')}
-            `;
+       reviewsContainer.innerHTML = `
+  <h2>Reseñas (${reviews.length})</h2>
+  <p>Calificación promedio: ${average} ★</p>
+  ${reviews.map(r => {
+    const date = new Date(r.createdAt).toLocaleDateString('es-ES', {
+      year: 'numeric', month: 'long', day: 'numeric'
+    });
+
+    return `
+      <div class="review">
+        <strong>${r.user || 'Anónimo'}</strong> - <span style="font-size: 0.9em; color: #777;">${date}</span>
+        <p>${r.text}</p>
+        <p>★ ${r.rating}</p>
+      </div>
+    `;
+  }).join('')}
+`;
+
         }
 
         if (bookDetailsContainer) bookDetailsContainer.appendChild(reviewsContainer);
@@ -301,16 +308,22 @@ document.getElementById('review-form').addEventListener('submit', async e => {
 });
 
 function showError(message) {
-  const errorBox = document.getElementById('review-error');
-  const errorText = document.getElementById('review-error-text');
+  const errorElement = document.getElementById("review-error");
 
-  errorText.textContent = message;
-  errorBox.style.display = 'flex';
+  // Asegúrate de que el contenedor esté visible
+  const formSection = document.getElementById("review-form-section");
+  if (formSection.style.display === "none") {
+    formSection.style.display = "block";
+  }
 
-  setTimeout(() => {
-    errorBox.style.display = 'none';
-  }, 5000);
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.style.display = "block";
+  } else {
+    console.warn("Elemento #review-error no encontrado.");
+  }
 }
+
 
 
 // Ejecutar la función para cargar y renderizar los detalles del libro cuando el DOM esté completamente cargado
