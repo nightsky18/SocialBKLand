@@ -1,33 +1,129 @@
-[  {
+[
+  {
     "paymentId": "PAY-20240522-123456",
     "userId": "660a1f2b5f1a2c3d4e5f6789",
     "books": [
-      { "title": "Cien años de soledad", "quantity": 1, "price": 35.00 },
-      { "title": "El amor en los tiempos del cólera", "quantity": 2, "price": 25.00 }
+      {
+        "title": "Cien años de soledad",
+        "quantity": 1,
+        "price": 35
+      },
+      {
+        "title": "El amor en los tiempos del cólera",
+        "quantity": 2,
+        "price": 25
+      }
     ],
-    "total": 85.00,
+    "total": 85,
     "paymentMethod": "tarjeta",
     "paymentStatus": "completado",
     "transactionDetails": "Pago procesado con éxito",
     "paymentDate": "2025-05-22T16:30:00.000Z"
+  },
+  {
+    "paymentId": "PAY-20250523-650699",
+    "userId": null,
+    "books": [
+      {
+        "title": "Cuentos de la noche",
+        "quantity": 1,
+        "price": 18
+      }
+    ],
+    "total": "18.00",
+    "paymentMethod": "transferencia",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-23T15:01:25.268Z"
+  },
+  {
+    "user": null,
+    "paymentMethod": "tarjeta",
+    "total": "18.00",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-23T15:09:41.642Z",
+    "books": [
+      {
+        "title": "Cuentos de la noche",
+        "quantity": 1,
+        "price": 18
+      }
+    ]
+  },
+  {
+    "user": null,
+    "paymentMethod": "tarjeta",
+    "total": "18.00",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-23T15:14:32.514Z",
+    "books": [
+      {
+        "title": "Cuentos de la noche",
+        "quantity": 1,
+        "price": 18
+      }
+    ]
+  },
+  {
+    "user": null,
+    "paymentMethod": "tarjeta",
+    "total": "19.00",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-23T15:15:22.826Z",
+    "books": [
+      {
+        "title": "Caminos a la felicidad",
+        "quantity": 1,
+        "price": 19
+      }
+    ]
+  },
+  {
+    "user": null,
+    "paymentMethod": "transferencia",
+    "total": "19.00",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-23T15:16:22.076Z",
+    "books": [
+      {
+        "title": "Caminos a la felicidad",
+        "quantity": 1,
+        "price": 19
+      }
+    ]
+  },
+  {
+    "user": null,
+    "paymentMethod": "transferencia",
+    "total": "20.00",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-23T15:16:44.719Z",
+    "books": [
+      {
+        "title": "El arte de la negociación",
+        "quantity": 1,
+        "price": 20
+      }
+    ]
+  },
+  {
+    "user": null,
+    "paymentMethod": "transferencia",
+    "total": "40.00",
+    "paymentStatus": "completado",
+    "transactionDetails": "Pago procesado con éxito",
+    "paymentDate": "2025-05-23T15:22:24.899Z",
+    "books": [
+      {
+        "title": "El arte de la negociación",
+        "quantity": 2,
+        "price": 20
+      }
+    ]
   }
 ]
-
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const router = express.Router();
-
-const PAYMENT_PATH = path.join(__dirname, '../cache/Payment.json');
-
-router.post('/', (req, res) => {
-    let payments = [];
-    if (fs.existsSync(PAYMENT_PATH)) {
-        payments = JSON.parse(fs.readFileSync(PAYMENT_PATH, 'utf-8'));
-    }
-    payments.push(req.body);
-    fs.writeFileSync(PAYMENT_PATH, JSON.stringify(payments, null, 2));
-    res.status(201).json({ message: 'Comprobante guardado', id: req.body.paymentId });
-});
-
-module.exports = router;
