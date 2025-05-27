@@ -32,7 +32,7 @@
             </button>
             <div id="userDropdown" class="dropdown-content">
                 <a href="/usuario.html">Mi Cuenta</a>
-                <a href="">Seguimiento de Pedido</a>
+                <a href="/seguimiento-pedidos.html">Seguimiento de Pedido</a>
                 <a href="#" onclick="logout()">Cerrar Sesión</a>
             </div>
         </div>
@@ -94,6 +94,35 @@
     <div id="book-details">
         <!-- Información del libro cargada dinámicamente -->
     </div>
+    <section id="reviews-section" style="margin-top:2rem;">
+  <div id="reviews-container"></div>
+<section id="review-form-section" style="display: none;">
+  <!-- Nuevo formulario -->
+  <form id="review-form" style="margin-top:1rem;">
+    <h3>Escribe tu reseña</h3>
+    <label style="display:block; margin:0.5rem 0;">
+      Calificación:
+      <select id="review-rating">
+        <option value="5">5 ★★★★★</option>
+        <option value="4">4 ★★★★☆</option>
+        <option value="3">3 ★★★☆☆</option>
+        <option value="2">2 ★★☆☆☆</option>
+        <option value="1">1 ★☆☆☆☆</option>
+      </select>
+    </label>
+    <label style="display:block; margin-bottom:0.5rem;">
+      Comentario:
+      <textarea id="review-text" rows="3" style="width:100%;" placeholder="Tu opinión…"></textarea>
+    </label>
+    <button type="submit">Enviar reseña</button>
+  </form>
+  
+
+</section>
+
+  <p id="review-error" style="color: red; margin-top: 0.5rem; display: none;"></p>
+</section>
+
 </main>
 
 

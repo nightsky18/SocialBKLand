@@ -4,6 +4,7 @@ const Book = require('../models/Book');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const Review = require('../models/Review');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -17,7 +18,15 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-
+router.get('/:id/reviews', async (req, res) => {
+    try {
+        const reviews = await Review.find({ libro: req.params.id }).populate('author', 'username');
+        res.json(reviews);
+    } catch (err) {
+        console.error('Error obteniendo reseñas:', err);
+        res.status(500).json({ message: 'Error al obtener reseñas' });
+    }
+});
 
 
 // Obtener todos los libros (usado por el catálogo)
