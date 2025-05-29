@@ -28,7 +28,7 @@
 }
 
 /* Estilo base de los botones de filtro */
-.filter-btn {
+.tab-button {
     padding: 10px 20px;
     font-size: 1rem; /* Tamaño de fuente relativo */
     font-weight: bold;
@@ -83,19 +83,56 @@
 /* Usamos los estilos de comunidades.css para .communities-grid y .community-card */
 
 /* Aseguramos display correcto para los contenedores (JS controla cuál es visible) */
-#my-books-list {
-    display: flex; /* O grid si prefieres grid para libros también */
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    min-height: 150px;
+/* ===== Estilo para tarjetas de libros ===== */
+#mis-libros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 25px;
+  justify-items: center;
 }
 
-#my-communities-list {
-    display: grid; /* Hereda de comunidades.css */
-    /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */ /* Hereda */
-    /* gap: 25px; */ /* Hereda */
-    min-height: 150px;
+.book-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 100%;
+  max-width: 180px;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.book-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.book-card h3 {
+  font-size: 1rem;
+  margin: 5px 0;
+  color: #333;
+}
+
+.book-card p {
+  font-size: 0.9rem;
+  color: #777;
+  margin: 0;
+}
+
+
+#mis-comunidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 10px;
 }
 
 /* Mensajes de "no encontrado" */

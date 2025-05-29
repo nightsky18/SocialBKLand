@@ -123,7 +123,21 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
+// GET /api/users/:userId/communities
+router.get('/:userId/communities', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).populate({
+      path: 'communities',
+      populate: { path: 'members posts' }
+    });
 
+    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
+    res.status(200).json(user.communities);
+  } catch (err) {
+    console.error('Error al obtener comunidades del usuario:', err);
+    res.status(500).json({ message: 'Error en el servidor' });
+  }
+});
 
 module.exports = router;
