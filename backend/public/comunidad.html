@@ -7,8 +7,7 @@
 
   <!-- Estilos -->
   <link rel="stylesheet" href="/assets/css/mi-cuenta.css">
-  <link rel="stylesheet" href="/assets/css/header.css" />
-  <link rel="stylesheet" href="/assets/css/footer.css" />
+  <link rel="stylesheet" href="/assets/css/header-footer.css">
   <link rel="stylesheet" href="/assets/css/login.css" />
   <link rel="stylesheet" href="/assets/css/comunidad.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -137,12 +136,12 @@
   </footer>
 
   <!-- Scripts globales necesarios -->
-  <script defer src="./assets/js/modal.js"></script>
-  <script defer src="./assets/js/supportChat.js"></script>
-    <support-chat></support-chat>
+  <script type="module" src="./assets/js/modal.js"></script>
+  <script src="./assets/js/Micuenta.js"></script>
+  <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+  <support-chat></support-chat>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script defer type="module" src="./assets/js/community/community.js"></script>
-  <script defer src="./assets/js/sessionService.js"></script>
   <a href="/preguntas.html" class="floating-faq-btn" title="Soporte y Preguntas Frecuentes">🔧 FAQ</a>
 </body>
 </html>

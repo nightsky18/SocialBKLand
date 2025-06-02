@@ -1,0 +1,136 @@
+/* comunidad.css */
+
+.community-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+/* ===== Info comunidad ===== */
+#community-info {
+  margin-bottom: 30px;
+}
+
+#community-info h1 {
+  font-size: 2rem;
+  color: #1E90FF;
+  margin-bottom: 8px;
+}
+
+#community-info p {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+#report-community-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#report-community-btn:hover {
+  background-color: #c0392b;
+}
+
+/* ===== Editor de publicación ===== */
+#post-editor-section {
+  margin-bottom: 30px;
+}
+
+#post-editor-section textarea {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+#publish-btn {
+  background-color: #1E90FF;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#publish-btn:hover {
+  background-color: #187bcd;
+}
+
+/* ===== Feed de publicaciones ===== */
+#community-post-feed h2 {
+  font-size: 1.5rem;
+  color: #1E90FF;
+  margin-bottom: 20px;
+}
+
+.post-card {
+  background-color: #f9f9f9;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.post-date {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.post-content {
+  color: #333;
+  margin-bottom: 12px;
+  white-space: pre-line;
+}
+
+.post-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.post-actions button {
+  background-color: #eee;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.post-actions .edit-btn {
+  background-color: #f39c12;
+  color: white;
+}
+
+.post-actions .delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.post-actions .report-btn {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.post-actions button:hover {
+  opacity: 0.9;
+}

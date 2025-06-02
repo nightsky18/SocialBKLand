@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
-const checkPostAuthor = require("../middleware/checkPostAuthor"); // si lo pones aparte
+const checkPostAuthor = require("../middlewares/checkPostAuthor"); // si lo pones aparte
 
 router.get("/", async (req, res) => {
     const posts = await Post.find();

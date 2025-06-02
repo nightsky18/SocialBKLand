@@ -18,11 +18,3 @@ export function requireUserSession() {
   
     return true;
   }
-
-  export function getCurrentUser() {
-  try {
-    return JSON.parse(sessionStorage.getItem('user'));
-  } catch {
-    return null;
-  }
-}

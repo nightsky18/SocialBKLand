@@ -1,3 +1,4 @@
+// middlewares/checkPostAuthor.js
 const Post = require("../models/Post");
 
 async function checkPostAuthor(req, res, next) {
@@ -5,8 +6,7 @@ async function checkPostAuthor(req, res, next) {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ message: "Post no encontrado" });
 
-    // Suponemos que el usuario está en req.user
-    const userId = req.user?._id || req.body.userId; // fallback si usas sessionStorage y mandas userId desde frontend
+    const userId = req.user?._id || req.body.userId;
 
     if (!userId || post.author.toString() !== userId.toString()) {
       return res.status(403).json({ message: "No tienes permiso para modificar este post" });
@@ -18,3 +18,5 @@ async function checkPostAuthor(req, res, next) {
     res.status(500).json({ message: "Error interno" });
   }
 }
+
+module.exports = checkPostAuthor;

@@ -138,10 +138,14 @@ function createCommunityCard(community, currentUser) {
         </button>
     </div>
   `;
+  card.addEventListener('click', () => {
+  window.location.href = `/comunidad.html?id=${community._id}`;
+  });
 
   if (!buttonDisabled) {
     const joinBtn = card.querySelector('.community-action-btn');
     joinBtn.addEventListener('click', async () => {
+      e.stopPropagation();
       const user = getCurrentUser();
       if (!user) {
         Swal.fire({ icon: 'warning', title: 'Inicia sesión', text: 'Debes iniciar sesión para unirte a comunidades.' });
