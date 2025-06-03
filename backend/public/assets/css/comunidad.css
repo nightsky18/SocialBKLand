@@ -1,5 +1,10 @@
 /* comunidad.css */
-
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #191919;
+}
 .community-container {
   max-width: 900px;
   margin: 40px auto;

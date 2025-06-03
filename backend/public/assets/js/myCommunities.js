@@ -46,6 +46,10 @@ function renderCommunityCard(community) {
     </div>
   `;
 
+    card.addEventListener("click", () => {
+      window.location.href = `/comunidad.html?id=${community._id}`;
+    });
+
   return card;
 }
 

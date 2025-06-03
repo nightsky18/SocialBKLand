@@ -99,10 +99,12 @@ function showError(message) {
 function createCommunityCard(community, currentUser) {
   const memberCount = community.members?.length || 0;
   const postCount = community.posts?.length || 0;
-  const hasJoined = currentUser && community.members.some(m => m.user === currentUser._id);
-
+  const hasJoined = currentUser && community.members.some(m => {
+      const memberId = typeof m.user === "string" ? m.user : m.user?._id;
+      return memberId?.toString() === currentUser._id;
+    });
   const buttonText = hasJoined
-    ? 'Unido'
+    ? 'Ya eres miembro'
     : community.type === 'private'
     ? 'Solicitar ingreso'
     : 'Unirse';
@@ -138,12 +140,7 @@ function createCommunityCard(community, currentUser) {
         </button>
     </div>
   `;
-  // Hacer que solo el título lleve a la comunidad
-    const title = card.querySelector(".community-name");
-    title.style.cursor = "pointer";
-    title.style.textDecoration = "underline";
-
-    title.addEventListener("click", () => {
+    card.addEventListener("click", () => {
       const isPrivate = community.type === "private";
 
       const isMember = community.members.some(m => {
@@ -161,8 +158,8 @@ function createCommunityCard(community, currentUser) {
 
   if (!buttonDisabled) {
     const joinBtn = card.querySelector('.community-action-btn');
+    
     joinBtn.addEventListener('click', async () => {
-      e.stopPropagation();
       const user = getCurrentUser();
       if (!user) {
         Swal.fire({ icon: 'warning', title: 'Inicia sesión', text: 'Debes iniciar sesión para unirte a comunidades.' });
@@ -172,7 +169,7 @@ function createCommunityCard(community, currentUser) {
       if (community.type === 'public') {
         const result = await joinCommunity(community._id, user._id);
         if (result) {
-          joinBtn.textContent = 'Unido';
+          joinBtn.textContent = 'Ya eres miembro';
           joinBtn.disabled = true;
           Swal.fire({ icon: 'success', title: '¡Te uniste!', text: 'Ahora eres miembro de esta comunidad.' });
         }
