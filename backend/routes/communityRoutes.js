@@ -9,7 +9,10 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const communities = await Community.find()
     .populate("members.user", "name email") // poblamos solo campos necesarios
-    .populate("posts")
+    .populate({
+      path: 'posts',
+      populate: { path: 'author', select: 'name email' }
+    })
     .sort({ createdAt: -1 });
 
   res.json(communities);

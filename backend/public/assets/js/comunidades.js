@@ -145,7 +145,11 @@ function createCommunityCard(community, currentUser) {
 
     title.addEventListener("click", () => {
       const isPrivate = community.type === "private";
-      const isMember = community.members.some(m => m.user === currentUser?._id);
+
+      const isMember = community.members.some(m => {
+        const memberId = typeof m.user === "string" ? m.user : m.user?._id;
+        return memberId?.toString() === currentUser._id;
+      });
 
       if (isPrivate && !isMember) {
         Swal.fire("Acceso denegado", "Esta comunidad es privada. Debes unirte para ver su contenido.", "warning");

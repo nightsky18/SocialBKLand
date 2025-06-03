@@ -1,15 +1,22 @@
-// community.js - lógica principal para comunidad.html
+// community.js
+// -------------
+// Main orchestration for comunidad.html:
+// 1. Load basic community info
+// 2. Check access (public vs. private + membership)
+// 3. If member, show post editor + feed
+// 4. Wire up "Report Community" button
 
-const communityId = new URLSearchParams(window.location.search).get("id");
-const user = getCurrentUser();
+import { setupPostEditor } from '../components/postEditor.js';
+import { renderPostFeed } from '../components/postFeed.js';
 
-const communityName = document.getElementById("community-name");
-const communityTopic = document.getElementById("community-topic");
-const postEditorSection = document.getElementById("post-editor-section");
-const postForm = document.getElementById("post-form");
-const postContentInput = document.getElementById("post-content");
-const postsContainer = document.getElementById("posts-container");
-const reportCommunityBtn = document.getElementById("report-community-btn");
+let currentUser = JSON.parse(sessionStorage.getItem("user")) || null;
+let currentCommunity = null;
+
+const communityNameEl      = document.getElementById("community-name");
+const communityTopicEl     = document.getElementById("community-topic");
+const postEditorSection    = document.getElementById("post-editor-section");
+const reportCommunityBtn   = document.getElementById("report-community-btn");
+const postsContainerId     = "posts-container";
 
 function getCurrentUser() {
   try {
@@ -20,108 +27,116 @@ function getCurrentUser() {
 }
 
 async function fetchCommunity() {
-  try {
-    const communityId = new URLSearchParams(window.location.search).get("id");
-    const res = await fetch(`/api/community/${communityId}`);
-    const community = await res.json();
-    communityName.textContent = community.name;
-    communityTopic.textContent = community.topic || "Sin tema definido";
-
-    const isMember = community.members.some(
-      (m) => m.user === user?._id
-    );
-    if (isMember) postEditorSection.style.display = "block";
-  } catch (err) {
-    console.error("Error al cargar comunidad", err);
-  }
-}
-
-async function fetchPosts() {
-  try {
-    const res = await fetch(`/api/posts/community/${communityId}`);
-    const posts = await res.json();
-    postsContainer.innerHTML = "";
-    posts.forEach(renderPost);
-  } catch (err) {
-    console.error("Error al cargar posts", err);
-  }
-}
-
-function renderPost(post) {
-  const card = document.createElement("div");
-  card.classList.add("post-card");
-
-  const date = new Date(post.createdAt).toLocaleDateString();
-  const isAuthor = user && user._id === post.author._id;
-
-  card.innerHTML = `
-    <div class="post-header">
-      <strong>${post.author.name}</strong>
-      <span class="post-date">${date}</span>
-    </div>
-    <p class="post-content">${post.content}</p>
-    <div class="post-actions">
-      ${isAuthor ? `
-        <button class="edit-btn" data-id="${post._id}">Editar</button>
-        <button class="delete-btn" data-id="${post._id}">Eliminar</button>
-      ` : `
-        <button class="report-btn" data-id="${post._id}">Reportar</button>
-      `}
-    </div>
-  `;
-
-  postsContainer.appendChild(card);
-}
-
-postForm?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const content = postContentInput.value.trim();
-  if (!content) {
-    Swal.fire("Error", "No puedes publicar contenido vacío", "warning");
+  const params = new URLSearchParams(window.location.search);
+  const communityId = params.get("id");
+  if (!communityId) {
+    Swal.fire("Error", "No se indicó ID de comunidad.", "error");
     return;
   }
 
   try {
-    const res = await fetch("/api/posts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content,
-        community: communityId,
-        author: user._id,
-      }),
+    const res = await fetch(`/api/community/${communityId}`);
+    if (!res.ok) throw new Error(`Error ${res.status} al obtener comunidad`);
+    const community = await res.json();
+    currentCommunity = community;
+
+    // 1) Show basic info
+    communityNameEl.textContent  = community.name;
+    communityTopicEl.textContent = community.topic || "Sin tema definido";
+
+    // 2) Private check
+    const isPrivate = (community.type === "private");
+    const user      = getCurrentUser();
+    const isMember  = user && community.members.some(m => {
+      // m.user may be string (ObjectId) or full object {_id,…}
+      const memberId = (typeof m.user === 'string') ? m.user : m.user._id;
+      return memberId === user._id;
     });
 
-    if (!res.ok) throw new Error("Error al publicar");
-    postContentInput.value = "";
-    await fetchPosts();
+    if (isPrivate && !isMember) {
+      Swal.fire(
+        "Acceso denegado",
+        "Esta comunidad es privada. Debes unirte para ver su contenido.",
+        "warning"
+      );
+      // Show a placeholder in feed area
+      document.getElementById("community-post-feed").innerHTML =
+        `<p style="text-align:center; color:#888; margin-top:20px;">
+          No tienes acceso a esta comunidad.
+        </p>`;
+      postEditorSection.style.display = "none";
+      return;
+    }
+
+    // 3) If member → show post editor and initialize it
+    if (user && isMember) {
+      postEditorSection.style.display = "block";
+      setupPostEditor({
+        communityId,
+        getCurrentUser,
+        currentCommunity,
+        containerId: "post-editor-section",
+        onPostCreated: () => renderFeed()
+      });
+    } else {
+      // if not member or not logged in, keep editor hidden
+      postEditorSection.style.display = "none";
+    }
+
+    // 4) Always attempt to render feed (itself will skip if no access)
+    await renderFeed();
+
   } catch (err) {
-    console.error(err);
-    Swal.fire("Error", "No se pudo publicar", "error");
+    console.error("community.js: Error al cargar comunidad:", err);
+    Swal.fire("Error", "No se pudo cargar la comunidad.", "error");
+  }
+}
+
+async function renderFeed() {
+  const communityId = new URLSearchParams(window.location.search).get("id");
+  currentUser = getCurrentUser();
+
+  // If it's private and not member, bail out
+  if (currentCommunity?.type === "private") {
+    const user = currentUser;
+    const isMember = user && currentCommunity.members.some(m => {
+      const memberId = (typeof m.user === 'string') ? m.user : m.user._id;
+      return memberId === user._id;
+    });
+    if (!isMember) return;
+  }
+
+  // Delegate to the postFeed component
+  await renderPostFeed({
+    communityId,
+    currentUser,
+    containerId: postsContainerId
+  });
+}
+
+// “Reportar comunidad” button
+reportCommunityBtn.addEventListener('click', async () => {
+  const user = getCurrentUser();
+  if (!user || !user._id) {
+    Swal.fire("Acceso", "Debes iniciar sesión para reportar.", "warning");
+    return;
+  }
+  const communityId = new URLSearchParams(window.location.search).get("id");
+  try {
+    await fetch(`/api/community/${communityId}/report`, { 
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user._id })
+    });
+    Swal.fire("Gracias", "Se ha reportado la comunidad.", "success");
+  } catch (err) {
+    console.error("community.js: Error al reportar comunidad:", err);
+    Swal.fire("Error", "No se pudo reportar la comunidad.", "error");
   }
 });
 
-postsContainer.addEventListener("click", async (e) => {
-  const id = e.target.dataset.id;
-  if (e.target.classList.contains("delete-btn")) {
-    const confirm = await Swal.fire({
-      title: "¿Eliminar publicación?",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-    });
-    if (!confirm.isConfirmed) return;
-
-    await fetch(`/api/posts/${id}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: user._id }),
-    });
-    await fetchPosts();
-  } else if (e.target.classList.contains("report-btn")) {
-    await fetch(`/api/posts/${id}/report`, { method: "POST" });
-    Swal.fire("Gracias", "Se ha reportado la publicación", "success");
-  }
+// On DOM ready, load everything
+document.addEventListener('DOMContentLoaded', () => {
+  currentUser = getCurrentUser();
+  fetchCommunity();
 });
-
-fetchCommunity();
-fetchPosts();

@@ -2,16 +2,40 @@ const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post");
 const checkPostAuthor = require("../middlewares/checkPostAuthor"); // si lo pones aparte
+const Community = require("../models/Community");
 
 router.get("/", async (req, res) => {
     const posts = await Post.find();
     res.json(posts);
 });
 
-router.post("/", async (req, res) => {
-    const newPost = new Post(req.body);
-    await newPost.save();
-    res.status(201).json(newPost);
+router.post('/', async (req, res) => {
+  try {
+    const { content, userId, communityId } = req.body;
+    console.log("POST recibido con body:", req.body);
+
+    if (!content || !userId || !communityId) {
+      return res.status(400).json({ message: 'Faltan datos' });
+    }
+
+    const post = new Post({
+      content,
+      author: userId,
+      community: communityId
+    });
+
+    await post.save();
+
+    // Asociarlo a la comunidad
+    await Community.findByIdAndUpdate(communityId, {
+      $push: { posts: post._id }
+    });
+
+    res.status(201).json(post);
+  } catch (err) {
+    console.error('Error al crear post:', err);
+    res.status(500).json({ message: 'Error al crear post' });
+  }
 });
 
 router.get("/:id", async (req, res) => {
@@ -31,12 +55,18 @@ router.delete("/:id", async (req, res) => {
 
 router.get("/community/:communityId", async (req, res) => {
   try {
-    const posts = await Post.find({ community: req.params.communityId })
-      .populate("author", "name")
-      .sort({ createdAt: -1 });
-    res.json(posts);
+    const { communityId } = req.params;
+    console.log(`[postRoutes] GET /api/posts/community/${communityId}`);
+    // Buscar TODOS los posts cuyo campo `community` sea `communityId`
+    // además, populamos author para que traiga nombre del autor
+    const posts = await Post.find({ community: communityId })
+      .populate("author", "name")      // opcional: traemos solo nombre del autor
+      .sort({ createdAt: -1 });        // opcional: ordenamos por fecha descendente
+    console.log("[postRoutes] posts encontrados:", posts.length);
+    return res.json(posts);
   } catch (err) {
-    res.status(500).json({ message: "Error al obtener publicaciones" });
+    console.error("[postRoutes] Error al obtener posts de comunidad:", err);
+    return res.status(500).json({ message: "Error interno al obtener posts" });
   }
 });
 
