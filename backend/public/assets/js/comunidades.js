@@ -138,9 +138,22 @@ function createCommunityCard(community, currentUser) {
         </button>
     </div>
   `;
-  card.addEventListener('click', () => {
-  window.location.href = `/comunidad.html?id=${community._id}`;
-  });
+  // Hacer que solo el título lleve a la comunidad
+    const title = card.querySelector(".community-name");
+    title.style.cursor = "pointer";
+    title.style.textDecoration = "underline";
+
+    title.addEventListener("click", () => {
+      const isPrivate = community.type === "private";
+      const isMember = community.members.some(m => m.user === currentUser?._id);
+
+      if (isPrivate && !isMember) {
+        Swal.fire("Acceso denegado", "Esta comunidad es privada. Debes unirte para ver su contenido.", "warning");
+        return;
+      }
+
+      window.location.href = `/comunidad.html?id=${community._id}`;
+    });
 
   if (!buttonDisabled) {
     const joinBtn = card.querySelector('.community-action-btn');

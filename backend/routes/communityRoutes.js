@@ -19,9 +19,20 @@ router.get("/", async (req, res) => {
 // POST /api/communities - Crear nueva comunidad
 router.post("/", authenticateUser, createCommunity);
 
-router.get("/:id", async (req, res) => {
-    const community = await Community.findById(req.params.id);
+// Obtener comunidad por ID
+router.get('/:id', async (req, res) => {
+  console.log("GET /api/community/:id recibido:", req.params.id);
+  try {
+    const community = await Community.findById(req.params.id)
+      .populate('members.user', 'name') // Opcional: puedes ajustar qué campos quieres
+      .populate('posts'); // Si quieres incluir posts
+    if (!community) return res.status(404).json({ error: 'Comunidad no encontrada' });
+
     res.json(community);
+  } catch (err) {
+    console.error('Error al obtener comunidad:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
 
 router.put("/:id", async (req, res) => {

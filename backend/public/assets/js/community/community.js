@@ -21,7 +21,8 @@ function getCurrentUser() {
 
 async function fetchCommunity() {
   try {
-    const res = await fetch(`/api/communities/${communityId}`);
+    const communityId = new URLSearchParams(window.location.search).get("id");
+    const res = await fetch(`/api/community/${communityId}`);
     const community = await res.json();
     communityName.textContent = community.name;
     communityTopic.textContent = community.topic || "Sin tema definido";
