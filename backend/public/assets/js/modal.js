@@ -88,10 +88,6 @@ if (loginForm) {
             timer: 1200,
             showConfirmButton: false
           });
-
-          setTimeout(() => {
-            window.location.href = "usuario.html";
-          }, 1000);
         } else {
           Swal.fire({
             icon: 'success',
@@ -100,10 +96,6 @@ if (loginForm) {
             timer: 1200,
             showConfirmButton: false
           });
-
-          setTimeout(() => {
-            window.location.href = "usuario.html";
-          }, 1000);
         }
       } else {
         Swal.fire({

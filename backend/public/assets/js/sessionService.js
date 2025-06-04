@@ -8,7 +8,7 @@ export function requireUserSession() {
       Swal.fire({
         icon: 'info',
         title: 'Inicia sesión',
-        text: 'Debes iniciar sesión para agregar libros al carrito.',
+        text: 'Debes iniciar sesión.',
         timer: 2500,
         showConfirmButton: false
       });
