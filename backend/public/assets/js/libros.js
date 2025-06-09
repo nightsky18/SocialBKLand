@@ -1,3 +1,4 @@
+
 // public/script.js
 // Importamos CartManager
 import { CartManager } from './CartManager.js';
@@ -7,7 +8,7 @@ import { requireUserSession } from './sessionService.js';
 // Asumiendo SweetAlert2 está disponible globalmente (incluido en HTML o otro script)
 // import Swal from 'sweetalert2';
 
-
+// ... keep existing code (fetchAndRenderBookDetails function) the same until fetchAndRenderReviews call
 
 // Función asíncrona para obtener los detalles del libro desde la API del back-end y renderizarlos
 async function fetchAndRenderBookDetails() {
@@ -92,17 +93,6 @@ if (user && user.name) {
                     <div class="actions">
                         <button id="add-to-cart">Añadir al Carrito</button>
                         <button id="buy-now">Comprar Ahora</button>
-                    </div>
-                    <div class="comments">
-                        <h2>Comentarios</h2>
-                        ${book.comments && book.comments.length > 0 ? // Verificar si hay comentarios antes de mapear
-                          book.comments.map(comment => `
-                            <div class="comment">
-                                <strong>${comment.user}:</strong> <p>${comment.text}</p>
-                            </div>
-                          `).join('')
-                          : '<p>No hay comentarios aún.</p>' // Mensaje si no hay comentarios
-                        }
                     </div>
                 </div>
             `;
@@ -199,19 +189,19 @@ if (user && user.name) {
 
 async function fetchAndRenderReviews(bookId) {
     // Si ya existe una sección de reseñas, elimínala
-let reviewsContainer = document.querySelector('.reviews-section');
-if (reviewsContainer) {
-  reviewsContainer.remove();
-}
+    let reviewsContainer = document.querySelector('.reviews-section');
+    if (reviewsContainer) {
+        reviewsContainer.remove();
+    }
 
-// Crear una nueva sección
-reviewsContainer = document.createElement('div');
-reviewsContainer.className = 'reviews-section';
+    // Crear una nueva sección
+    reviewsContainer = document.createElement('div');
+    reviewsContainer.className = 'reviews-section';
 
     const bookDetailsContainer = document.getElementById('book-details');
 
     try {
-      const response = await fetch(`${window.location.origin}/api/reviews?libro=${bookId}`);
+        const response = await fetch(`${window.location.origin}/api/reviews?libro=${bookId}`);
 
         if (!response.ok) throw new Error('Error al obtener las reseñas');
 
@@ -224,33 +214,205 @@ reviewsContainer.className = 'reviews-section';
                 reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length
             ).toFixed(1);
 
-       reviewsContainer.innerHTML = `
-  <h2>Reseñas (${reviews.length})</h2>
-  <p>Calificación promedio: ${average} ★</p>
-  ${reviews.map(r => {
-    const date = new Date(r.createdAt).toLocaleDateString('es-ES', {
-      year: 'numeric', month: 'long', day: 'numeric'
-    });
+            reviewsContainer.innerHTML = `
+                <h2>Reseñas (${reviews.length})</h2>
+                <p>Calificación promedio: ${average} ★</p>
+                ${reviews.map(r => {
+                    const date = new Date(r.createdAt).toLocaleDateString('es-ES', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
 
-    return `
-      <div class="review">
-        <strong>${r.user || 'Anónimo'}</strong> - <span style="font-size: 0.9em; color: #777;">${date}</span>
-        <p>${r.text}</p>
-        <p>★ ${r.rating}</p>
-      </div>
-    `;
-  }).join('')}
-`;
-
+                    return `
+                        <div class="review" data-review-id="${r._id}">
+                            <strong>${r.user || 'Anónimo'}</strong> - <span style="font-size: 0.9em; color: #777;">${date}</span>
+                            <p>${r.text}</p>
+                            <p>★ ${r.rating}</p>
+                            
+                            <!-- Sección de comentarios -->
+                            <div class="comments-section">
+                                <h4>Comentarios (${r.comments ? r.comments.length : 0})</h4>
+                                <div class="comments-list" id="comments-${r._id}">
+                                    ${r.comments && r.comments.length > 0 ? 
+                                        r.comments.map(comment => {
+                                            const commentDate = new Date(comment.createdAt).toLocaleDateString('es-ES');
+                                            return `
+                                                <div class="comment" data-comment-id="${comment._id}">
+                                                    <strong>${comment.user}</strong> - <span style="font-size: 0.8em; color: #999;">${commentDate}</span>
+                                                    <p style="margin-left: 20px;">${comment.text}</p>
+                                                    
+                                                </div>
+                                            `;
+                                        }).join('') 
+                                        : '<p style="margin-left: 20px; color: #666;">No hay comentarios aún.</p>'
+                                    }
+                                </div>
+                                
+                                <!-- Formulario para agregar comentario -->
+                                <div class="add-comment-form" style="margin-top: 10px;">
+                                    <textarea id="comment-text-${r._id}" placeholder="Escribe un comentario..." rows="2" style="width: 100%; margin-bottom: 5px;"></textarea>
+                                    <button class="add-comment-btn" data-review-id="${r._id}" style="background: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer;">Agregar Comentario</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            `;
         }
 
         if (bookDetailsContainer) bookDetailsContainer.appendChild(reviewsContainer);
+        
+        // Agregar event listeners para los botones de comentarios
+        setupCommentEventListeners();
 
     } catch (error) {
         console.error('Error al cargar reseñas:', error);
         reviewsContainer.innerHTML = '<p>Error al cargar reseñas.</p>';
         if (bookDetailsContainer) bookDetailsContainer.appendChild(reviewsContainer);
     }
+}
+
+// Función para configurar los event listeners de comentarios
+function setupCommentEventListeners() {
+    // Event listeners para agregar comentarios
+    document.querySelectorAll('.add-comment-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const reviewId = e.target.dataset.reviewId;
+            const textArea = document.getElementById(`comment-text-${reviewId}`);
+            const commentText = textArea.value.trim();
+            
+            if (!commentText) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Comentario vacío',
+                    text: 'Por favor escribe un comentario antes de enviarlo.',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+            const userInfo = JSON.parse(sessionStorage.getItem('user'));
+            if (!userInfo || !userInfo.name) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Sesión requerida',
+                    text: 'Debes iniciar sesión para comentar.',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+            try {
+                const response = await fetch(`${window.location.origin}/api/reviews/${reviewId}/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user: userInfo.name,
+                        text: commentText
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error al agregar comentario');
+                }
+
+                // Limpiar el textarea
+                textArea.value = '';
+                
+                // Recargar las reseñas para mostrar el nuevo comentario
+                const bookId = getBookId();
+                await fetchAndRenderReviews(bookId);
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Comentario agregado',
+                    text: 'Tu comentario ha sido publicado exitosamente.',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+
+            } catch (error) {
+                console.error('Error al agregar comentario:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: error.message || 'No se pudo agregar el comentario.',
+                    toast: true,
+                    position: 'top-end',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+
+    // Event listeners para eliminar comentarios
+    document.querySelectorAll('.delete-comment-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            const reviewId = e.target.dataset.reviewId;
+            const commentId = e.target.dataset.commentId;
+
+            const result = await Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`${window.location.origin}/api/reviews/${reviewId}/comments/${commentId}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Error al eliminar comentario');
+                    }
+
+                    // Recargar las reseñas para mostrar los cambios
+                    const bookId = getBookId();
+                    await fetchAndRenderReviews(bookId);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Comentario eliminado',
+                        text: 'El comentario ha sido eliminado exitosamente.',
+                        toast: true,
+                        position: 'top-end',
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+
+                } catch (error) {
+                    console.error('Error al eliminar comentario:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: error.message || 'No se pudo eliminar el comentario.',
+                        toast: true,
+                        position: 'top-end',
+                        timer: 3000,
+                        showConfirmButton: false
+                    });
+                }
+            }
+        });
+    });
 }
 
 // Obtiene el ID del libro de la URL
@@ -324,11 +486,8 @@ function showError(message) {
   }
 }
 
-
-
 // Ejecutar la función para cargar y renderizar los detalles del libro cuando el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', fetchAndRenderBookDetails);
-
 
 // Evento para el botón de ir al carrito (asumiendo que existe un elemento con clase 'cart-btn' en el HTML)
 const cartButton = document.querySelector('.cart-btn');
