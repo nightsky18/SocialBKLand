@@ -99,10 +99,12 @@ function showError(message) {
 function createCommunityCard(community, currentUser) {
   const memberCount = community.members?.length || 0;
   const postCount = community.posts?.length || 0;
-  const hasJoined = currentUser && community.members.some(m => m.user === currentUser._id);
-
+  const hasJoined = currentUser && community.members.some(m => {
+      const memberId = typeof m.user === "string" ? m.user : m.user?._id;
+      return memberId?.toString() === currentUser._id;
+    });
   const buttonText = hasJoined
-    ? 'Unido'
+    ? 'Ya eres miembro'
     : community.type === 'private'
     ? 'Solicitar ingreso'
     : 'Unirse';
@@ -138,9 +140,25 @@ function createCommunityCard(community, currentUser) {
         </button>
     </div>
   `;
+    card.addEventListener("click", () => {
+      const isPrivate = community.type === "private";
+
+      const isMember = community.members.some(m => {
+        const memberId = typeof m.user === "string" ? m.user : m.user?._id;
+        return memberId?.toString() === currentUser._id;
+      });
+
+      if (isPrivate && !isMember) {
+        Swal.fire("Acceso denegado", "Esta comunidad es privada. Debes unirte para ver su contenido.", "warning");
+        return;
+      }
+
+      window.location.href = `/comunidad.html?id=${community._id}`;
+    });
 
   if (!buttonDisabled) {
     const joinBtn = card.querySelector('.community-action-btn');
+    
     joinBtn.addEventListener('click', async () => {
       const user = getCurrentUser();
       if (!user) {
@@ -151,7 +169,7 @@ function createCommunityCard(community, currentUser) {
       if (community.type === 'public') {
         const result = await joinCommunity(community._id, user._id);
         if (result) {
-          joinBtn.textContent = 'Unido';
+          joinBtn.textContent = 'Ya eres miembro';
           joinBtn.disabled = true;
           Swal.fire({ icon: 'success', title: '¡Te uniste!', text: 'Ahora eres miembro de esta comunidad.' });
         }
