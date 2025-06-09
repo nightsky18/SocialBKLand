@@ -1,5 +1,21 @@
 const mongoose = require('mongoose');
 
+// Esquema para comentarios
+const commentSchema = new mongoose.Schema({
+  user: {
+    type: String,
+    default: 'Anónimo',
+  },
+  text: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const reviewSchema = new mongoose.Schema({
   libro: {
     type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +36,7 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  comments: [commentSchema], // Array de comentarios
   createdAt: {
     type: Date,
     default: Date.now,
@@ -35,6 +52,17 @@ reviewSchema.statics.recalculateAverage = async function (bookId) {
     reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length;
 
   await mongoose.model('Book').findByIdAndUpdate(bookId, { rating: average });
+};
+
+// Métodos para manejar comentarios
+reviewSchema.methods.addComment = function(commentData) {
+  this.comments.push(commentData);
+  return this.save();
+};
+
+reviewSchema.methods.removeComment = function(commentId) {
+  this.comments.id(commentId).remove();
+  return this.save();
 };
 
 // Hooks
