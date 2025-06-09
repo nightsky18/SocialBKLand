@@ -94,17 +94,6 @@ if (user && user.name) {
                         <button id="add-to-cart">Añadir al Carrito</button>
                         <button id="buy-now">Comprar Ahora</button>
                     </div>
-                    <div class="comments">
-                        <h2>Comentarios</h2>
-                        ${book.comments && book.comments.length > 0 ? // Verificar si hay comentarios antes de mapear
-                          book.comments.map(comment => `
-                            <div class="comment">
-                                <strong>${comment.user}:</strong> <p>${comment.text}</p>
-                            </div>
-                          `).join('')
-                          : '<p>No hay comentarios aún.</p>' // Mensaje si no hay comentarios
-                        }
-                    </div>
                 </div>
             `;
 
