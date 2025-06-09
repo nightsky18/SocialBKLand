@@ -170,139 +170,313 @@ main {
 }
 
 /* Sección de reseñas estilo tarjeta */
+/* ------------------------- */
+/* Estilos mejorados para reseñas y comentarios */
+/* ------------------------- */
+
+/* Contenedor principal de reseñas */
 #reviews-section {
-    background-color: #fff;
-    padding: 40px 20px;
+    background-color: #f8f9fa;
+    padding: 2.5rem;
     border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
     margin-top: 3rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Título de la sección */
-#reviews-section h2 {
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #222;
-    text-align: left;
-}
-
-/* Calificación promedio */
-#average-rating {
-    font-size: 18px;
-    color: #666;
-    margin-bottom: 2rem;
-}
-
-/* Contenedor de tarjetas */
-#reviews-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-/* Estilo de cada reseña tipo tarjeta */
-.review {
-    background-color: #ffffff;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-    transition: box-shadow 0.3s ease;
-}
-
-.review:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-/* Encabezado de la reseña */
-.review .review-header {
+/* Encabezado de reseñas */
+.reviews-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.review .review-user {
-    font-weight: bold;
-    color: #333;
-    font-size: 16px;
+.reviews-header h2 {
+    font-size: 1.75rem;
+    color: #2c3e50;
+    margin: 0;
+    font-weight: 600;
 }
 
-.review .review-rating {
-    font-size: 18px;
+.average-rating {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.average-rating .stars {
     color: #FFD700;
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
 }
 
-/* Cuerpo de la reseña */
-.review .review-text {
-    font-size: 15px;
-    line-height: 1.5;
-    color: #444;
+.average-rating .value {
+    font-weight: 600;
+    color: #2c3e50;
 }
 
-/* Formulario */
-#review-form {
-    margin-top: 3rem;
-    background-color: #f9f9f9;
-    padding: 30px;
+/* Tarjetas de reseñas individuales */
+.review {
+    background-color: #fff;
     border-radius: 10px;
-    border: 1px solid #ddd;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e9ecef;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Título del formulario */
+.review:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.review-user {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.review-date {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+.review-rating {
+    color: #FFD700;
+    font-size: 1rem;
+    margin-top: 0.3rem;
+}
+
+.review-text {
+    color: #34495e;
+    line-height: 1.6;
+    margin: 1rem 0;
+    font-size: 0.95rem;
+}
+
+/* Sección de comentarios */
+.comments-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f1f1;
+}
+
+.comments-section h4 {
+    font-size: 1rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.comments-section h4::before {
+    content: "💬";
+    margin-right: 0.5rem;
+    font-size: 0.9em;
+}
+
+.comment {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.comment::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #f8f9fa;
+}
+
+.comment-user {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+}
+
+.comment-date {
+    font-size: 0.75rem;
+    color: #95a5a6;
+    margin-left: 0.5rem;
+}
+
+.comment-text {
+    margin: 0.5rem 0 0;
+    color: #34495e;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    padding-left: 0.5rem;
+}
+
+/* Formulario para añadir comentarios */
+.add-comment-form {
+    margin-top: 1.5rem;
+    position: relative;
+}
+
+.add-comment-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 80px;
+    font-size: 0.9rem;
+    transition: border 0.2s;
+}
+
+.add-comment-form textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.add-comment-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.add-comment-btn:hover {
+    background-color: #2980b9;
+}
+
+.add-comment-btn::before {
+    content: "↑";
+    margin-right: 0.5rem;
+    font-size: 0.9em;
+}
+
+/* Formulario de reseña mejorado */
+#review-form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: 2rem;
+    border: 1px solid #e9ecef;
+}
+
 #review-form h3 {
-    font-size: 22px;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
 }
 
-/* Etiquetas del formulario */
 #review-form label {
     display: block;
-    margin-bottom: 15px;
-    font-size: 14px;
-    color: #555;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #34495e;
+    font-weight: 500;
 }
 
-/* Inputs */
-#review-form input,
-#review-form select,
-#review-form textarea {
+#review-rating {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    background-color: #f8f9fa;
+    font-size: 0.95rem;
+}
+
+#review-text {
     width: 100%;
-    padding: 10px 12px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-top: 5px;
-    box-sizing: border-box;
-    background-color: #fff;
+    padding: 0.75rem;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 120px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
 }
 
-#review-form input:focus,
-#review-form select:focus,
-#review-form textarea:focus {
+#review-text:focus {
     outline: none;
-    border-color: #007BFF;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
-/* Botón de envío */
-#review-form button {
-    background-color: #007BFF;
-    color: #fff;
-    font-size: 16px;
-    padding: 10px 25px;
+#review-form button[type="submit"] {
+    background-color: #2ecc71;
+    color: white;
     border: none;
+    padding: 0.75rem 1.5rem;
     border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 10px;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#review-form button:hover {
-    background-color: #0056b3;
+#review-form button[type="submit"]:hover {
+    background-color: #27ae60;
 }
 
+#review-form button[type="submit"]::before {
+    content: "✍️";
+    margin-right: 0.5rem;
+}
+
+/* Mensaje de error mejorado */
+#review-error {
+    background-color: #fee;
+    color: #c0392b;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    border: 1px solid #fadbd8;
+    display: none;
+}
+
+/* Estilos para móviles */
+@media (max-width: 768px) {
+    #reviews-section {
+        padding: 1.5rem;
+    }
+    
+    .review {
+        padding: 1rem;
+    }
+    
+    #review-form {
+        padding: 1.5rem;
+    }
+}
 /* Estrellas visualmente mejoradas */
 .stars {
     display: inline-flex;
