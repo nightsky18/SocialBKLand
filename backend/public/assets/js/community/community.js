@@ -115,25 +115,43 @@ async function renderFeed() {
 }
 
 // “Reportar comunidad” button
-reportCommunityBtn.addEventListener('click', async () => {
+async function handleCommunityReport() {
   const user = getCurrentUser();
   if (!user || !user._id) {
     Swal.fire("Acceso", "Debes iniciar sesión para reportar.", "warning");
     return;
   }
+
   const communityId = new URLSearchParams(window.location.search).get("id");
+  if (!communityId) {
+    Swal.fire("Error", "No se encontró el ID de la comunidad.", "error");
+    return;
+  }
+
   try {
-    await fetch(`/api/community/${communityId}/report`, { 
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user._id })
-    });
-    Swal.fire("Gracias", "Se ha reportado la comunidad.", "success");
+    const response = await fetch(`/api/community/${communityId}/report`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ userId: user._id }) 
+});
+
+
+    const result = await response.json();
+
+    if (response.ok) {
+      Swal.fire("Gracias", result.message, "success");
+    } else {
+      Swal.fire("Atención", result.message || "No se pudo reportar.", "warning");
+    }
   } catch (err) {
-    console.error("community.js: Error al reportar comunidad:", err);
+    console.error("Error al reportar comunidad:", err);
     Swal.fire("Error", "No se pudo reportar la comunidad.", "error");
   }
-});
+}
+
+document.getElementById("report-community-btn")
+  .addEventListener("click", handleCommunityReport);
+
 
 // On DOM ready, load everything
 document.addEventListener('DOMContentLoaded', () => {

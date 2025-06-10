@@ -3,6 +3,9 @@ const Community = require("../models/Community");
 const { createCommunity } = require('../Controllers/communityController.js');
 const authenticateUser = require('../middlewares/authenticateUser');
 const User = require('../models/user');
+const Admin = require('../models/admin');
+const Notification = require('../models/notification');
+
 
 const router = express.Router();
 
@@ -263,5 +266,59 @@ router.post('/:id/reject', async (req, res) => {
     res.status(500).json({ message: 'Error en el servidor' });
   }
 });
+
+
+// POST /api/community/:id/report - Reportar una comunidad
+router.post("/:id/report", async (req, res) => {
+  try {
+    const communityId = req.params.id;
+    const { userId } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ message: "Falta el ID del usuario." });
+    }
+
+    const community = await Community.findById(communityId);
+    if (!community) {
+      return res.status(404).json({ message: "Comunidad no encontrada." });
+    }
+
+    const alreadyReported = community.reports?.some(
+      (r) => r.userId.toString() === userId.toString()
+    );
+    if (alreadyReported) {
+      return res.status(400).json({ message: "Ya has reportado esta comunidad." });
+    }
+
+    community.reports.push({ userId, date: new Date() });
+
+    const THRESHOLD = 4;
+    let triggeredReview = false;
+
+    if (community.reports.length >= THRESHOLD && !community.underReview) {
+      community.underReview = true;
+      triggeredReview = true;
+    }
+
+    await community.save();
+
+    if (triggeredReview) {
+      const admins = await Admin.find({ permissions: "gestion de comunidades" });
+      const notifications = admins.map((admin) => ({
+        user: admin.user,
+        message: `La comunidad "${community.name}" ha sido reportada más de ${THRESHOLD - 1} veces. Requiere revisión.`,
+        read: false,
+      }));
+      await Notification.insertMany(notifications);
+    }
+
+    return res.status(200).json({ message: "Reporte enviado correctamente." });
+
+  } catch (error) {
+    console.error("Error al reportar comunidad:", error);
+    return res.status(500).json({ message: "Error interno del servidor." });
+  }
+});
+
 
 module.exports = router;

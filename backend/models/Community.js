@@ -28,12 +28,14 @@ const CommunitySchema = new Schema({
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
   createdAt: { type: Date, default: Date.now },
 
-  // NUEVOS CAMPOS PARA REPORTES
-  reportes: [{
+  // Lista de reportes realizados por usuarios
+  reports: [{
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
     date: { type: Date, default: Date.now }
   }],
-  pendienteRevision: { type: Boolean, default: false }
+
+  // Indica si la comunidad debe ser revisada por un administrador
+  underReview: { type: Boolean, default: false }
 });
 
 // Middleware: elimina duplicados en miembros y posts
