@@ -24,9 +24,16 @@ const CommunitySchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     isModerator: { type: Boolean, default: false }
   }],
-  joinRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  joinRequests: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+
+  // NUEVOS CAMPOS PARA REPORTES
+  reportes: [{
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    date: { type: Date, default: Date.now }
+  }],
+  pendienteRevision: { type: Boolean, default: false }
 });
 
 // Middleware: elimina duplicados en miembros y posts
