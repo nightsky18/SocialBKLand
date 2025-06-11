@@ -103,6 +103,45 @@ posts.forEach(p => {
   }
 }
 
+async function confirmarEliminacion(id, nombre) {
+  const confirmacion = await Swal.fire({
+    title: `¿Eliminar comunidad "${nombre}"?`,
+    text: "Esta acción es irreversible. Se eliminarán todos sus datos.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#E05252",
+    cancelButtonColor: "#808080",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  });
+
+  if (confirmacion.isConfirmed) {
+    try {
+      const response = await fetch(`/api/community/${id}`, {
+        method: "DELETE"
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al eliminar comunidad.");
+      }
+
+      await Swal.fire({
+        icon: "success",
+        title: "Comunidad eliminada",
+        text: `La comunidad "${nombre}" fue eliminada correctamente.`,
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      cargarComunidades(); // Recargar la tabla
+
+    } catch (error) {
+      console.error("Error al eliminar comunidad:", error);
+      Swal.fire("Error", "No se pudo eliminar la comunidad.", "error");
+    }
+  }
+}
+
 
 function closeComunidadResumenModal() {
   document.getElementById("comunidadResumenModal").style.display = "none";
