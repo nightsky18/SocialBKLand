@@ -1,4 +1,5 @@
-// NotificationManager.js
+// components/NotificationManager.js
+
 export class NotificationManager {
   constructor(containerSelector) {
     this.container = document.querySelector(containerSelector);
@@ -40,10 +41,11 @@ export class NotificationManager {
       this.container.appendChild(item);
     });
 
-    const badge = document.querySelector('#notification-count');
+    const badge = document.querySelector('#notificationBadge');
     if (badge) {
       const count = this.getUnreadCount();
       badge.textContent = count > 0 ? count : '';
+      badge.style.display = count > 0 ? 'inline-block' : 'none';
     }
   }
 
@@ -57,13 +59,3 @@ export class NotificationManager {
     });
   }
 }
-
-// routes/reviewRoutes.js o donde manejes la sanción
-const Notification = require('../models/notification');
-
-await Notification.create({
-  user: userId, // el _id del usuario sancionado
-  message: "Tu reseña fue eliminada por un administrador por uso de lenguaje inapropiado. Has recibido un strike.",
-  read: false,
-  date: new Date()
-});

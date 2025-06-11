@@ -8,6 +8,9 @@ const authRoutes = require('./routes/authRoutes');
 const createAdminIfNotExists = require("./utils/createAdmin"); // Asumimos que esto existe
 const Book = require('./models/Book'); // Importamos el modelo Book para el sembrado
 const bookRoutes = require('./routes/bookRoutes');
+const AdminLog = require('./models/AdminLog');
+
+
 
 const multer = require('multer');
 const importData = require("./utils/importData");
@@ -368,6 +371,7 @@ async function seedDatabase() {
 // --- Fin función de sembrado ---
 
 
+
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
@@ -396,7 +400,9 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/notifications", require("./routes/notificationRoutes"));
 app.use("/api/moderators", require("./routes/moderatorRoutes"));
 app.use('/api', authRoutes);
+app.use("/api/adminlogs", require("./routes/adminLogRoutes"));
 const receiptRoutes = require('./routes/receiptRoutes');
+const { default: mongoose } = require("mongoose");
 app.use('/api/receipts', receiptRoutes);
 
 

@@ -106,4 +106,22 @@ router.delete("/:id", checkPostAuthor, async (req, res) => {
   }
 });
 
+// GET /api/posts/community/:id/resumen - resumen de publicaciones con texto
+router.get("/community/:communityId/resumen", async (req, res) => {
+  try {
+    const { communityId } = req.params;
+
+    const posts = await Post.find({ community: communityId })
+      .select("content author createdAt") // solo los campos necesarios
+      .populate("author", "name") // traer el nombre del autor
+      .sort({ createdAt: -1 });
+
+    res.json(posts);
+  } catch (err) {
+    console.error("Error al obtener resumen de publicaciones:", err);
+    res.status(500).json({ message: "Error al cargar publicaciones" });
+  }
+});
+
+
 module.exports = router;

@@ -57,3 +57,52 @@
   top: -5px;
   left: -5px;
 }
+
+/* 🧷 Notificación flotante: aviso independiente tipo "toast" */
+.floating-notification {
+  position: fixed;
+  bottom: 20px; /* Se puede subir más si tienes footer */
+  right: 20px;
+  max-width: 320px;
+  background: #E05252; /* Rojo notificación */
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-family: 'Inter', 'Montserrat', sans-serif;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 2000;
+}
+
+/* Mostrar la notificación (activado por clase .show desde JS) */
+.floating-notification.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Ícono en la notificación */
+.floating-notification .icon {
+  margin-right: 10px;
+  font-size: 1.2em;
+  vertical-align: middle;
+}
+
+.floating-notification.info {
+  background: #62B9F9; /* Azul informativo */
+}
+
+.floating-notification.success {
+  background: #6ACB87;
+}
+
+.floating-notification.warning {
+  background: #FFA400;
+}
+
+.floating-notification.error {
+  background: #E05252;
+}
