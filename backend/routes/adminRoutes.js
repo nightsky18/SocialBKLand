@@ -95,7 +95,7 @@ router.patch('/:id/role', async (req, res) => {
         { upsert: true, new: true }
       );
 
-      // 🟢 Notificación al usuario modificado
+      //  Notificación al usuario modificado
       const Notification = require('../models/notification');
       const mensaje = `Tu perfil fue actualizado por ${adminUser.name}. Nuevos permisos: ${permissions.join(", ")}.`;
 
