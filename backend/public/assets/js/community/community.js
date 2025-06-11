@@ -115,25 +115,69 @@ async function renderFeed() {
 }
 
 // “Reportar comunidad” button
-reportCommunityBtn.addEventListener('click', async () => {
+async function handleCommunityReport() {
   const user = getCurrentUser();
   if (!user || !user._id) {
     Swal.fire("Acceso", "Debes iniciar sesión para reportar.", "warning");
     return;
   }
+
   const communityId = new URLSearchParams(window.location.search).get("id");
+  if (!communityId) {
+    Swal.fire("Error", "No se encontró el ID de la comunidad.", "error");
+    return;
+  }
+
   try {
-    await fetch(`/api/community/${communityId}/report`, { 
+    // Obtener los datos actuales de la comunidad
+    const communityResponse = await fetch(`/api/community/${communityId}`);
+    if (!communityResponse.ok) {
+      Swal.fire("Error", "No se pudo cargar la comunidad.", "error");
+      return;
+    }
+
+    const community = await communityResponse.json();
+
+    // 🔒 Validar si ya fue reportada por este usuario
+    const alreadyReported = community.reports?.some(
+      r => r.userId === user._id
+    );
+
+    if (alreadyReported) {
+      Swal.fire("Atención", "Ya has reportado esta comunidad anteriormente.", "info");
+      return;
+    }
+
+    // 🛑 Validar si no tiene publicaciones
+    if (!community.posts || community.posts.length === 0) {
+      Swal.fire("Atención", "No puedes reportar una comunidad sin publicaciones.", "info");
+      return;
+    }
+
+    // ✅ Realizar el reporte
+    const response = await fetch(`/api/community/${communityId}/report`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId: user._id })
     });
-    Swal.fire("Gracias", "Se ha reportado la comunidad.", "success");
+
+    const result = await response.json();
+
+    if (response.ok) {
+      Swal.fire("Gracias", result.message, "success");
+    } else {
+      Swal.fire("Atención", result.message || "No se pudo reportar.", "warning");
+    }
   } catch (err) {
-    console.error("community.js: Error al reportar comunidad:", err);
+    console.error("Error al reportar comunidad:", err);
     Swal.fire("Error", "No se pudo reportar la comunidad.", "error");
   }
-});
+}
+
+
+document.getElementById("report-community-btn")
+  .addEventListener("click", handleCommunityReport);
+
 
 // On DOM ready, load everything
 document.addEventListener('DOMContentLoaded', () => {

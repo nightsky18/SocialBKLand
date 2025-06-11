@@ -3,6 +3,9 @@ const Community = require("../models/Community");
 const { createCommunity } = require('../Controllers/communityController.js');
 const authenticateUser = require('../middlewares/authenticateUser');
 const User = require('../models/user');
+const Admin = require('../models/admin');
+const Notification = require('../models/notification'); 
+
 
 const router = express.Router();
 
@@ -263,5 +266,67 @@ router.post('/:id/reject', async (req, res) => {
     res.status(500).json({ message: 'Error en el servidor' });
   }
 });
+
+
+// POST /api/community/:id/report - Reportar una comunidad
+router.post('/:id/report', async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const communityId = req.params.id;
+
+    const community = await Community.findById(communityId);
+    if (!community) {
+      return res.status(404).json({ message: "Comunidad no encontrada." });
+    }
+
+    // Verificar si el usuario ya reportó
+    const alreadyReported = community.reports?.some(
+      (r) => r.userId.toString() === userId.toString()
+    );
+    if (alreadyReported) {
+      return res.status(400).json({ message: "Ya has reportado esta comunidad." });
+    }
+
+    // Agregar el nuevo reporte
+    community.reports.push({ userId, date: new Date() });
+
+    let triggeredReview = false;
+
+    // Lógica para activar revisión
+    if (community.reports.length >= 4 && !community.underReview) {
+      community.underReview = true;
+      triggeredReview = true;
+    }
+
+    await community.save();
+
+    // Notificar a admins si se activó la revisión
+    if (triggeredReview) {
+      // Buscar administradores con el permiso "gestion_comunidades"
+      const admins = await Admin.find({ permisos: 'gestion_comunidades' }).lean();
+
+      const adminUserIds = admins.map(a => a.user);
+
+      const notifications = adminUserIds.map(userId => ({
+        user: userId,
+        message: `La comunidad "${community.name}" ha sido reportada más de 3 veces. Requiere revisión.`,
+        read: false,
+        date: new Date()
+      }));
+try {
+  await Notification.insertMany(notifications);
+  console.log(`📣 Se notificó a ${adminUserIds.length} administradores`);
+} catch (error) {
+  console.error("❌ Error al insertar notificaciones:", error);
+}
+    }
+
+    return res.status(200).json({ message: "Reporte enviado correctamente." });
+  } catch (error) {
+    console.error(" Error al reportar comunidad:", error);
+    return res.status(500).json({ message: "Error interno del servidor." });
+  }
+});
+
 
 module.exports = router;

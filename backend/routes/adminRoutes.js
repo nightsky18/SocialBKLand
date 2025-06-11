@@ -66,44 +66,6 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-// // PATCH: Asignar rol y permisos
-// router.patch('/:id/role', async (req, res) => {
-//   const { id } = req.params;
-//   const { isAdmin, permissions } = req.body;
-
-//   try {
-//     // Validar que isAdmin sea booleano
-//     if (typeof isAdmin !== 'boolean') {
-//       return res.status(400).json({ message: 'El campo "isAdmin" debe ser booleano.' });
-//     }
-
-//     // Si isAdmin es true, validar que haya al menos un permiso
-//     if (isAdmin && (!Array.isArray(permissions) || permissions.length === 0)) {
-//       return res.status(400).json({ message: 'Debes asignar al menos un permiso al administrador.' });
-//     }
-
-//     // Actualizar el campo isAdmin en el modelo User
-//     const user = await User.findByIdAndUpdate(id, { isAdmin }, { new: true });
-//     if (!user) return res.status(404).json({ message: 'Usuario no encontrado.' });
-
-//     if (isAdmin) {
-//       // Crear o actualizar el documento Admin con los permisos
-//       const admin = await Admin.findOneAndUpdate(
-//         { user: id },
-//         { permisos: permissions },
-//         { upsert: true, new: true }
-//       );
-//       return res.status(200).json({ user, admin });
-//     } else {
-//       // Si se revoca el rol de administrador, eliminar permisos asociados
-//       await Admin.deleteOne({ user: id });
-//       return res.status(200).json({ user });
-//     }
-//   } catch (error) {
-//     console.error('Error actualizando rol:', error);
-//     return res.status(500).json({ message: 'Error interno del servidor.' });
-//   }
-// });
  
 // PATCH: Asignar rol y permisos
 router.patch('/:id/role', async (req, res) => {
@@ -119,7 +81,7 @@ router.patch('/:id/role', async (req, res) => {
       return res.status(400).json({ message: 'Debes asignar al menos un permiso al administrador.' });
     }
 
-    // ✅ Esta línea ahora sí está dentro del bloque async
+    // Esta línea ahora sí está dentro del bloque async
     const adminUser = await User.findById(adminId); // quien ejecuta la acción
 
     // Actualizar isAdmin en User
@@ -133,7 +95,7 @@ router.patch('/:id/role', async (req, res) => {
         { upsert: true, new: true }
       );
 
-      // 🟢 Notificación al usuario modificado
+      //  Notificación al usuario modificado
       const Notification = require('../models/notification');
       const mensaje = `Tu perfil fue actualizado por ${adminUser.name}. Nuevos permisos: ${permissions.join(", ")}.`;
 
@@ -148,7 +110,7 @@ router.patch('/:id/role', async (req, res) => {
     } else {
       await Admin.deleteOne({ user: id });
 
-      // 🟡 Notificación al ser revocado
+      //  Notificación al ser revocado
       const Notification = require('../models/notification');
       const mensaje = `Tu perfil fue actualizado por ${adminUser.name}. Ya no eres administrador.`;
 
