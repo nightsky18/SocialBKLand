@@ -215,9 +215,6 @@ main {
 
 
 /* ========== Utilidades y Responsive ========== */
-.js-only {
-    /* display: none; */ /* Mantenemos el original, pero si lo haces visible con JS, necesitará estilos */
-}
 
 /* Media Query para hacer ajustes en pantallas más pequeñas */
 @media (max-width: 768px) {
