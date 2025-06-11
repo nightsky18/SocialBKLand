@@ -84,10 +84,28 @@ router.delete("/:id", async (req, res) => {
       logGuardado = false; // Si falla, no marcamos como guardado
     }
 
+
     res.json({
       message: "Comunidad eliminada correctamente.",
       logStatus: logGuardado ? "registrado" : "no_registrado"
     });
+        // Notificar a los miembros de la comunidad eliminada
+    try {
+      const notifications = community.members.map(m => ({
+        user: m.user,
+        message: `Tu comunidad "${community.name}" fue eliminada por incumplir normas.`,
+        read: false,
+        date: new Date()
+      }));
+
+      if (notifications.length > 0) {
+        await Notification.insertMany(notifications);
+      }
+    } catch (notifError) {
+      console.error("❌ Error al notificar miembros:", notifError);
+      // Esto no detiene el flujo, solo loguea
+    }
+
 
   } catch (err) {
     res.status(500).json({ message: "Error interno del servidor." });

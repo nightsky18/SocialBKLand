@@ -58,8 +58,32 @@ export class NotificationManager {
   }
 }
 
-// routes/reviewRoutes.js o donde manejes la sanción
-const Notification = require('../models/notification');
+import { NotificationManager } from './NotificationManager.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const userSession = JSON.parse(localStorage.getItem('userSession'));
+
+  if (!userSession || !userSession._id) {
+    console.warn('⚠️ No hay sesión activa para mostrar notificaciones');
+    return;
+  }
+
+  const userId = userSession._id;
+  const manager = new NotificationManager('#notification-panel');
+
+  try {
+    const res = await fetch(`/api/notifications/${userId}`);
+    if (!res.ok) throw new Error("Error al cargar notificaciones");
+
+    const notificaciones = await res.json();
+    notificaciones.sort((a, b) => new Date(b.date) - new Date(a.date)); // opcional
+
+    notificaciones.forEach(n => manager.add(n));
+  } catch (err) {
+    console.error('❌ No se pudieron obtener las notificaciones:', err);
+  }
+});
+
 
 await Notification.create({
   user: userId, // el _id del usuario sancionado
