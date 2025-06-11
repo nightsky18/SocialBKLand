@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/assets/css/libros.css" />
   <link rel="stylesheet" href="/assets/css/book-form.css" />
   <link rel="stylesheet" href="/assets/css/gestion-libros.css" />
+  <link rel="stylesheet" href="/assets/css/notificaciones.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="icon" type="image/x-icon" href="/assets/images/icono.png">
 </head>
@@ -27,7 +28,7 @@
             </ul>
         </nav>
         <div class="user-actions">
-            <button class="notification-btn">🔔</button>
+            <button id="notification-btn">🔔 <span id="notification-count"></span></button>
             <button class="cart-btn" onclick="window.location.href='/carrito.html'">🛒</button>
             <div class="user-menu">
                 <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
@@ -266,6 +267,7 @@
   <script src="/assets/js/Micuenta.js"></script>
   <script type="module" src="/assets/js/modal.js"></script>
   <script src="/assets/js/gestionLibros.js"></script>
+  <script type="module" src="/assets/js/notificaciones.js"></script>
 </body>
 
 </html>

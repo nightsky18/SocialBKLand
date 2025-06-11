@@ -25,7 +25,7 @@
             </ul>
         </nav>
         <div class="user-actions">
-            <button class="notification-btn">🔔</button>
+            <button id="notification-btn">🔔 <span id="notification-count"></span></button>
             <button class="cart-btn" onclick="window.location.href='/carrito.html'">🛒</button>
             <div class="user-menu">
                 <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
@@ -34,7 +34,7 @@
                 </button>
                 <div id="userDropdown" class="dropdown-content">
                     <a href="/usuario.html">Mi Cuenta</a>
-                    a href="/seguimiento-pedidos.html">Seguimiento de Pedido</a>
+                    <a href="/seguimiento-pedidos.html">Seguimiento de Pedido</a>
                     <a href="#" onclick="logout()">Cerrar Sesión</a>
                 </div>
                 </div>
@@ -170,5 +170,6 @@
 <script type="module" src="/assets/js/carrito.js"></script>
 <script type="module" src="/assets/js/modal.js"></script>
 <script src="/assets/js/Micuenta.js"></script>
+<script type="module" src="/assets/js/notificaciones.js"></script>
 
 </html>
