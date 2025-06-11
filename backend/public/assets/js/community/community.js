@@ -174,6 +174,37 @@ async function handleCommunityReport() {
   }
 }
 
+// Helpers para abrir/cerrar el modal
+function openReportUserModal(userId, userName) {
+  document.getElementById('reportUserModal').style.display = 'block';
+  document.getElementById('sendUserReportBtn').setAttribute('data-user-id', userId);
+  document.getElementById('sendUserReportBtn').setAttribute('data-user-name', userName);
+}
+function closeReportUserModal() {
+  document.getElementById('reportUserModal').style.display = 'none';
+  document.getElementById('userReportReason').value = '';
+  document.getElementById('userReportDetails').value = '';
+}
+
+// Botón "Cancelar"
+document.querySelector('#reportUserModal button:last-child').onclick = closeReportUserModal;
+
+// Botón "Enviar reporte"
+document.getElementById('sendUserReportBtn').onclick = function() {
+  const userName = this.getAttribute('data-user-name');
+  closeReportUserModal();
+  Swal.fire("Reporte enviado", `El administrador de la comunidad recibirá tu reporte sobre ${userName}.`, "success");
+};
+
+// Delegación de eventos para abrir el modal desde el botón de cada usuario
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('report-user-btn')) {
+    const userId = e.target.getAttribute('data-user-id');
+    const userName = e.target.getAttribute('data-user-name');
+    openReportUserModal(userId, userName);
+  }
+});
+
 
 document.getElementById("report-community-btn")
   .addEventListener("click", handleCommunityReport);
