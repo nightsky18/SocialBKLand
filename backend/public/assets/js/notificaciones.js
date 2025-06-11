@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!userData) return;
 
   const user = JSON.parse(userData);
-  const badge = document.getElementById('notificationBadge');
 
   try {
     //  Obtener notificaciones del backend
@@ -22,16 +21,30 @@ document.addEventListener('DOMContentLoaded', async () => {
         read: n.read
       }));
 
-      // Mostrar punto rojo si hay no leídas
-      hasUnreadNotifications = notis.some(n => !n.read);
-      if (hasUnreadNotifications && badge) {
-        badge.style.display = 'block';
+      // Mostrar notificación flotante si hay alguna no leída
+      const unread = notis.find(n => !n.read);
+      if (unread) {
+        showUserFloatingNotification(unread.message);
       }
     }
   } catch (err) {
     console.error("❌ Error al cargar notificaciones:", err);
   }
 });
+
+// Notificación flotante para el usuario
+function showUserFloatingNotification(message) {
+  let notif = document.getElementById('user-floating-notification');
+  if (!notif) {
+    notif = document.createElement('div');
+    notif.id = 'user-floating-notification';
+    notif.className = 'floating-notification strike';
+    document.body.appendChild(notif);
+  }
+  notif.innerHTML = `<span class="icon">⚠️</span>${message}`;
+  notif.classList.add('show');
+  setTimeout(() => notif.classList.remove('show'), 6000);
+}
 
 // 🔔 Mostrar/ocultar panel y marcar como leídas
 document.getElementById('notification-btn')?.addEventListener('click', async () => {
@@ -65,3 +78,18 @@ document.addEventListener('click', function (event) {
     dropdown.classList.remove('visible');
   }
 });
+
+setInterval(async () => {
+  const userData = sessionStorage.getItem('user');
+  if (!userData) return;
+  const user = JSON.parse(userData);
+
+  try {
+    const res = await fetch(`/api/notifications/${user._id}`);
+    const notis = await res.json();
+    const unread = notis.find(n => !n.read);
+    if (unread) {
+      showUserFloatingNotification(unread.message);
+    }
+  } catch (err) {}
+}, 15000); // cada 15 segundos
