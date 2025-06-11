@@ -63,7 +63,6 @@ export async function renderPostFeed({ communityId, currentUser, containerId }) 
             <button class="delete-btn" data-id="${post._id}">Eliminar</button>
           `
             : `
-            <button class="report-btn" data-id="${post._id}">Reportar</button>
           `}
         </div>
       `;
