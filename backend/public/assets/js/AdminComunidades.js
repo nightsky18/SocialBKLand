@@ -101,9 +101,7 @@ posts.forEach(p => {
   } catch (error) {
     console.error("Error al obtener resumen de comunidad:", error);
   }
-}
-
-async function confirmarEliminacion(id, nombre) {
+}async function confirmarEliminacion(id, nombre) {
   const confirmacion = await Swal.fire({
     title: `¿Eliminar comunidad "${nombre}"?`,
     text: "Esta acción es irreversible. Se eliminarán todos sus datos.",
@@ -121,26 +119,33 @@ async function confirmarEliminacion(id, nombre) {
         method: "DELETE"
       });
 
-      if (!response.ok) {
-        throw new Error("Error al eliminar comunidad.");
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.message || "Error al eliminar comunidad");
+
+      let extra = "";
+      if (data.logStatus === "registrado") {
+        extra = "\n La acción fue registrada en AdminLog.";
+      } else if (data.logStatus === "no_registrado") {
+        extra = "\n La comunidad fue eliminada, pero no se pudo registrar la acción.";
       }
 
       await Swal.fire({
         icon: "success",
         title: "Comunidad eliminada",
-        text: `La comunidad "${nombre}" fue eliminada correctamente.`,
-        timer: 2000,
-        showConfirmButton: false
+        text: `La comunidad "${nombre}" fue eliminada correctamente.${extra}`,
+        confirmButtonColor: "#62B9F9"
       });
 
-      cargarComunidades(); // Recargar la tabla
+      cargarComunidades(); // Recarga la tabla
 
     } catch (error) {
       console.error("Error al eliminar comunidad:", error);
-      Swal.fire("Error", "No se pudo eliminar la comunidad.", "error");
+      Swal.fire("Error", error.message || "No se pudo eliminar la comunidad.", "error");
     }
   }
 }
+
 
 
 function closeComunidadResumenModal() {

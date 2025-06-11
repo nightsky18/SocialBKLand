@@ -5,6 +5,10 @@ const authenticateUser = require('../middlewares/authenticateUser');
 const User = require('../models/user');
 const Admin = require('../models/admin');
 const Notification = require('../models/notification'); 
+const AdminLog = require("../models/AdminLog"); // importa el modelo
+
+
+
 
 
 const router = express.Router();
@@ -47,8 +51,47 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
+  try {
+    const community = await Community.findById(req.params.id);
+    if (!community) {
+      return res.status(404).json({ message: "Comunidad no encontrada" });
+    }
+
+    const admin = await Admin.findOne().populate("user", "name");
+    if (!admin || !admin.user) {
+      return res.status(500).json({ message: "No se pudo identificar un administrador válido." });
+    }
+
     await Community.findByIdAndDelete(req.params.id);
-    res.json({ message: "Comunidad eliminada" });
+
+    let logGuardado = false;
+
+    try {
+      await AdminLog.create({
+        action: "delete_community",
+        admin: {
+          id: admin.user._id,
+          name: admin.user.name
+        },
+        target: {
+          type: "community",
+          details: `Comunidad eliminada: ${community.name} (ID: ${community._id})`
+        }
+      });
+      logGuardado = true;
+    } catch (logError) {
+      console.error("Error al guardar el log de eliminación de comunidad:", logError);
+      logGuardado = false; // Si falla, no marcamos como guardado
+    }
+
+    res.json({
+      message: "Comunidad eliminada correctamente.",
+      logStatus: logGuardado ? "registrado" : "no_registrado"
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: "Error interno del servidor." });
+  }
 });
 
 // POST /api/community/:id/join
@@ -327,6 +370,7 @@ try {
     return res.status(500).json({ message: "Error interno del servidor." });
   }
 });
+
 
 
 module.exports = router;
