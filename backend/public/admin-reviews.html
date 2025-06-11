@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SocialBKLand - Catálogo</title>
-    <link rel="stylesheet" href="/assets/css/mi-cuenta.css">
+  <meta charset="UTF-8">
+  <title>Moderación de Reseñas</title>
+  <link rel="stylesheet" href="/assets/css/admin-reviews.css">
+  <link rel="stylesheet" href="/assets/css/mi-cuenta.css">
     <link rel="stylesheet" href="/assets/css/header-footer.css">
     <link rel="stylesheet" href="/assets/css/catalogo.css">
     <link rel="stylesheet" href="/assets/css/login.css">
-    <link rel="stylesheet" href="/assets/css/notificaciones.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="/assets/images/icono.png">
-</head>
+    <link rel="stylesheet" href="/assets/css/notificaciones.css">
 
+</head>
 <body>
     <header class="header">
         <img src="/assets/images/Logo-1.png" alt="Ir a Home"
@@ -27,7 +25,6 @@
         </nav>
         <div class="user-actions">
             <button id="notification-btn">🔔 <span id="notification-count"></span></button>
-            <div id="notifications" class="notification-dropdown"></div>
             <button class="cart-btn" onclick="window.location.href='/carrito.html'">🛒</button>
             <div class="user-menu">
                 <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
@@ -94,65 +91,12 @@
         </div>
         </div>
     </header>
-
-    <div class="catalog">
-        <section class="catalogo-header">
-            <h2>Catálogo de Libros</h2>
-            <div class="search-bar">
-                <input type="text" id="search-bar" placeholder="Buscar...">
-                <select id="search-type">
-                    <option value="title">Título</option>
-                    <option value="author">Autor</option>
-                </select>
-                <button id="search-btn" class="search-btn">🔍</button>
-            </div>
-            <button id="toggle-filters">Búsqueda Avanzada</button>
-        </section>
-
-        <!-- Menú de filtros avanzado -->
-        <div id="filters-container" class="filters hidden">
-            <div class="filters-row">
-                <label for="category-filter">Categorías:</label>
-                <select id="category-filter" multiple>
-                    <option value="ficcion">Ficción</option>
-                    <option value="no-ficcion">No Ficción</option>
-                    <option value="aventura">Aventura</option>
-                    <option value="ciencia">Ciencia</option>
-                    <option value="terror">Terror</option>
-                </select>
-
-                <label for="rating-filter">Rating:</label>
-                <select id="rating-filter">
-                    <option value="all">Cualquiera</option>
-                    <option value="0-1.9">0 - 1.9</option>
-                    <option value="2-2.9">2 - 2.9</option>
-                    <option value="3-3.9">3 - 3.9</option>
-                    <option value="4-4.9">4 - 4.9</option>
-                    <option value="5-5">5</option>
-                </select>
-
-                <label for="filter-min-price">Precio Mínimo:</label>
-                <input type="number" id="filter-min-price" placeholder="Min" min="0">
-                <label for="filter-max-price">Precio Máximo:</label>
-                <input type="number" id="filter-max-price" placeholder="Max" min="0">
-            </div>
-            <div class="filters-row">
-                <label for="discount-filter">Solo con descuento:</label>
-                <input type="checkbox" id="discount-filter">
-                <label for="stock-filter">Disponibles:</label>
-                <input type="checkbox" id="stock-filter">
-                <button id="apply-filters" class="filter-action">Aplicar Filtros</button>
-                <button id="clear-filters" class="filter-action clear">Limpiar Filtros</button>
-            </div>
-        </div>
-
-        <!-- Sección de libros -->
-        <section class="general-books">
-            <div class="book-list"></div>
-        </section>
-    </div>
-
-    <footer>
+  <main>
+    <h1>Reseñas con malas palabras</h1>
+    <div id="admin-reviews-container"></div>
+  </main>
+  <script src="/assets/js/admin-reviews.js"></script>
+      <footer>
         <div class="footer-content">
             <div class="footer-logo"></div>
             <div class="footer-social">
@@ -173,10 +117,10 @@
     </footer>
 
     <script type="module" src="/assets/js/chat/SupportChat.js"></script>
+    <script type="module" src="/assets/js/notificaciones.js"></script>
     <script type="module" src="/assets/js/CartManager.js"></script>
     <script type="module" src="/assets/js/catalogo.js"></script>
       <script src="/assets/js/Micuenta.js"></script>
-      <script type="module" src="/assets/js/notificaciones.js"></script>
     <script type="module" src="/assets/js/modal.js"></script>
     <script type="module" src="/assets/js/chat/SupportChat.js"></script>
     <support-chat></support-chat>
@@ -185,5 +129,4 @@
         🔧 FAQ
     </a>
 </body>
-
 </html>

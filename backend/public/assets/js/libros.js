@@ -1,4 +1,3 @@
-
 // public/script.js
 // Importamos CartManager
 import { CartManager } from './CartManager.js';
@@ -8,7 +7,36 @@ import { requireUserSession } from './sessionService.js';
 // Asumiendo SweetAlert2 está disponible globalmente (incluido en HTML o otro script)
 // import Swal from 'sweetalert2';
 
-// ... keep existing code (fetchAndRenderBookDetails function) the same until fetchAndRenderReviews call
+const BAD_WORDS = [
+  "tonto", "idiota", "estupido", "imbécil", "mierda", "puta", "pendejo", "cabron", "gilipollas"
+];
+
+function censorBadWords(text) {
+  let censored = text;
+  BAD_WORDS.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    censored = censored.replace(regex, match => '*'.repeat(match.length));
+  });
+  return censored;
+}
+
+// Ejemplo en fetchAndRenderReviews:
+function renderReviewHTML(review) {
+  return `
+    <div class="review" data-review-id="${review._id}">
+      <strong>${review.user || 'Anónimo'}</strong>
+      <p>${censorBadWords(review.text)}</p>
+      <div class="comments-section">
+        ${(review.comments || []).map(comment => `
+          <div class="comment" data-comment-id="${comment._id}">
+            <strong>${comment.user}</strong>
+            <p>${censorBadWords(comment.text)}</p>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
 
 // Función asíncrona para obtener los detalles del libro desde la API del back-end y renderizarlos
 async function fetchAndRenderBookDetails() {
@@ -225,7 +253,7 @@ async function fetchAndRenderReviews(bookId) {
                     return `
                         <div class="review" data-review-id="${r._id}">
                             <strong>${r.user || 'Anónimo'}</strong> - <span style="font-size: 0.9em; color: #777;">${date}</span>
-                            <p>${r.text}</p>
+                            <p>${censorBadWords(r.text)}</p>
                             <p>★ ${r.rating}</p>
                             
                             <!-- Sección de comentarios -->
@@ -238,7 +266,7 @@ async function fetchAndRenderReviews(bookId) {
                                             return `
                                                 <div class="comment" data-comment-id="${comment._id}">
                                                     <strong>${comment.user}</strong> - <span style="font-size: 0.8em; color: #999;">${commentDate}</span>
-                                                    <p style="margin-left: 20px;">${comment.text}</p>
+                                                    <p style="margin-left: 20px;">${censorBadWords(comment.text)}</p>
                                                     
                                                 </div>
                                             `;
@@ -503,7 +531,6 @@ if (cartButton) {
   // del carrito en localStorage (o interactúe con tu backend si el carrito es server-side).
   // Los métodos addItem, removeItem, etc., DEBEN llamar a un método de guardado interno.
   // Ejemplo conceptual de saveCart en CartManager:
-  // saveCart() {
   //     localStorage.setItem('cart', JSON.stringify(this.cart));
   // }
   // Ejemplo conceptual de loadCart en CartManager constructor:

@@ -201,6 +201,10 @@ main {
      background-image: url('/assets/images/admin-comunidades.webp'); /* Reemplaza con imágenes reales */
      background-color: #BBDEFB; /* Fondo si la imagen no carga */
 }
+.admin-thumb.reviews {
+     background-image: url('/assets/images/admin-reviews.webp'); /* Reemplaza con imágenes reales */
+     background-color: #ff5050; /* Fondo si la imagen no carga */
+}
 
 
 .admin-card p {
@@ -211,9 +215,6 @@ main {
 
 
 /* ========== Utilidades y Responsive ========== */
-.js-only {
-    /* display: none; */ /* Mantenemos el original, pero si lo haces visible con JS, necesitará estilos */
-}
 
 /* Media Query para hacer ajustes en pantallas más pequeñas */
 @media (max-width: 768px) {

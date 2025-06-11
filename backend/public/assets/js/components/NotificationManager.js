@@ -57,3 +57,13 @@ export class NotificationManager {
     });
   }
 }
+
+// routes/reviewRoutes.js o donde manejes la sanción
+const Notification = require('../models/notification');
+
+await Notification.create({
+  user: userId, // el _id del usuario sancionado
+  message: "Tu reseña fue eliminada por un administrador por uso de lenguaje inapropiado. Has recibido un strike.",
+  read: false,
+  date: new Date()
+});
