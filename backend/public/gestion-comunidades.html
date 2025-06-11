@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Comunidades | SocialBKLand</title>
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="/assets/css/mi-cuenta.css" />
+  <link rel="stylesheet" href="/assets/css/header-footer.css" />
+  <link rel="stylesheet" href="/assets/css/gestion-libros.css" />
+   <link rel="stylesheet" href="/assets/css/gestion-comunidades.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <link rel="icon" href="/assets/images/icono.png" type="image/x-icon" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <img src="/assets/images/Logo-1.png" alt="Ir a Home"
+      style="display: block; width: 180px; border-radius: 8px;" />
+    <nav class="navigation">
+      <ul>
+        <li><a href="/catalogo.html">Biblioteca</a></li>
+        <li><a href="/comunidades.html">Comunidades</a></li>
+        <li><a href="/mis-libros.html">Mis libros</a></li>
+      </ul>
+    </nav>
+    <div class="user-actions">
+      <button class="notification-btn">🔔</button>
+      <button class="cart-btn">🛒</button>
+      <div class="user-menu">
+        <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
+          👤 <span id="userGreeting">Mi Cuenta</span>
+          <i class="arrow-down"></i>
+        </button>
+        <div id="userDropdown" class="dropdown-content">
+          <a href="/usuario.html">Mi Cuenta</a>
+          <a href="/seguimiento-pedidos.html">Seguimiento de Pedido</a>
+          <a href="#" onclick="logout()">Cerrar Sesión</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="admin-usuarios-page">
+    <h2 class="titulo-gestion">🏘 Gestión de Comunidades</h2>
+
+    <div class="tabla-libros">
+      <table class="tabla-usuarios">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tema</th>
+            <th>Estado</th>
+            <th>Miembros</th>
+            <th>Reportes</th>
+            <th>Revisión</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="comunidadesTableBody">
+          <!-- Contenido dinámico generado por JS -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modales a implementar luego -->
+  <div id="comunidadResumenModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeComunidadResumenModal()">&times;</span>
+      <h2>Resumen de Comunidad</h2>
+      <p><strong>Nombre:</strong> <span id="resumen-nombre"></span></p>
+      <p><strong>Descripción:</strong> <span id="resumen-desc"></span></p>
+      <p><strong>Miembros:</strong> <span id="resumen-miembros"></span></p>
+      <p><strong>Publicaciones:</strong> <span id="resumen-publicaciones"></span></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo"></div>
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://t.me" target="_blank"><i class="fab fa-telegram"></i></a>
+        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:support@socialbkland.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/assets/js/AdminComunidades.js"></script>
+  <script type="module" src="/assets/js/notificaciones.js"></script>
+</body>
+
+</html>
