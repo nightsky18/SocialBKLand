@@ -73,7 +73,7 @@ async function verResumenComunidad(id) {
     document.getElementById("resumen-miembros").textContent = comunidad.members.length;
     document.getElementById("resumen-publicaciones").textContent = comunidad.posts.length;
 
-    // 🧑‍🤝‍🧑 Mostrar miembros
+    // Mostrar miembros
     const listaMiembros = document.getElementById("resumen-miembros-lista");
     listaMiembros.innerHTML = "";
     comunidad.members.forEach(m => {
@@ -82,7 +82,7 @@ async function verResumenComunidad(id) {
       listaMiembros.appendChild(li);
     });
 
-    // 📝 Mostrar publicaciones
+    // Mostrar publicaciones
 // Obtener los posts reales desde la nueva ruta
 const responsePosts = await fetch(`/api/posts/community/${id}/resumen`);
 const posts = await responsePosts.json();
@@ -137,7 +137,7 @@ posts.forEach(p => {
         confirmButtonColor: "#62B9F9"
       });
 
-      cargarComunidades(); // Recarga la tabla
+      cargarComunidades(); 
 
     } catch (error) {
       console.error("Error al eliminar comunidad:", error);
