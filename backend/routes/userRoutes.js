@@ -2,6 +2,8 @@
 const express = require("express");
 const User = require("../models/user"); 
 const Admin = require('../models/admin');
+const fs = require('fs');
+const path = require('path');
 const router = express.Router();
 
 // Ruta para obtener todos los usuarios (AHORA SIN PROTECCIÓN - INSEGURO)
@@ -138,6 +140,29 @@ router.get('/:userId/communities', async (req, res) => {
     console.error('Error al obtener comunidades del usuario:', err);
     res.status(500).json({ message: 'Error en el servidor' });
   }
+});
+
+// POST /api/user/:id/report
+router.post('/:id/report', async (req, res) => {
+  const { reporterId, reason, details, communityId } = req.body;
+  const reportedUserId = req.params.id;
+
+  const reportPath = path.join(__dirname, '../cache/userReports.json');
+  let reports = [];
+  if (fs.existsSync(reportPath)) {
+    reports = JSON.parse(fs.readFileSync(reportPath, 'utf-8'));
+  }
+  reports.push({
+    reportedUserId,
+    reporterId,
+    reason,
+    details,
+    communityId,
+    date: new Date()
+  });
+  fs.writeFileSync(reportPath, JSON.stringify(reports, null, 2));
+
+  res.status(200).json({ message: "Reporte de usuario registrado." });
 });
 
 module.exports = router;

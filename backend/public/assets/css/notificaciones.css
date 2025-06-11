@@ -1,4 +1,3 @@
-
 /* Dropdown de notificaciones adaptado al diseño */
 .notification-dropdown {
   display: none;
@@ -61,20 +60,24 @@
 /* 🧷 Notificación flotante: aviso independiente tipo "toast" */
 .floating-notification {
   position: fixed;
-  bottom: 20px; /* Se puede subir más si tienes footer */
-  right: 20px;
-  max-width: 320px;
-  background: #E05252; /* Rojo notificación */
-  color: #fff;
-  padding: 14px 18px;
-  border-radius: 8px;
-  font-family: 'Inter', 'Montserrat', sans-serif;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  bottom: 32px;
+  right: 32px;
+  background: #fff;
+  color: #222;
+  padding: 18px 32px;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(30,144,255,0.13), 0 2px 8px rgba(0,0,0,0.07);
+  font-size: 1.08em;
+  z-index: 2000;
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 2000;
+  transition: opacity 0.4s, transform 0.4s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-left: 6px solid #1E90FF;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 /* Mostrar la notificación (activado por clase .show desde JS) */
@@ -86,23 +89,34 @@
 
 /* Ícono en la notificación */
 .floating-notification .icon {
+  font-size: 1.5em;
+  color: #1E90FF;
   margin-right: 10px;
-  font-size: 1.2em;
-  vertical-align: middle;
-}
-
-.floating-notification.info {
-  background: #62B9F9; /* Azul informativo */
 }
 
 .floating-notification.success {
-  background: #6ACB87;
-}
-
-.floating-notification.warning {
-  background: #FFA400;
+  border-left-color: #43a047;
 }
 
 .floating-notification.error {
-  background: #E05252;
+  border-left-color: #e74c3c;
+}
+
+.floating-notification.warning {
+  border-left-color: #FFA400;
+}
+
+.floating-notification.info {
+  border-left-color: #62B9F9;
+}
+
+@media (max-width: 600px) {
+  .floating-notification {
+    right: 10px;
+    left: 10px;
+    bottom: 16px;
+    padding: 14px 10px;
+    font-size: 1em;
+    border-radius: 10px;
+  }
 }

@@ -48,7 +48,7 @@ export async function renderPostFeed({ communityId, currentUser, containerId }) 
       card.classList.add("post-card");
       card.dataset.postId = post._id;
 
-      card.innerHTML = `
+      let html = `
         <div class="post-header">
           <strong>${post.author.name}</strong>
           <span class="post-date">${date}</span>
@@ -68,6 +68,13 @@ export async function renderPostFeed({ communityId, currentUser, containerId }) 
         </div>
       `;
 
+      if (currentUser && post.author && post.author._id !== currentUser._id) {
+        html += `<button class="report-user-btn" data-user-id="${post.author._id}" data-user-name="${post.author.name}">
+    <i class="fas fa-user-slash"></i> Reportar usuario
+  </button>`;
+      }
+
+      card.innerHTML = html;
       postsContainer.appendChild(card);
     });
 

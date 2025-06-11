@@ -137,6 +137,26 @@
         </div>
   </footer>
 
+  <!-- Modal para reportar usuario -->
+  <div id="reportUserModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeReportUserModal()">&times;</span>
+      <h2>Reportar usuario</h2>
+      <label for="userReportReason">Motivo:</label>
+      <select id="userReportReason">
+        <option value="spam">Spam</option>
+        <option value="ofensivo">Contenido ofensivo</option>
+        <option value="acoso">Acoso</option>
+        <option value="malas_palabras">Malas palabras</option>
+      </select>
+      <textarea id="userReportDetails" placeholder="Detalles adicionales (opcional)"></textarea>
+      <div style="margin-top:10px;">
+        <button id="sendUserReportBtn">Enviar reporte</button>
+        <button onclick="closeReportUserModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts globales necesarios -->
   <script defer type="module" src="./assets/js/community/community.js"></script>
   <script type="module" src="./assets/js/modal.js"></script>
