@@ -1,4 +1,5 @@
-// NotificationManager.js
+// components/NotificationManager.js
+
 export class NotificationManager {
   constructor(containerSelector) {
     this.container = document.querySelector(containerSelector);
@@ -40,10 +41,11 @@ export class NotificationManager {
       this.container.appendChild(item);
     });
 
-    const badge = document.querySelector('#notification-count');
+    const badge = document.querySelector('#notificationBadge');
     if (badge) {
       const count = this.getUnreadCount();
       badge.textContent = count > 0 ? count : '';
+      badge.style.display = count > 0 ? 'inline-block' : 'none';
     }
   }
 
@@ -57,37 +59,3 @@ export class NotificationManager {
     });
   }
 }
-
-import { NotificationManager } from './NotificationManager.js';
-
-document.addEventListener('DOMContentLoaded', async () => {
-  const userSession = JSON.parse(localStorage.getItem('userSession'));
-
-  if (!userSession || !userSession._id) {
-    console.warn('⚠️ No hay sesión activa para mostrar notificaciones');
-    return;
-  }
-
-  const userId = userSession._id;
-  const manager = new NotificationManager('#notification-panel');
-
-  try {
-    const res = await fetch(`/api/notifications/${userId}`);
-    if (!res.ok) throw new Error("Error al cargar notificaciones");
-
-    const notificaciones = await res.json();
-    notificaciones.sort((a, b) => new Date(b.date) - new Date(a.date)); // opcional
-
-    notificaciones.forEach(n => manager.add(n));
-  } catch (err) {
-    console.error('❌ No se pudieron obtener las notificaciones:', err);
-  }
-});
-
-
-await Notification.create({
-  user: userId, // el _id del usuario sancionado
-  message: "Tu reseña fue eliminada por un administrador por uso de lenguaje inapropiado. Has recibido un strike.",
-  read: false,
-  date: new Date()
-});
