@@ -17,9 +17,17 @@ async function cargarComunidades() {
     const comunidades = await response.json();
 
     const tabla = document.getElementById("comunidadesTableBody");
+    const mensaje = document.getElementById("sinComunidadesMensaje");
     tabla.innerHTML = "";
 
     const enRevision = comunidades.filter(c => c.underReview);
+
+    if (enRevision.length === 0) {
+      mensaje.style.display = "block";     // Mostrar mensaje
+      return;                               // Salir antes de renderizar tabla
+    }
+
+    mensaje.style.display = "none";         // Ocultar mensaje si hay comunidades
 
     enRevision.forEach(comunidad => {
       const fila = document.createElement("tr");
@@ -55,7 +63,7 @@ async function cargarComunidades() {
       btn.addEventListener("click", () => {
         const id = btn.getAttribute("data-id");
         const nombre = btn.getAttribute("data-nombre");
-        confirmarEliminacion(id, nombre); // la definiremos después
+        confirmarEliminacion(id, nombre);
       });
     });
 
@@ -63,6 +71,8 @@ async function cargarComunidades() {
     console.error("Error al cargar comunidades:", error);
   }
 }
+
+
 async function verResumenComunidad(id) {
   try {
     const response = await fetch(`/api/community/${id}`);

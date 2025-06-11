@@ -128,6 +128,33 @@
     text-decoration: none;
 }
 
+/* Paso 1: Forzar que html y body ocupen toda la altura de la pantalla */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  flex: 1;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 30px; /* Espacio de seguridad opcional */
+  box-sizing: border-box;
+}
+.main-container {
+  width: 90%;               /* Puedes ajustar: 90%, 95%, 1000px, etc. */
+  max-width: 1200px;        /* Límite para pantallas grandes */
+  margin: 0 auto;           /* Centrado horizontal */
+  padding: 20px 0;          /* Espacio arriba y abajo opcional */
+  box-sizing: border-box;   /* Incluye el padding dentro del ancho */
+}
+
+
 /* Footer */
 footer {
     background-color: #666666;
@@ -138,6 +165,10 @@ footer {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+    flex-shrink: 0;
+
+    
+
 }
 
 .footer-content {

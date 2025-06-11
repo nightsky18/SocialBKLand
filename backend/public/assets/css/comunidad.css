@@ -6,14 +6,18 @@ body {
   color: #191919;
 }
 .community-container {
-  max-width: 900px;
+  width: 90%;
+  max-width: 1400px; /* opcional, para limitar en pantallas muy grandes */
   margin: 40px auto;
-  padding: 20px;
+  padding: 30px 40px;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   font-family: 'Segoe UI', Arial, sans-serif;
 }
+
+
+
 
 /* ===== Info comunidad ===== */
 #community-info {
