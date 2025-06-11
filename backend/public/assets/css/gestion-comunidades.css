@@ -132,6 +132,26 @@ body {
 #comunidadResumenModal .close-btn:hover {
   color: #940e0e;
 }
+.resumen-scroll {
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 10px;
+  background-color: #f9f9f9;
+}
+
+.resumen-scroll ul {
+  padding-left: 18px;
+  margin: 0;
+}
+
+.resumen-scroll li {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 
 /* === Responsive === */
 @media (max-width: 768px) {
