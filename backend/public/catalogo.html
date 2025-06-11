@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/assets/css/header-footer.css">
     <link rel="stylesheet" href="/assets/css/catalogo.css">
     <link rel="stylesheet" href="/assets/css/login.css">
+    <link rel="stylesheet" href="/assets/css/notificaciones.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
@@ -24,7 +25,8 @@
             </ul>
         </nav>
         <div class="user-actions">
-            <button class="notification-btn">🔔</button>
+            <button id="notification-btn">🔔 <span id="notification-count"></span></button>
+            <div id="notifications" class="notification-dropdown"></div>
             <button class="cart-btn" onclick="window.location.href='/carrito.html'">🛒</button>
             <div class="user-menu">
                 <button id="userDropdownBtn" class="login-btn" onclick="handleUserMenuClick()">
@@ -173,6 +175,7 @@
     <script type="module" src="/assets/js/CartManager.js"></script>
     <script type="module" src="/assets/js/catalogo.js"></script>
       <script src="/assets/js/Micuenta.js"></script>
+      <script type="module" src="/assets/js/notificaciones.js"></script>
     <script type="module" src="/assets/js/modal.js"></script>
     <script type="module" src="/assets/js/chat/SupportChat.js"></script>
     <support-chat></support-chat>
