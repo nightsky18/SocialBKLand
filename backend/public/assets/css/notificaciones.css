@@ -60,55 +60,55 @@
 /* 🧷 Notificación flotante: aviso independiente tipo "toast" */
 .floating-notification {
   position: fixed;
-  bottom: 32px;
-  right: 32px;
-  background: #fff;
-  color: #222;
-  padding: 18px 32px;
-  border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(30,144,255,0.13), 0 2px 8px rgba(0,0,0,0.07);
-  font-size: 1.08em;
-  z-index: 2000;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(20px);
-  transition: opacity 0.4s, transform 0.4s, box-shadow 0.2s;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  max-width: 280px;
+  max-height: 60px;         /*  LIMITE CLAVE DE ALTURA */
+  overflow: hidden;         /*  OCULTA cualquier desborde */
+  border-radius: 6px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  border-left: 6px solid #1E90FF;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  gap: 8px;
+  background-color: #fff3e0;
+  color: #e67e22;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Mostrar la notificación (activado por clase .show desde JS) */
 .floating-notification.show {
   opacity: 1;
-  pointer-events: auto;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
-/* Ícono en la notificación */
 .floating-notification .icon {
-  font-size: 1.5em;
-  color: #1E90FF;
-  margin-right: 10px;
-}
-
-.floating-notification.success {
-  border-left-color: #43a047;
+  font-size: 1rem;
 }
 
 .floating-notification.error {
-  border-left-color: #e74c3c;
+  background-color: #fdecea;
+  color: #c0392b;
+  border-left: 4px solid #e74c3c;
 }
 
-.floating-notification.warning {
-  border-left-color: #FFA400;
+.floating-notification.success {
+  background-color: #eafaf1;
+  color: #27ae60;
+  border-left: 4px solid #2ecc71;
 }
 
-.floating-notification.info {
-  border-left-color: #62B9F9;
+.floating-notification.strike {
+  background-color: #fff3e0;
+  color: #e67e22;
+  border-left: 4px solid #e67e22;
 }
+
 
 @media (max-width: 600px) {
   .floating-notification {

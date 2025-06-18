@@ -108,9 +108,9 @@ function showFloatingNotification(message, type = "success") {
   if (type === "success") {
     notif.classList.add('show');
     icon = '<span class="icon">✅</span>';
-  } else if (type === "error") {
-    notif.classList.add('show', 'error');
-    icon = '<span class="icon">❌</span>';
+ } else if (type === "error") {
+  notif.classList.add('show', 'floating-error');
+  icon = '<span class="icon">❌</span>';
   } else if (type === "strike") {
     notif.classList.add('show', 'strike');
     icon = '<span class="icon">⚠️</span>';

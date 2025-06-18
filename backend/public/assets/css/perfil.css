@@ -8,7 +8,8 @@ body {
 
 main {
     padding: 20px;
-    max-width: 960px; /* Limitar el ancho del contenido principal en pantallas grandes */
+    width: 90%;
+    max-width: 12000px; /* Limitar el ancho del contenido principal en pantallas grandes */
     margin: 0 auto; /* Centrar el contenido principal */
     background-color: #FFFFFF; /* Fondo blanco para el área de contenido principal */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.05); /* Sutil sombra para destacar el contenido */
@@ -93,15 +94,6 @@ main {
     transform: translateY(-2px); /* Efecto hover sutil */
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
 }
-
-/* Estilo específico para el botón de crear comunidad si quieres diferenciarlo */
-/* .perfil-botones .crear-comunidad {
-    background-color: #1E90FF; // Azul
-}
-.perfil-botones .crear-comunidad:hover {
-    background-color: #4682B4; // Azul acerado
-} */
-
 
 /* ========== Estadísticas ========== */
 .perfil-estadisticas {
@@ -292,51 +284,6 @@ main {
 }
 
 
-/* ===================================================================
-   MODAL DE EDICIÓN DE PERFIL
-   Asumimos que tienes estilos base para .modal y .modal-content
-   en otro archivo CSS (ej: modal.css). Estos estilos son específicos
-   para el contenido DENTRO del modal de edición.
-   =================================================================== */
-
-/* Si no tienes estilos base para el modal, puedes añadir algo como esto
-.modal {
-    display: none; // Hidden by default
-    position: fixed; // Stay in place
-    z-index: 1; // Sit on top
-    left: 0;
-    top: 0;
-    width: 100%; // Full width
-    height: 100%; // Full height
-    overflow: auto; // Enable scroll if needed
-    background-color: rgba(0,0,0,0.4); // Black w/ opacity
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; // 15% from the top and centered
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; // Could be more or less, depending on screen size
-    max-width: 500px; // Max width for larger screens
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-*/
 
 /* Estilos específicos para el contenido del modal de edición */
 #editProfileModal .modal-content {
@@ -418,15 +365,6 @@ main {
     cursor: pointer;
 }
 
-/* Asegúrate de que los estilos para otros modales (authModal, userInfoModal)
-   en modal.css o donde sea que estén, no entren en conflicto.
-   Puedes hacerlos más específicos si es necesario.
-   ej: #authModal .modal-content { ... }
-*/
-
-
-/* ========== Comunidades Grid y Items (manteniendo lo tuyo con ajustes) ========== */
-/* Mantenemos tus estilos para comunidades pero con algunos ajustes para coherencia */
 
 .comunidades-grid {
     display: flex;
