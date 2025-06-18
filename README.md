@@ -18,24 +18,53 @@ You can explore a preview of the system using the following demo user:
 **Demo user:** `admin@example.com`  
 **Password:** `admin123`
 
-### 📸 Screenshots
+### Screenshots
 
-#### 🔐 Login Screen
+#### Login Screen
 ![Login](backend/public/assets/images/Login.png)
 
-#### 📚 Library Module
+#### Library Module
 ![Library](backend/public/assets/images/Biblioteca.png)
 
-#### 🧑‍🤝‍🧑 Communities View
+#### Communities View
 ![Communities](backend/public/assets/images/Comunidades.png)
 
+### Admin View
+![Admin View](backend/public/assets/images/Admin.png)
+
 ## Features
-✔️ Browse and purchase digital and physical books  
-✔️ Join reader communities and discuss books  
-✔️ Simulated payment gateway for transactions  
-✔️ Personalized recommendations  
-✔️ User authentication and profile management  
-## 🛠️ Installation steps
+
+###  User Features
+- User registration and login with secure credentials
+- Password recovery system
+- User profile update functionality
+- Role-based access control (Admin, Moderator, User)
+
+### Book Catalog and Shopping
+- View organized catalog of books by categories
+- Search books by title, author, and genre
+- Filter books by price or format
+- Add and remove books from cart
+- Simulated payment gateway to complete purchases
+
+### Reviews and Interaction
+- Post and read reviews about purchased books
+- Comment on others' reviews
+- Moderators can approve or remove inappropriate reviews
+
+### Communities
+- Users can create reading communities
+- Join existing communities based on interests
+- Publish posts and interact with community members
+- Moderators manage content and users
+- Admins can remove non-compliant communities
+
+### Order Tracking and Help
+- Simulated order tracking with predefined statuses
+- Access to a help center and FAQ section
+- Simulated support chat for quick assistance
+
+##  Installation steps
 
 Follow these steps to get SocialBKLand running on your machine:
 
@@ -101,29 +130,26 @@ You should see a message confirming the server is running on port 5000.
 
 In your browser, go to:
 
-http://localhost:5000
+http://SocialBKLand.com
 
 You’re now ready to explore **SocialBKLand**
 
 
-
-*Note:* The default port is **5000**. If it's already in use, you can change it in the `.env` file or directly in `server.js`.
-
 ## The process
 ### Build with
-### 🖥️ Front-end  
+### Front-end  
 - JavaScript  
 - CSS  
 - HTML  
 
-### 🖥️ Back-end  
+### Back-end  
 - Node.js  
 - JSON  
 
-### 🛠️ IDE  
+###  IDE  
 - Visual Studio Code  
 
-### 🗄️ Base de datos  
+### Base de datos  
 - MongoDB  
 
 ### Structure
@@ -131,12 +157,14 @@ You’re now ready to explore **SocialBKLand**
 - The project follows a modular structure separating concerns between backend logic, static assets, and user interface modules.
 It includes organized folders for configuration, routes, models, utilities, and front-end resources like styles, images, and JavaScript components.
 This structure improves maintainability, scalability, and clarity during development.
+
 ![The general structure of the project is organized as follows:](backend/public/assets/images/estructura.png)
 
 
 ## Useful resources
 - [Figma](https://www.figma.com/design/0qSXFXaCtRPFy4QjuW9rHo/SocialBKLand?node-id=0-1&p=f&t=EISqFc4MZA3paGy2-0) - Used to create graphics
-- [TM Notion](https://www.notion.so/) - Used to organize tasks, notes, and project documentation 
+- [TM Notion](https://www.notion.so/) - Used to organize tasks, notes, and project documentation
+- [JIRA Board (Sprint Tasks)](https://elpoli-team-socialbkland.atlassian.net/jira/software/projects/SOC/list?filter=assignee%20IN%20(%2262cf3af6afe495359d9deb61%22%2C%20%22712020%3A54668b4b-eec5-4eb9-a55e-ea77e80cf75a%22%2C%20%22712020%3A170c6686-8c09-4294-8efa-caa218f06ad3%22%2C%20%22712020%3Aec695860-391a-48cc-a4a2-fa4012be8b2f%22)&groupBy=assignee) – Agile task tracking and sprint management.
 ## License
 Without license
 
